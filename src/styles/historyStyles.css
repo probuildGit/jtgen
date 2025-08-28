@@ -1,0 +1,135 @@
+/* History Component Styles */
+
+/* History Dialog */
+.form-history-dialog {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-history-dialog-paper {
+  margin: auto !important;
+  max-width: 95vw !important;
+  width: 800px !important;
+  max-height: 90vh !important;
+  background-color: #eeeeee !important;
+}
+
+/* History Title */
+.form-history-dialog-title-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-history-dialog-title {
+  font-weight: bold;
+  color: #1976d2;
+}
+
+/* History Content */
+.form-history-content {
+  padding: 16px;
+}
+
+/* History Loading State */
+.form-history-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}
+
+/* History Empty State */
+.form-history-empty {
+  padding: 32px;
+  text-align: center;
+}
+
+/* History List Items */
+.form-history-list-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 16px;
+}
+
+.form-history-list-item:last-child {
+  border-bottom: none;
+}
+
+/* History Item Header */
+.form-history-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* History Item Content */
+.form-history-item-content {
+  margin-bottom: 4px;
+}
+
+/* History Item Container */
+.form-history-item-container {
+  flex-grow: 1;
+}
+
+/* History Item Details */
+.form-history-item-details {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* History Ticket Link */
+.form-history-ticket-link {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-history-ticket-link:hover {
+  text-decoration: underline;
+  color: #1565c0;
+}
+
+/* History Actions */
+.form-history-actions {
+  padding: 16px 24px;
+  gap: 8px;
+}
+
+/* History Status Indicators */
+.form-history-status-text {
+  font-size: 0.75rem;
+  color: #666;
+  margin-left: 8px;
+}
+
+.form-history-deleted-text {
+  color: #d32f2f;
+  text-decoration: line-through;
+}
+
+/* History Loading Spinner */
+.form-history-loading-spinner {
+  margin-left: 8px;
+}
+
+/* History Action Buttons */
+.form-history-action-button {
+  margin-right: 8px;
+}
+
+/* History Dialog Button Styles */
+.form-history-dialog .MuiButton-outlined {
+  border-color: #1976d2 !important;
+}
+
+.form-history-dialog .MuiButton-outlined:hover {
+  border-color: #1565c0 !important;
+}
+
+/* History Alert */
+.form-history-alert {
+  margin-bottom: 16px;
+}
