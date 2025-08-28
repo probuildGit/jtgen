@@ -1,0 +1,217 @@
+/* Preview Component Styles */
+
+/* Preview Dialog */
+.form-preview-dialog {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-preview-dialog-paper {
+  margin: auto !important;
+  max-width: 95vw !important;
+  width: 800px !important;
+  max-height: 90vh !important;
+  background-color: #eeeeee !important;
+}
+
+/* Preview Title */
+.form-preview-dialog-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  color: #1976d2;
+  font-size: 1.5rem;
+  letter-spacing: 0.3px;
+}
+
+/* Preview Dialog Subtitle */
+.form-preview-dialog .MuiDialogTitle-root .MuiTypography-subtitle2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 400 !important;
+  color: #666;
+  font-size: 0.875rem;
+  letter-spacing: 0.2px;
+  margin-top: 4px;
+}
+
+/* Preview Paper */
+.form-preview-paper {
+  padding: 24px;
+  margin-bottom: 16px;
+  background-color: #fafafa;
+  font-family: 'Josefin Sans', sans-serif !important;
+}
+
+.form-preview-paper .MuiTypography-root {
+  margin-bottom: 8px;
+  font-family: 'Josefin Sans', sans-serif !important;
+  letter-spacing: 0.2px;
+}
+
+.form-preview-paper .MuiTypography-h6 {
+  color: #1976d2;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+.form-preview-paper .MuiTypography-body1 {
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-preview-paper .MuiTypography-body2 {
+  color: #666;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+/* Preview Summary */
+.form-preview-summary {
+  margin-bottom: 16px;
+}
+
+/* Preview Divider */
+.form-preview-divider {
+  margin: 16px 0;
+}
+
+/* Preview Grid */
+.form-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Preview Content Paper */
+.form-preview-content-paper {
+  padding: 24px;
+  background-color: #fafafa;
+}
+
+/* Preview Content Paper Typography */
+.form-preview-content-paper .MuiTypography-subtitle1 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  color: #1976d2;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+  margin-bottom: 16px;
+}
+
+/* Preview Description */
+.form-preview-description {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fafafa;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.form-preview-description > * {
+  margin-bottom: 12px;
+}
+
+.form-preview-description > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Preview Section Title */
+.form-preview-section-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px;
+  color: #1976d2;
+  font-size: 0.875rem;
+  letter-spacing: 0.3px;
+  margin-top: 16px;
+}
+
+.form-preview-section-title:first-child {
+  margin-top: 0;
+}
+
+/* Preview Section Content */
+.form-preview-section-content {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  letter-spacing: 0.2px;
+}
+
+/* Preview Attachments */
+.form-preview-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Preview Attachment Item */
+.form-preview-attachment-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Preview Image Container */
+.form-preview-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
+  max-width: 100%;
+}
+
+/* Preview Embedded Image */
+.form-preview-embedded-image {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Preview Image Caption */
+.form-preview-image-caption {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.75rem;
+  color: #666;
+  text-align: center;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+/* Preview Date */
+.form-preview-date {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #1976d2;
+  font-size: 0.875rem;
+  letter-spacing: 0.3px;
+}
+
+/* Preview Actions */
+.form-preview-actions {
+  padding: 16px 24px;
+  gap: 8px;
+}
+
+/* Preview Dialog Button Styles */
+.form-preview-dialog .MuiButton-outlined {
+  border-color: #1976d2 !important;
+}
+
+.form-preview-dialog .MuiButton-outlined:hover {
+  border-color: #1565c0 !important;
+}

@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+# Jira Ticket Generator App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based application for creating Jira bug tickets for the ProBuild project. This app provides a user-friendly interface to generate tickets with all required fields and attachments.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Summary Generation**: Combines Platform (WEB/APP), Module/Page, and Summary text
+- **Rich Description**: Structured description with sections for Steps to Reproduce, Expected Behavior, Actual Behavior, and Notes
+- **File Attachments**: Drag & drop file upload with support for images, PDFs, and text files
+- **Form Validation**: Client-side validation for required fields
+- **Real-time Integration**: Direct integration with Jira REST API
+- **Modern UI**: Built with Material-UI for a professional look
 
-### `npm start`
+## File Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+src/
+├── components/
+│   └── JiraTicketForm.js          # Main form component
+├── constants/
+│   └── jiraConfig.js              # Jira configuration and data
+├── hooks/
+│   └── useJiraTicket.js           # Custom hook for ticket management
+├── services/
+│   └── jiraApiService.js          # API service for Jira integration
+├── utils/
+│   └── formHelpers.js             # Utility functions for validation
+└── App.js                         # Main application component
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Setup
 
-### `npm test`
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Start Development Server**:
+   ```bash
+   npm start
+   ```
 
-### `npm run build`
+3. **Build for Production**:
+   ```bash
+   npm run build
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Configuration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The app is configured for the ProBuild Jira project with the following settings:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Project**: PB (ProBuild-V2)
+- **Issue Type**: Bug
+- **Assignee**: Tamir Scherzer (automatically set)
+- **Reporter**: Dana Hen (automatically set)
+- **Status**: To Do (automatically set)
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Creating a Ticket
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Summary Section**:
+   - Select Platform (WEB or APP)
+   - Choose Module/Page from dropdown or add custom module
+   - Enter summary text
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Basic Fields**:
+   - Set Priority (Highest, High, Medium, Low)
+   - Select Component from available options
+   - Optionally link to an Epic
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. **Description Details**:
+   - Steps to Reproduce
+   - Expected Behavior
+   - Actual Behavior
+   - Notes (optional)
 
-## Learn More
+4. **Attachments**:
+   - Drag & drop files or click to select
+   - Supported formats: Images (JPEG, PNG, GIF), PDF, Text files
+   - Maximum file size: 10MB per file
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. **Submit**:
+   - Click "Create Ticket" to submit
+   - View the created ticket via the success link
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Form Validation
 
-### Code Splitting
+The app validates:
+- Required fields (Platform, Module, Summary, Priority, Component)
+- File types and sizes for attachments
+- Form data before submission
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## API Integration
 
-### Analyzing the Bundle Size
+The app integrates with Jira REST API v3 and includes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Authentication**: Uses API token for secure access
+- **Ticket Creation**: Creates tickets with proper Atlassian Document Format
+- **File Upload**: Handles attachment uploads
+- **Error Handling**: Comprehensive error handling and user feedback
 
-### Making a Progressive Web App
+## Dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **React**: Frontend framework
+- **Material-UI**: UI component library
+- **Axios**: HTTP client for API calls
+- **React Dropzone**: File upload functionality
 
-### Advanced Configuration
+## Security
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- API token is stored in constants (consider environment variables for production)
+- File validation prevents malicious uploads
+- HTTPS communication with Jira API
 
-### Deployment
+## Customization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To customize the app for different projects:
 
-### `npm run build` fails to minify
+1. Update `src/constants/jiraConfig.js` with your Jira project details
+2. Modify the form fields in `src/components/JiraTicketForm.js`
+3. Update API endpoints in `src/services/jiraApiService.js`
+4. Adjust validation rules in `src/utils/formHelpers.js`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Support
+
+For issues or questions, please contact the development team.

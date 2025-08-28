@@ -1,0 +1,90 @@
+/* Success Popup Component Styles */
+
+/* Success Dialog */
+.form-success-dialog {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-success-dialog-paper {
+  margin: auto !important;
+  max-width: 95vw !important;
+  width: 500px !important;
+  max-height: 90vh !important;
+  background-color: #eeeeee !important;
+}
+
+/* Success Title */
+.form-success-dialog-title {
+  font-weight: bold;
+  color: #1976d2;
+}
+
+/* Success Paper */
+.form-success-paper {
+  padding: 24px;
+  background-color: #f8fff8;
+  border: 1px solid #e8f5e8;
+  border-radius: 8px;
+  font-family: 'Josefin Sans', sans-serif !important;
+}
+
+/* Success Message */
+.form-success-message {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 500 !important;
+  color: #2e7d32;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  letter-spacing: 0.2px;
+}
+
+/* Success Ticket Info */
+.form-success-ticket-info {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+}
+
+/* Success Ticket Label */
+.form-success-ticket-label {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  color: #1976d2;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  letter-spacing: 0.3px;
+}
+
+/* Success Ticket Link */
+.form-success-ticket-link {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 500 !important;
+  color: #1976d2;
+  font-size: 1.1rem;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+}
+
+.form-success-ticket-link:hover {
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+/* Success Actions */
+.form-success-actions {
+  padding: 16px 24px;
+  gap: 12px;
+}
+
+/* Success Dialog Button Styles */
+.form-success-dialog .MuiButton-outlined {
+  border-color: #1976d2 !important;
+}
+
+.form-success-dialog .MuiButton-outlined:hover {
+  border-color: #1565c0 !important;
+}
