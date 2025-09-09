@@ -6,6 +6,17 @@
  * @returns {boolean} true if running locally, false if running on web
  */
 export const isLocalDevelopment = () => {
+  // Check for test mode override
+  const testMode = new URLSearchParams(window.location.search).get('testMode');
+  if (testMode === 'web') {
+    console.log('🧪 TEST MODE: Forcing web environment');
+    return false;
+  }
+  if (testMode === 'local') {
+    console.log('🧪 TEST MODE: Forcing local environment');
+    return true;
+  }
+
   const hostname = window.location.hostname;
   const port = window.location.port;
   const href = window.location.href;

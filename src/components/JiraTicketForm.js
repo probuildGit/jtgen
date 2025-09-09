@@ -13,7 +13,6 @@ import {
   PRIORITY_OPTIONS,
   COMPONENTS,
   EPICS,
-  MODULE_OPTIONS,
   FORM_LABELS,
   FORM_PLACEHOLDERS,
   SECTION_TITLES
@@ -21,7 +20,7 @@ import {
 import {
   FormField,
   FormSection,
-  CustomModuleInput,
+  ModuleField,
   ActionButtons,
   AttachmentList,
   FileDropzone
@@ -46,7 +45,6 @@ const JiraTicketForm = ({ isOffline = false }) => {
     submitTicket
   } = useJiraTicket();
 
-  const [showCustomModule, setShowCustomModule] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -57,24 +55,6 @@ const JiraTicketForm = ({ isOffline = false }) => {
     removeAttachment
   );
 
-  const handleModuleChange = (value) => {
-    if (value === 'custom') {
-      setShowCustomModule(true);
-      updateTicketData('module', '');
-    } else {
-      setShowCustomModule(false);
-      updateTicketData('module', value);
-    }
-  };
-
-  const handleCustomModuleSubmit = (customModule) => {
-    updateTicketData('module', customModule);
-    setShowCustomModule(false);
-  };
-
-  const handleCustomModuleCancel = () => {
-    setShowCustomModule(false);
-  };
 
   const handlePreview = () => {
     setShowPreview(true);
@@ -144,20 +124,11 @@ const JiraTicketForm = ({ isOffline = false }) => {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <FormField
-                  type="select"
+                <ModuleField
                   field="module"
                   value={ticketData.module}
-                  onChange={(field, value) => {
-                    if (value === 'custom') {
-                      handleModuleChange(value);
-                    } else {
-                      updateTicketData(field, value);
-                    }
-                  }}
-                  label={FORM_LABELS.MODULE_PAGE}
+                  onChange={updateTicketData}
                   required={true}
-                  options={[...MODULE_OPTIONS.map(module => ({ value: module, label: module })), { value: 'custom', label: '+ Add Custom Module' }]}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -173,14 +144,6 @@ const JiraTicketForm = ({ isOffline = false }) => {
               </Grid>
             </FormSection>
 
-            {showCustomModule && (
-              <Grid item xs={12}>
-                <CustomModuleInput
-                  onSubmit={handleCustomModuleSubmit}
-                  onCancel={handleCustomModuleCancel}
-                />
-              </Grid>
-            )}
 
             {/* Basic Fields */}
             <FormSection title="">

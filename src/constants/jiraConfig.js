@@ -1,10 +1,10 @@
-// Jira Configuration - Replace with actual values for local development
+// GitHub Pages Configuration - Replace with actual values
 export const JIRA_CONFIG = {
-  BASE_URL: 'https://your-domain.atlassian.net',
-  PROJECT_KEY: 'YOUR_PROJECT_KEY',
-  PROJECT_NAME: 'Your Project Name',
-  AUTH_TOKEN: 'YOUR_AUTH_TOKEN_HERE',
-  EMAIL: 'your-email@domain.com'
+  BASE_URL: 'https://probuild.atlassian.net',
+  PROJECT_KEY: 'PB',
+  PROJECT_NAME: 'Probuild-V2',
+  AUTH_TOKEN: 'YOUR_ACTUAL_TOKEN_HERE',
+  EMAIL: 'dana@codelovers.com'
 };
 
 // Import data lists from formData.js

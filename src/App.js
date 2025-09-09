@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Container, Alert } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm';
-import { testJiraConnectivity } from './services/jiraApiService';
+import InfoButton from './components/InfoButton';
+import { testJiraConnectivity } from './services/jiraApiService.js';
 import { ALERT_MESSAGES } from './data/formData';
 import './styles/formStyles.css';
+import './styles/infoButtonStyles.css';
 
 // Create a minimal theme
 const theme = createTheme({
@@ -29,6 +31,18 @@ function App() {
 
   // Check connectivity on app start with defensive logic
   useEffect(() => {
+    // Test environment detection in browser
+    const testEnv = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' ||
+                   window.location.port === '3000';
+    
+    console.log('🌐 BROWSER ENVIRONMENT TEST:', {
+      hostname: window.location.hostname,
+      port: window.location.port,
+      href: window.location.href,
+      testEnv
+    });
+
     const checkConnectivity = async () => {
       setIsConnecting(true);
       
@@ -100,6 +114,9 @@ function App() {
       <Container maxWidth="xl" className="form-container-main">
         <JiraTicketForm isOffline={!connectivityStatus?.includes('✅')} />
       </Container>
+      
+      {/* Info Button - Fixed position */}
+      <InfoButton />
     </ThemeProvider>
   );
 }

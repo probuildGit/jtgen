@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background-color: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Environment Detection Test</h1>
+    
+    <div class="test-section info">
+        <h3>Current URL Information</h3>
+        <pre id="urlInfo"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h3>Environment Detection</h3>
+        <div id="envDetection"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test Modes</h3>
+        <button onclick="testLocalMode()">Test Local Mode</button>
+        <button onclick="testWebMode()">Test Web Mode</button>
+        <button onclick="testNormalMode()">Test Normal Mode</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Service Test</h3>
+        <button onclick="testService()">Test Service Selection</button>
+        <div id="serviceTest"></div>
+    </div>
+
+    <script>
+        // Display current URL information
+        function displayUrlInfo() {
+            const urlInfo = {
+                hostname: window.location.hostname,
+                port: window.location.port,
+                href: window.location.href,
+                protocol: window.location.protocol,
+                search: window.location.search
+            };
+            document.getElementById('urlInfo').textContent = JSON.stringify(urlInfo, null, 2);
+        }
+        
+        // Environment detection logic (copied from the app)
+        function isLocalDevelopment() {
+            const testMode = new URLSearchParams(window.location.search).get('testMode');
+            if (testMode === 'web') {
+                console.log('🧪 TEST MODE: Forcing web environment');
+                return false;
+            }
+            if (testMode === 'local') {
+                console.log('🧪 TEST MODE: Forcing local environment');
+                return true;
+            }
+
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            const href = window.location.href;
+            const protocol = window.location.protocol;
+
+            return (
+                hostname === 'localhost' || 
+                hostname === '127.0.0.1' ||
+                hostname === '0.0.0.0' ||
+                hostname === '::1' ||
+                port === '3000' ||
+                port === '3001' ||
+                href.includes('localhost:3000') ||
+                href.includes('127.0.0.1:3000') ||
+                href.includes('localhost:3001') ||
+                href.includes('127.0.0.1:3001') ||
+                protocol === 'http:'
+            );
+        }
+        
+        function displayEnvironmentDetection() {
+            const isLocal = isLocalDevelopment();
+            const testMode = new URLSearchParams(window.location.search).get('testMode');
+            
+            const envInfo = {
+                isLocalDevelopment: isLocal,
+                environment: isLocal ? 'LOCAL' : 'WEB',
+                testMode: testMode || 'none',
+                selectedService: isLocal ? 'LOCAL SERVICE' : 'WEB SERVICE'
+            };
+            
+            const envDiv = document.getElementById('envDetection');
+            envDiv.innerHTML = `<pre>${JSON.stringify(envInfo, null, 2)}</pre>`;
+            
+            if (isLocal) {
+                envDiv.parentElement.className = 'test-section success';
+            } else {
+                envDiv.parentElement.className = 'test-section error';
+            }
+        }
+        
+        function testLocalMode() {
+            window.location.href = window.location.origin + window.location.pathname + '?testMode=local';
+        }
+        
+        function testWebMode() {
+            window.location.href = window.location.origin + window.location.pathname + '?testMode=web';
+        }
+        
+        function testNormalMode() {
+            window.location.href = window.location.origin + window.location.pathname;
+        }
+        
+        function testService() {
+            const isLocal = isLocalDevelopment();
+            const serviceTest = document.getElementById('serviceTest');
+            
+            if (isLocal) {
+                serviceTest.innerHTML = '<div class="success">✅ LOCAL SERVICE SELECTED - Will use local proxy server</div>';
+            } else {
+                serviceTest.innerHTML = '<div class="error">🌐 WEB SERVICE SELECTED - Will use CORS proxy</div>';
+            }
+        }
+        
+        // Initialize
+        displayUrlInfo();
+        displayEnvironmentDetection();
+        testService();
+    </script>
+</body>
+</html>
