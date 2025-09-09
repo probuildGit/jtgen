@@ -65,6 +65,14 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
+# Configuration files with sensitive data
+src/config/config.js
+src/config/config.local.js
+src/config/config.web.js
+
+# Server files with sensitive data
+server.js
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

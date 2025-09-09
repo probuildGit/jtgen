@@ -1,0 +1,226 @@
+/* Info Button Styles */
+
+/* Info Button */
+.info-button {
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 1000 !important;
+  background-color: #1976d2 !important;
+  color: white !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s ease !important;
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.info-button:hover {
+  background-color: #1565c0 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.info-button:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.info-button .MuiSvgIcon-root {
+  font-size: 28px !important;
+}
+
+/* Info Dialog */
+.info-dialog .MuiDialog-paper {
+  border-radius: 12px !important;
+  background-color: #eeeeee !important;
+}
+
+.info-dialog-title {
+  background-color: #1976d2 !important;
+  color: white !important;
+  padding: 16px 24px !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.info-dialog-title .MuiTypography-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.info-dialog-content {
+  padding: 24px !important;
+  background-color: #eeeeee !important;
+}
+
+.info-content-paper {
+  padding: 20px !important;
+  background-color: white !important;
+  border-radius: 8px !important;
+  border: 1px solid #e0e0e0 !important;
+}
+
+.info-content-paper .MuiTypography-body1 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
+  margin-bottom: 16px !important;
+}
+
+.info-content-paper .MuiTypography-body2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.8rem !important;
+  line-height: 1.5 !important;
+  color: #555 !important;
+  margin-bottom: 8px !important;
+}
+
+.info-content-paper ul {
+  margin: 0 !important;
+  padding-left: 20px !important;
+}
+
+.info-content-paper li {
+  margin-bottom: 8px !important;
+}
+
+.info-feature-highlight {
+  background-color: #e3f2fd !important;
+  border: 1px solid #bbdefb !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  margin-top: 16px !important;
+}
+
+.info-feature-highlight .MuiTypography-subtitle2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 8px !important;
+}
+
+.info-feature-highlight .MuiTypography-body2 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.8rem !important;
+  line-height: 1.6 !important;
+  color: #1976d2 !important;
+}
+
+.info-dialog-actions {
+  padding: 16px 24px !important;
+  background-color: #eeeeee !important;
+  border-radius: 0 0 12px 12px !important;
+  gap: 12px !important;
+}
+
+.info-cancel-button {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+}
+
+.info-download-button {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3) !important;
+}
+
+.info-download-button:hover {
+  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-button {
+    top: 15px !important;
+    right: 15px !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .info-button .MuiSvgIcon-root {
+    font-size: 24px !important;
+  }
+  
+  .info-dialog .MuiDialog-paper {
+    margin: 16px !important;
+    max-height: calc(100vh - 32px) !important;
+  }
+  
+  .info-dialog-content {
+    padding: 16px !important;
+  }
+  
+  .info-content-paper {
+    padding: 16px !important;
+  }
+  
+  .info-dialog-actions {
+    padding: 12px 16px !important;
+    flex-direction: column !important;
+  }
+  
+  .info-cancel-button,
+  .info-download-button {
+    width: 100% !important;
+    margin: 4px 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-button {
+    top: 10px !important;
+    right: 10px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+  
+  .info-button .MuiSvgIcon-root {
+    font-size: 22px !important;
+  }
+  
+  .info-dialog-title {
+    padding: 12px 16px !important;
+  }
+  
+  .info-dialog-content {
+    padding: 12px !important;
+  }
+  
+  .info-content-paper {
+    padding: 12px !important;
+  }
+}
+
+/* Animation for button appearance */
+@keyframes infoButtonAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.info-button {
+  animation: infoButtonAppear 0.5s ease-out !important;
+}
+
+/* Hover effects for dialog elements */
+.info-content-paper:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  transition: box-shadow 0.3s ease !important;
+}
+
+.info-feature-highlight:hover {
+  background-color: #e1f5fe !important;
+  transition: background-color 0.3s ease !important;
+}

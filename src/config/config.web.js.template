@@ -1,0 +1,17 @@
+// Web Environment Configuration Template
+// Copy this file to config.web.js and fill in your actual values
+
+export const CONFIG = {
+  JIRA: {
+    BASE_URL: 'https://your-domain.atlassian.net',
+    PROJECT_KEY: 'YOUR_PROJECT_KEY',
+    EMAIL: 'your-email@domain.com',
+    AUTH_TOKEN: 'your-api-token-here'
+  }
+};
+
+// Instructions:
+// 1. Copy this file to config.web.js
+// 2. Replace the placeholder values with your actual Jira configuration
+// 3. Never commit the actual config.web.js file to git
+// 4. Keep your API token secure and never share it

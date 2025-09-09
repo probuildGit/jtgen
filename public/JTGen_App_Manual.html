@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JTGen - Jira Ticket Generator Manual</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        h1 {
+            color: #1976d2;
+            border-bottom: 3px solid #1976d2;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #1976d2;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #424242;
+            margin-top: 25px;
+        }
+        
+        h4 {
+            color: #616161;
+            margin-top: 20px;
+        }
+        
+        .toc {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: #1976d2;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .feature-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .warning {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        @media print {
+            body {
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            h2 {
+                font-size: 16px;
+            }
+            
+            h3 {
+                font-size: 14px;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>JTGen - Jira Ticket Generator</h1>
+    <h2 style="text-align: center; color: #666;">Complete Application Manual</h2>
+    
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <h4>Part I: User Manual</h4>
+        <ul>
+            <li><a href="#application-overview">1. Application Overview</a></li>
+            <li><a href="#getting-started">2. Getting Started</a></li>
+            <li><a href="#form-fields-guide">3. Form Fields Guide</a></li>
+            <li><a href="#buttons-and-actions">4. Buttons and Actions</a></li>
+            <li><a href="#features-and-functionalities">5. Features and Functionalities</a></li>
+            <li><a href="#troubleshooting">6. Troubleshooting</a></li>
+        </ul>
+        
+        <h4>Part II: Developer Documentation</h4>
+        <ul>
+            <li><a href="#architecture-overview">1. Architecture Overview</a></li>
+            <li><a href="#environment-separation">2. Environment Separation</a></li>
+            <li><a href="#file-structure">3. File Structure</a></li>
+            <li><a href="#core-components">4. Core Components</a></li>
+            <li><a href="#services-and-apis">5. Services and APIs</a></li>
+            <li><a href="#data-flow">6. Data Flow</a></li>
+            <li><a href="#deployment-guide">7. Deployment Guide</a></li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 id="application-overview">Part I: User Manual</h2>
+    
+    <h3>1. Application Overview</h3>
+    
+    <p><strong>JTGen</strong> is a web application designed to streamline the creation of Jira bug tickets for the ProBuild project. It provides a user-friendly interface for developers and testers to quickly generate properly formatted tickets with all necessary information.</p>
+    
+    <div class="feature-box">
+        <h4>Key Features:</h4>
+        <ul>
+            <li><strong>Smart Form Interface:</strong> Intuitive form with validation and auto-suggestions</li>
+            <li><strong>Environment Detection:</strong> Automatically adapts to local development or web deployment</li>
+            <li><strong>Image Embedding:</strong> Automatically embeds uploaded images into ticket descriptions</li>
+            <li><strong>Custom Modules:</strong> Support for both predefined and custom module/page names</li>
+            <li><strong>Ticket History:</strong> Track and manage previously created tickets</li>
+            <li><strong>Preview System:</strong> Review tickets before creation</li>
+        </ul>
+    </div>
+
+    <h3 id="getting-started">2. Getting Started</h3>
+    
+    <h4>Prerequisites</h4>
+    <ul>
+        <li>Modern web browser (Chrome, Firefox, Safari, Edge)</li>
+        <li>Internet connection (for web deployment)</li>
+        <li>Local development server (for local environment)</li>
+    </ul>
+    
+    <h4>Accessing the Application</h4>
+    
+    <div class="success">
+        <strong>Local Development:</strong>
+        <ol>
+            <li>Navigate to <code>http://localhost:3000</code></li>
+            <li>Ensure the proxy server is running on <code>http://localhost:3001</code></li>
+        </ol>
+    </div>
+    
+    <div class="success">
+        <strong>Web Deployment:</strong>
+        <ol>
+            <li>Navigate to the deployed URL (e.g., GitHub Pages)</li>
+            <li>No additional setup required</li>
+        </ol>
+    </div>
+
+    <h3 id="form-fields-guide">3. Form Fields Guide</h3>
+    
+    <h4>Summary Section</h4>
+    
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td><strong>Platform</strong></td>
+            <td>Required</td>
+            <td>Specifies the target platform for the bug</td>
+            <td>WEB, APP</td>
+        </tr>
+        <tr>
+            <td><strong>Module/Page</strong></td>
+            <td>Required</td>
+            <td>Identifies the specific module or page where the bug occurs</td>
+            <td>Dropdown + Free text input</td>
+        </tr>
+        <tr>
+            <td><strong>Summary</strong></td>
+            <td>Required</td>
+            <td>Brief description of the bug</td>
+            <td>Free text</td>
+        </tr>
+    </table>
+    
+    <div class="feature-box">
+        <h4>Module/Page Field Features:</h4>
+        <ul>
+            <li><strong>Dropdown Suggestions:</strong> Predefined modules from the system</li>
+            <li><strong>Free Text Input:</strong> Type any custom module name</li>
+            <li><strong>Auto-complete:</strong> Shows suggestions as you type</li>
+            <li><strong>Usage:</strong> Click dropdown to see predefined options or type directly for custom modules</li>
+        </ul>
+    </div>
+    
+    <h4>Basic Fields</h4>
+    
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td><strong>Priority</strong></td>
+            <td>Required</td>
+            <td>Sets the urgency level of the bug</td>
+            <td>Highest, High, Medium, Low</td>
+        </tr>
+        <tr>
+            <td><strong>Component</strong></td>
+            <td>Required</td>
+            <td>Categorizes the bug by system component</td>
+            <td>Predefined components (Mobile, Website, Server)</td>
+        </tr>
+        <tr>
+            <td><strong>Epic Link</strong></td>
+            <td>Required</td>
+            <td>Links the bug to a specific epic or feature</td>
+            <td>Predefined epics or "None"</td>
+        </tr>
+    </table>
+    
+    <h4>Description Fields</h4>
+    
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Special Features</th>
+        </tr>
+        <tr>
+            <td><strong>Steps to Reproduce</strong></td>
+            <td>Optional</td>
+            <td>Detailed steps to reproduce the bug</td>
+            <td>Auto-detects JAM links</td>
+        </tr>
+        <tr>
+            <td><strong>Expected Behavior</strong></td>
+            <td>Optional</td>
+            <td>Describes what should happen</td>
+            <td>Clear, concise description</td>
+        </tr>
+        <tr>
+            <td><strong>Actual Behavior</strong></td>
+            <td>Optional</td>
+            <td>Describes what actually happens</td>
+            <td>Auto-detects JAM links</td>
+        </tr>
+        <tr>
+            <td><strong>Note</strong></td>
+            <td>Optional</td>
+            <td>Additional context or information</td>
+            <td>Auto-detects URLs, makes them clickable</td>
+        </tr>
+    </table>
+    
+    <h4>Attachments</h4>
+    
+    <div class="feature-box">
+        <h4>File Upload Features:</h4>
+        <ul>
+            <li><strong>Supported Formats:</strong> Images (JPEG, PNG, GIF), PDF, Text files</li>
+            <li><strong>Size Limit:</strong> 10MB per file</li>
+            <li><strong>Features:</strong> Drag and drop support, multiple file selection</li>
+            <li><strong>Auto-processing:</strong> Images automatically embedded in ticket description</li>
+        </ul>
+    </div>
+
+    <h3 id="buttons-and-actions">4. Buttons and Actions</h3>
+    
+    <h4>Primary Actions</h4>
+    
+    <table>
+        <tr>
+            <th>Button</th>
+            <th>Function</th>
+            <th>States</th>
+        </tr>
+        <tr>
+            <td><strong>Preview Ticket</strong></td>
+            <td>Review the ticket before creation</td>
+            <td>Normal</td>
+        </tr>
+        <tr>
+            <td><strong>Create Ticket</strong></td>
+            <td>Submit the ticket to Jira</td>
+            <td>Normal: "Create Ticket"<br>Loading: "Creating Ticket..."</td>
+        </tr>
+        <tr>
+            <td><strong>Clear Form</strong></td>
+            <td>Reset the form to initial state</td>
+            <td>Normal</td>
+        </tr>
+    </table>
+    
+    <h4>Secondary Actions</h4>
+    
+    <table>
+        <tr>
+            <th>Button</th>
+            <th>Function</th>
+        </tr>
+        <tr>
+            <td><strong>History</strong></td>
+            <td>View previously created tickets</td>
+        </tr>
+        <tr>
+            <td><strong>Close/Cancel</strong></td>
+            <td>Close dialogs or cancel actions</td>
+        </tr>
+    </table>
+
+    <h3 id="features-and-functionalities">5. Features and Functionalities</h3>
+    
+    <h4>Smart Form Validation</h4>
+    <ul>
+        <li><strong>Real-time Validation:</strong> Fields are validated as you type</li>
+        <li><strong>Visual Indicators:</strong> Red border for invalid required fields, green for valid fields</li>
+        <li><strong>Error Messages:</strong> Clear error messages for validation failures</li>
+    </ul>
+    
+    <h4>Auto-save and History</h4>
+    <ul>
+        <li><strong>Local Storage:</strong> Form data is automatically saved locally</li>
+        <li><strong>Ticket History:</strong> All created tickets are stored and tracked</li>
+        <li><strong>Status Updates:</strong> Ticket statuses can be refreshed from Jira</li>
+    </ul>
+    
+    <h4>Image Embedding</h4>
+    <ul>
+        <li><strong>Automatic Processing:</strong> Images are automatically embedded in ticket descriptions</li>
+        <li><strong>Proper Formatting:</strong> Images are centered and properly formatted</li>
+        <li><strong>Multiple Images:</strong> Support for multiple image attachments</li>
+    </ul>
+    
+    <h4>URL Detection</h4>
+    <ul>
+        <li><strong>Automatic Recognition:</strong> URLs in notes are automatically detected</li>
+        <li><strong>Clickable Links:</strong> URLs become clickable in the ticket</li>
+        <li><strong>Label Changes:</strong> Note field label changes to "URL:" when URL is detected</li>
+    </ul>
+    
+    <h4>Environment Adaptation</h4>
+    <ul>
+        <li><strong>Local Development:</strong> Uses local proxy server for API calls</li>
+        <li><strong>Web Deployment:</strong> Uses CORS proxy for API calls</li>
+        <li><strong>Automatic Detection:</strong> No user configuration required</li>
+    </ul>
+
+    <h3 id="troubleshooting">6. Troubleshooting</h3>
+    
+    <h4>Common Issues</h4>
+    
+    <div class="warning">
+        <strong>"Failed to create ticket: Invalid response format"</strong><br>
+        <strong>Cause:</strong> Environment detection issue or service configuration<br>
+        <strong>Solution:</strong> For local: Ensure proxy server is running on port 3001. For web: Check network connection. Hard refresh browser (Ctrl+Shift+R or Cmd+Shift+R)
+    </div>
+    
+    <div class="warning">
+        <strong>"Connection failed"</strong><br>
+        <strong>Cause:</strong> Network issues or server unavailable<br>
+        <strong>Solution:</strong> Check internet connection, verify server status, try again after a few minutes
+    </div>
+    
+    <div class="warning">
+        <strong>Form not saving</strong><br>
+        <strong>Cause:</strong> Browser storage issues<br>
+        <strong>Solution:</strong> Clear browser cache, check if local storage is enabled, try in incognito/private mode
+    </div>
+    
+    <div class="warning">
+        <strong>Images not embedding</strong><br>
+        <strong>Cause:</strong> File format or size issues<br>
+        <strong>Solution:</strong> Ensure images are in supported formats (JPEG, PNG, GIF), check file size (max 10MB), try uploading one image at a time
+    </div>
+    
+    <h4>Browser Compatibility</h4>
+    <ul>
+        <li><strong>Recommended:</strong> Chrome, Firefox, Safari, Edge (latest versions)</li>
+        <li><strong>Minimum:</strong> ES6 support required</li>
+        <li><strong>Mobile:</strong> Responsive design works on mobile devices</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h2 id="architecture-overview">Part II: Developer Documentation</h2>
+    
+    <h3>1. Architecture Overview</h3>
+    
+    <p>JTGen follows a modern React-based architecture with clear separation of concerns:</p>
+    
+    <div class="code-block">
+Frontend (React) ←→ Services (API Layer) ←→ Backend (Jira API)
+    </div>
+    
+    <h4>Key Architectural Principles:</h4>
+    <ul>
+        <li><strong>Component-Based:</strong> Modular React components</li>
+        <li><strong>Environment Separation:</strong> Local vs Web service layers</li>
+        <li><strong>Service Abstraction:</strong> Clean API service interfaces</li>
+        <li><strong>Data Flow:</strong> Unidirectional data flow with hooks</li>
+        <li><strong>Separation of Concerns:</strong> Clear boundaries between UI, logic, and data</li>
+    </ul>
+
+    <h3 id="environment-separation">2. Environment Separation</h3>
+    
+    <p>The application supports two distinct environments with automatic detection:</p>
+    
+    <h4>Local Development Environment</h4>
+    <ul>
+        <li><strong>Frontend:</strong> React development server (port 3000)</li>
+        <li><strong>Backend:</strong> Node.js proxy server (port 3001)</li>
+        <li><strong>API:</strong> Direct Jira API calls through proxy</li>
+        <li><strong>Detection:</strong> localhost, 127.0.0.1, port 3000/3001</li>
+    </ul>
+    
+    <h4>Web Deployment Environment</h4>
+    <ul>
+        <li><strong>Frontend:</strong> Static build served by hosting platform</li>
+        <li><strong>Backend:</strong> CORS proxy service</li>
+        <li><strong>API:</strong> Jira API calls through CORS proxy</li>
+        <li><strong>Detection:</strong> GitHub Pages, HTTPS protocol</li>
+    </ul>
+
+    <h3 id="file-structure">3. File Structure</h3>
+    
+    <div class="code-block">
+src/
+├── components/           # React components
+│   ├── form/            # Form-specific components
+│   │   ├── FormField.js
+│   │   ├── ModuleField.js
+│   │   ├── FormSection.js
+│   │   └── index.js
+│   ├── JiraTicketForm.js
+│   ├── TicketPreview.js
+│   ├── TicketHistory.js
+│   └── SuccessPopup.js
+├── services/            # API services
+│   ├── jiraApiService.js        # Smart service loader
+│   ├── jiraApiService.local.js  # Local environment service
+│   ├── jiraApiService.web.js    # Web environment service
+│   └── jiraStatusService.js     # Status checking service
+├── hooks/               # Custom React hooks
+│   ├── useJiraTicket.js
+│   └── useFileUpload.js
+├── utils/               # Utility functions
+│   ├── adfBuilder.js           # ADF document builder
+│   ├── environmentDetection.js # Environment detection
+│   ├── formHelpers.js          # Form validation helpers
+│   └── errorHandler.js         # Error handling utilities
+├── data/                # Static data and configurations
+│   └── formData.js
+├── config/              # Environment-specific configurations
+│   ├── routes.local.js
+│   ├── routes.web.js
+│   ├── config.local.js
+│   └── config.web.js
+└── styles/              # CSS stylesheets
+    ├── formStyles.css
+    ├── previewStyles.css
+    └── historyStyles.css
+    </div>
+
+    <h3 id="core-components">4. Core Components</h3>
+    
+    <h4>JiraTicketForm.js</h4>
+    <p><strong>Main form component that orchestrates the entire ticket creation process.</strong></p>
+    
+    <div class="code-block">
+Key responsibilities:
+- Form state management
+- Field validation
+- File upload handling
+- Dialog management (preview, history, success)
+- Integration with custom hooks
+    </div>
+    
+    <h4>ModuleField.js</h4>
+    <p><strong>Advanced combobox component for module/page selection.</strong></p>
+    
+    <div class="code-block">
+Key features:
+- Material-UI Autocomplete with freeSolo
+- Dropdown suggestions from predefined modules
+- Free text input for custom modules
+- Real-time validation
+- Consistent styling with form theme
+    </div>
+    
+    <h4>TicketPreview.js</h4>
+    <p><strong>Preview component for reviewing tickets before creation.</strong></p>
+    
+    <h4>TicketHistory.js</h4>
+    <p><strong>History management component for tracking created tickets.</strong></p>
+
+    <h3 id="services-and-apis">5. Services and APIs</h3>
+    
+    <h4>Smart Service Loader (jiraApiService.js)</h4>
+    <p><strong>Central service that automatically selects the appropriate service based on environment.</strong></p>
+    
+    <div class="code-block">
+Service selection logic:
+const jiraApiService = isLocalDevelopment() ? localService : webService;
+
+Exported functions:
+- testJiraConnectivity()
+- createJiraTicket(ticketData)
+- uploadAttachment(issueKey, file)
+    </div>
+    
+    <h4>Local Service (jiraApiService.local.js)</h4>
+    <p><strong>Service for local development environment using proxy server.</strong></p>
+    
+    <div class="code-block">
+Key features:
+- Uses local proxy server (localhost:3001)
+- Direct Jira API integration
+- Enhanced attachment handling
+- Image embedding in descriptions
+- Local storage integration
+    </div>
+    
+    <h4>Web Service (jiraApiService.web.js)</h4>
+    <p><strong>Service for web deployment using CORS proxy.</strong></p>
+    
+    <h4>Status Service (jiraStatusService.js)</h4>
+    <p><strong>Service for checking ticket statuses.</strong></p>
+
+    <h3 id="data-flow">6. Data Flow</h3>
+    
+    <h4>Ticket Creation Flow</h4>
+    <div class="code-block">
+1. User fills form → JiraTicketForm
+2. Form validation → useJiraTicket hook
+3. Preview (optional) → TicketPreview component
+4. Submit → jiraApiService (smart loader)
+5. Environment detection → Local/Web service
+6. API call → Jira API (via proxy)
+7. Response handling → Success/Error states
+8. History update → Local storage
+9. Success display → SuccessPopup
+    </div>
+    
+    <h4>File Upload Flow</h4>
+    <div class="code-block">
+1. User selects files → useFileUpload hook
+2. File validation → Size and type checking
+3. File storage → Component state
+4. Ticket creation → Upload to Jira
+5. Image embedding → ADF document builder
+6. Description update → Jira API
+    </div>
+
+    <h3 id="deployment-guide">7. Deployment Guide</h3>
+    
+    <h4>Local Development Setup</h4>
+    <div class="code-block">
+# 1. Install dependencies
+npm install
+
+# 2. Start proxy server (Terminal 1)
+node server.js
+
+# 3. Start React development server (Terminal 2)
+npm start
+
+# 4. Access application
+# http://localhost:3000
+    </div>
+    
+    <h4>Web Deployment (GitHub Pages)</h4>
+    <div class="code-block">
+# 1. Build the application
+npm run build
+
+# 2. Deploy to GitHub Pages
+npm run deploy
+
+# 3. Access deployed application
+# https://username.github.io/JTGenApp
+    </div>
+    
+    <h4>Environment Variables</h4>
+    <ul>
+        <li><strong>Local Development:</strong> No environment variables required, uses local proxy server configuration</li>
+        <li><strong>Web Deployment:</strong> Jira API credentials configured in config files, CORS proxy settings for API calls</li>
+    </ul>
+
+    <div class="page-break"></div>
+    
+    <h2>Conclusion</h2>
+    
+    <p>JTGen is a comprehensive Jira ticket generation application that provides both user-friendly functionality and robust developer architecture. The application successfully balances ease of use with technical sophistication, offering a seamless experience for both end users and developers.</p>
+    
+    <p>The modular architecture, environment separation, and comprehensive error handling make JTGen a reliable and maintainable solution for Jira ticket management in the ProBuild project.</p>
+    
+    <hr>
+    <p style="text-align: center; color: #666; font-size: 12px;">
+        <em>Last Updated: January 2024 | Version: 1.0.0</em>
+    </p>
+</body>
+</html>

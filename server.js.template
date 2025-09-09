@@ -1,0 +1,132 @@
+// Local Proxy Server Template
+// Copy this file to server.js and fill in your actual values
+
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const cors = require('cors');
+
+const app = express();
+const PORT = 3001;
+
+// CORS configuration
+app.use(cors());
+app.use(express.json());
+
+// Jira API configuration
+const JIRA_CONFIG = {
+  BASE_URL: 'https://your-domain.atlassian.net/rest/api/3',
+  EMAIL: 'your-email@domain.com',
+  AUTH_TOKEN: 'your-api-token-here'
+};
+
+// Create proxy middleware
+const jiraProxy = createProxyMiddleware({
+  target: JIRA_CONFIG.BASE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': ''
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    // Add authentication headers
+    const auth = Buffer.from(`${JIRA_CONFIG.EMAIL}:${JIRA_CONFIG.AUTH_TOKEN}`).toString('base64');
+    proxyReq.setHeader('Authorization', `Basic ${auth}`);
+    proxyReq.setHeader('Accept', 'application/json');
+    proxyReq.setHeader('Content-Type', 'application/json');
+  },
+  onProxyRes: (proxyRes, req, res) => {
+    // Add CORS headers
+    proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+    proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS';
+    proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+  }
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Test connectivity endpoint
+app.get('/test-connectivity', async (req, res) => {
+  try {
+    const response = await fetch(`${JIRA_CONFIG.BASE_URL}/myself`, {
+      headers: {
+        'Authorization': `Basic ${Buffer.from(`${JIRA_CONFIG.EMAIL}:${JIRA_CONFIG.AUTH_TOKEN}`).toString('base64')}`,
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      res.json({ success: true, data });
+    } else {
+      res.status(response.status).json({ success: false, error: 'Authentication failed' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Create ticket endpoint
+app.post('/create-ticket', async (req, res) => {
+  try {
+    const response = await fetch(`${JIRA_CONFIG.BASE_URL}/issue`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${Buffer.from(`${JIRA_CONFIG.EMAIL}:${JIRA_CONFIG.AUTH_TOKEN}`).toString('base64')}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(req.body)
+    });
+    
+    const data = await response.json();
+    res.json({ success: response.ok, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Get issue endpoint
+app.get('/issue/:issueKey', async (req, res) => {
+  try {
+    const { issueKey } = req.params;
+    const response = await fetch(`${JIRA_CONFIG.BASE_URL}/issue/${issueKey}`, {
+      headers: {
+        'Authorization': `Basic ${Buffer.from(`${JIRA_CONFIG.EMAIL}:${JIRA_CONFIG.AUTH_TOKEN}`).toString('base64')}`,
+        'Accept': 'application/json'
+      }
+    });
+    
+    const data = await response.json();
+    res.json({ success: response.ok, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Upload attachment endpoint
+app.post('/upload-attachment/:issueKey', async (req, res) => {
+  try {
+    const { issueKey } = req.params;
+    // Handle file upload logic here
+    res.json({ success: true, message: 'Attachment uploaded' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Use proxy for all other requests
+app.use('/', jiraProxy);
+
+app.listen(PORT, () => {
+  console.log(`Proxy server running on http://localhost:${PORT}`);
+  console.log(`Proxying requests to: ${JIRA_CONFIG.BASE_URL}`);
+});
+
+// Instructions:
+// 1. Copy this file to server.js
+// 2. Replace the placeholder values with your actual Jira configuration
+// 3. Install required dependencies: npm install express http-proxy-middleware cors
+// 4. Never commit the actual server.js file to git
+// 5. Keep your API token secure and never share it
