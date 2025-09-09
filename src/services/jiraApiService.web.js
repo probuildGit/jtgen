@@ -1,13 +1,13 @@
 // Web Jira API Service - Uses CORS proxy for web deployment
 import axios from 'axios';
-import { CONFIG } from '../config/config.web.js';
-import { WEB_ROUTES } from '../config/routes.web.js';
+import { CONFIG, WEB_API_ENDPOINTS } from '../config/config.web.js';
 import { TEAM_MEMBERS } from '../data/formData';
 import { HISTORY_CONFIG } from '../data/historyData';
 import { buildDescriptionContent, createEmbeddedImageNode } from '../utils/adfBuilder';
 import { extractErrorMessage, handleSpecificErrors, logError } from '../utils/errorHandler';
 
 console.log('🌐 WEB SERVICE LOADED - Using CORS proxy');
+console.log('🌐 WEB CONFIG:', CONFIG.WEB.ENVIRONMENT);
 
 // Helper function to get auth header
 const getAuthHeader = () => {
@@ -17,13 +17,12 @@ const getAuthHeader = () => {
 
 // Create axios instance for web deployment with CORS proxy
 const jiraApi = axios.create({
-  baseURL: WEB_ROUTES.CORS_PROXY + WEB_ROUTES.encodeUrl(WEB_ROUTES.JIRA_BASE_URL),
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'Authorization': getAuthHeader()
   },
-  timeout: 30000,
+  timeout: CONFIG.CORS.TIMEOUT,
   validateStatus: function (status) {
     return status >= 200 && status < 500;
   }
@@ -32,9 +31,12 @@ const jiraApi = axios.create({
 // Test Jira API connectivity for web environment
 export const testJiraConnectivity = async () => {
   try {
-    const response = await jiraApi.get(WEB_ROUTES.ENDPOINTS.PROJECT.replace(':projectKey', CONFIG.JIRA.PROJECT_KEY));
+    console.log('🌐 WEB SERVICE: Testing connectivity to:', WEB_API_ENDPOINTS.PROJECT);
+    const response = await jiraApi.get(WEB_API_ENDPOINTS.PROJECT);
+    console.log('🌐 WEB SERVICE: Connectivity test successful');
     return { success: true, data: response.data };
   } catch (error) {
+    console.error('🌐 WEB SERVICE: Connectivity test failed:', error.message);
     return { success: false, error: error.message };
   }
 };
@@ -85,7 +87,7 @@ export const createJiraTicket = async (ticketData) => {
     }
 
     // Create the ticket
-    const response = await jiraApi.post(WEB_ROUTES.ENDPOINTS.CREATE_TICKET, ticketPayload);
+    const response = await jiraApi.post(WEB_API_ENDPOINTS.CREATE_TICKET, ticketPayload);
     
     if (response.data && response.data.key) {
       const ticketKey = response.data.key;
@@ -163,7 +165,7 @@ export const uploadAttachment = async (issueKey, file) => {
     formData.append('file', file);
 
     const response = await axios.post(
-      WEB_ROUTES.getUploadAttachmentUrl(issueKey),
+      WEB_API_ENDPOINTS.UPLOAD_ATTACHMENT(issueKey),
       formData,
       {
         headers: {
@@ -188,7 +190,7 @@ const addEmbeddedImagesToDescriptionWeb = async (issueKey, uploadedAttachments) 
     console.log('📎 WEB: Uploaded attachments:', uploadedAttachments);
     
     // Get current description
-    const currentResponse = await jiraApi.get(WEB_ROUTES.ENDPOINTS.GET_ISSUE.replace(':issueKey', issueKey));
+    const currentResponse = await jiraApi.get(WEB_API_ENDPOINTS.GET_ISSUE(issueKey));
     
     // Check if response has the expected structure
     const responseData = currentResponse.data;
@@ -240,7 +242,7 @@ const addEmbeddedImagesToDescriptionWeb = async (issueKey, uploadedAttachments) 
     };
     
     console.log('🔄 WEB: Updating ticket description with payload:', updatePayload);
-    await jiraApi.put(WEB_ROUTES.ENDPOINTS.UPDATE_ISSUE.replace(':issueKey', issueKey), updatePayload);
+    await jiraApi.put(WEB_API_ENDPOINTS.UPDATE_ISSUE(issueKey), updatePayload);
     console.log('✅ WEB: Successfully updated ticket description with embedded images');
     
   } catch (error) {
