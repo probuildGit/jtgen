@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Container, Alert } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm';
 import InfoButton from './components/InfoButton';
-import { testJiraConnectivity } from './services/jiraApiService.js';
+import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData';
 import './styles/formStyles.css';
 import './styles/infoButtonStyles.css';

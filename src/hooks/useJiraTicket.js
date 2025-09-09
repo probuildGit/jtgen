@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { createJiraTicket } from '../services/jiraApiService';
+import { createJiraTicket } from '../services/jiraApiService.web.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
 
