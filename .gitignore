@@ -15,6 +15,9 @@ dist/
 .env.test.local
 .env.production.local
 
+# Web config with actual credentials (CRITICAL - Never commit these!)
+src/config/config.web.actual.js
+
 # IDE and editor files
 .vscode/
 .idea/
