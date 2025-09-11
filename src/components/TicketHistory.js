@@ -33,12 +33,11 @@ import {
 } from '../data/formData';
 import {
   HISTORY_CONFIG,
-  getStatusColor,
-  getStatusDisplayName,
   HISTORY_MESSAGES,
   HISTORY_ACTIONS
 } from '../data/historyData';
 import { fetchTicketStatus } from '../services/jiraStatusService';
+import { getStatusDisplayName, getStatusColor } from '../config/statusConfig.web.js';
 import '../styles/historyStyles.css';
 
 const TicketHistory = ({ open, onClose }) => {
