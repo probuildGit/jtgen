@@ -211,7 +211,7 @@ const ApiConfigPopup = ({ open, onClose }) => {
                 onChange={handleInputChange('jiraToken')}
                 error={!!errors.jiraToken}
                 helperText={errors.jiraToken || 'Your personal Jira API token'}
-                placeholder="ATATT3xFfGF0nVZFg4sS88otqcg7jRgvXlxqIKdvWph0i58l0audTHSBwQMF6rV99QeG6HXScPFh7Np-gs8yosS4RRrtAZWKTJ50Cg1FjW7Cac31LLOXuI5oS-IQPZhzRm2ssB25HL1tDRquuyR8L0ufbg5wDgWoR09OzpETwHHcASBNws86pzc=49947059"
+                placeholder="Your_Jira_API_Token_Here"
               />
               
               <TextField
