@@ -5,7 +5,7 @@ import { extractErrorMessage } from '../utils/errorHandler';
 
 export const useJiraTicket = () => {
   const [ticketData, setTicketData] = useState({
-    platform: '',
+    platform: 'WEB', // Default to 'WEB'
     module: '',
     summary: '',
     priority: '',
@@ -50,7 +50,7 @@ export const useJiraTicket = () => {
   // Clear form
   const clearForm = useCallback(() => {
     setTicketData({
-      platform: '',
+      platform: 'WEB', // Reset to 'WEB'
       module: '',
       summary: '',
       priority: '',
@@ -96,7 +96,7 @@ export const useJiraTicket = () => {
 
       // Clear form data but keep success message
       setTicketData({
-        platform: '',
+        platform: 'WEB', // Reset to 'WEB' after submission
         module: '',
         summary: '',
         priority: '',
