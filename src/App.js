@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Container, Alert } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm';
 import InfoButton from './components/InfoButton';
+import SettingsButton from './components/SettingsButton';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData';
 import './styles/formStyles.css';
@@ -115,8 +116,11 @@ function App() {
         <JiraTicketForm isOffline={!connectivityStatus?.includes('✅')} />
       </Container>
       
-      {/* Info Button - Fixed position */}
-      <InfoButton />
+      {/* Info and Settings Buttons - Fixed position */}
+      <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
+        <InfoButton />
+        <SettingsButton />
+      </Box>
     </ThemeProvider>
   );
 }

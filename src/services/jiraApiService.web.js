@@ -11,7 +11,25 @@ console.log('🌐 WEB CONFIG:', CONFIG.WEB.ENVIRONMENT);
 
 // Helper function to get auth header
 const getAuthHeader = () => {
-  const credentials = btoa(`${CONFIG.JIRA.EMAIL}:${CONFIG.JIRA.AUTH_TOKEN}`);
+  // Check for user-provided credentials first
+  const userConfig = localStorage.getItem('jiraApiConfig');
+  let email = CONFIG.JIRA.EMAIL;
+  let token = CONFIG.JIRA.AUTH_TOKEN;
+  
+  if (userConfig) {
+    try {
+      const parsed = JSON.parse(userConfig);
+      if (parsed.useCustomCredentials && parsed.email && parsed.jiraToken) {
+        email = parsed.email;
+        token = parsed.jiraToken;
+        console.log('🌐 WEB SERVICE: Using user-provided credentials');
+      }
+    } catch (error) {
+      console.error('Error parsing user config:', error);
+    }
+  }
+  
+  const credentials = btoa(`${email}:${token}`);
   return `Basic ${credentials}`;
 };
 
@@ -31,8 +49,21 @@ const jiraApi = axios.create({
 // Test Jira API connectivity for web environment
 export const testJiraConnectivity = async () => {
   try {
+    // Check for user-provided credentials
+    const userConfig = localStorage.getItem('jiraApiConfig');
+    let isDemoMode = CONFIG.JIRA.DEMO_MODE;
+    
+    if (userConfig) {
+      try {
+        const parsed = JSON.parse(userConfig);
+        isDemoMode = !parsed.useCustomCredentials;
+      } catch (error) {
+        console.error('Error parsing user config:', error);
+      }
+    }
+    
     // Check if we're in demo mode
-    if (CONFIG.JIRA.DEMO_MODE) {
+    if (isDemoMode) {
       console.log('🌐 WEB SERVICE: Demo mode enabled - simulating successful connectivity');
       return { 
         success: true, 
@@ -61,8 +92,21 @@ export const createJiraTicket = async (ticketData) => {
   try {
     console.log('🌐 WEB SERVICE: createJiraTicket called with data:', ticketData);
     
+    // Check for user-provided credentials
+    const userConfig = localStorage.getItem('jiraApiConfig');
+    let isDemoMode = CONFIG.JIRA.DEMO_MODE;
+    
+    if (userConfig) {
+      try {
+        const parsed = JSON.parse(userConfig);
+        isDemoMode = !parsed.useCustomCredentials;
+      } catch (error) {
+        console.error('Error parsing user config:', error);
+      }
+    }
+    
     // Check if we're in demo mode
-    if (CONFIG.JIRA.DEMO_MODE) {
+    if (isDemoMode) {
       console.log('🌐 WEB SERVICE: Demo mode enabled - simulating ticket creation');
       return {
         key: 'PB-DEMO-' + Math.floor(Math.random() * 1000),
