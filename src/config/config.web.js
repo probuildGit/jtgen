@@ -3,6 +3,11 @@
 // Uses CORS proxy for API calls
 
 export const CONFIG = {
+  // Web Environment Configuration
+  WEB: {
+    ENVIRONMENT: 'web'
+  },
+  
   // Jira Configuration for Web Deployment
   JIRA: {
     BASE_URL: 'https://probuild.atlassian.net',
