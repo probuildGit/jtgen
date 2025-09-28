@@ -25,6 +25,11 @@ export const CONFIG = {
     CORS_PROXY: 'https://corsproxy.io/?'
   },
   
+  // CORS Configuration
+  CORS: {
+    TIMEOUT: 30000 // 30 seconds timeout for CORS requests
+  },
+  
   // App Configuration
   APP: {
     NAME: 'JTGen - Jira Ticket Generator (Web)',
