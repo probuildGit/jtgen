@@ -31,6 +31,21 @@ const jiraApi = axios.create({
 // Test Jira API connectivity for web environment
 export const testJiraConnectivity = async () => {
   try {
+    // Check if we're in demo mode
+    if (CONFIG.JIRA.DEMO_MODE) {
+      console.log('🌐 WEB SERVICE: Demo mode enabled - simulating successful connectivity');
+      return { 
+        success: true, 
+        data: { 
+          id: 'PB',
+          key: 'PB',
+          name: 'ProBuild (Demo Mode)',
+          projectTypeKey: 'software'
+        },
+        demo: true
+      };
+    }
+    
     console.log('🌐 WEB SERVICE: Testing connectivity to:', WEB_API_ENDPOINTS.PROJECT);
     const response = await jiraApi.get(WEB_API_ENDPOINTS.PROJECT);
     console.log('🌐 WEB SERVICE: Connectivity test successful');
@@ -45,8 +60,16 @@ export const testJiraConnectivity = async () => {
 export const createJiraTicket = async (ticketData) => {
   try {
     console.log('🌐 WEB SERVICE: createJiraTicket called with data:', ticketData);
-    console.log('🌐 WEB SERVICE: This is the WEB service being used!');
-    console.log('🚨 ERROR: Web service should NOT be called in local environment!');
+    
+    // Check if we're in demo mode
+    if (CONFIG.JIRA.DEMO_MODE) {
+      console.log('🌐 WEB SERVICE: Demo mode enabled - simulating ticket creation');
+      return {
+        key: 'PB-DEMO-' + Math.floor(Math.random() * 1000),
+        id: 'demo-' + Date.now(),
+        demo: true
+      };
+    }
     
     // Build summary with platform, module, and summary fields
     const summary = `${ticketData.platform} - ${ticketData.module} - ${ticketData.summary}`;
