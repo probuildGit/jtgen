@@ -1,133 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
-import JiraTicketForm from './components/JiraTicketForm';
-import InfoButton from './components/InfoButton';
-import WebSettingsButton from './components/SettingsButton.web.js';
-import { testJiraConnectivity } from './services/jiraApiService.web.js';
-import { ALERT_MESSAGES } from './data/formData';
-import './styles/formStyles.css';
-import './styles/infoButtonStyles.css';
+// Environment-specific App loader
+import { isLocalDevelopment } from './utils/environmentDetection.js';
+import LocalApp from './App.local.js';
+import WebApp from './App.web.js';
 
-// Create a minimal theme
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  },
+// Log environment detection
+const environment = isLocalDevelopment() ? 'LOCAL' : 'WEB';
+console.log('🔍 APP ENVIRONMENT SELECTION:', {
+  environment,
+  app: isLocalDevelopment() ? 'LOCAL APP' : 'WEB APP',
+  timestamp: new Date().toISOString(),
+  hostname: window.location.hostname,
+  port: window.location.port,
+  href: window.location.href,
+  protocol: window.location.protocol
 });
 
-function App() {
-  const [connectivityStatus, setConnectivityStatus] = useState(null);
-  const [isConnecting, setIsConnecting] = useState(true);
-  
-  // Check if we're in web environment
-  const isWebEnvironment = window.location.hostname !== 'localhost' && 
-                          window.location.hostname !== '127.0.0.1' &&
-                          window.location.port !== '3000';
-
-  // Check connectivity on app start with defensive logic
-  useEffect(() => {
-    // Test environment detection in browser
-    const testEnv = window.location.hostname === 'localhost' || 
-                   window.location.hostname === '127.0.0.1' ||
-                   window.location.port === '3000';
-    
-    console.log('🌐 BROWSER ENVIRONMENT TEST:', {
-      hostname: window.location.hostname,
-      port: window.location.port,
-      href: window.location.href,
-      testEnv
-    });
-
-    const checkConnectivity = async () => {
-      setIsConnecting(true);
-      
-      // Set a timeout to prevent hanging
-      const timeoutId = setTimeout(() => {
-        setIsConnecting(false);
-        setConnectivityStatus('⚠️ Connection timeout - App will work in offline mode');
-      }, 10000); // 10 second timeout
-
-      try {
-        const result = await testJiraConnectivity();
-        clearTimeout(timeoutId);
-        
-        if (result.success) {
-          setConnectivityStatus('✅ Connected to Jira API');
-        } else {
-          setConnectivityStatus('⚠️ Limited connectivity - Some features may not work');
-        }
-      } catch (error) {
-        clearTimeout(timeoutId);
-        console.warn('Jira API connection failed:', error);
-        setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created');
-      } finally {
-        setIsConnecting(false);
-      }
-    };
-
-    // Add retry logic with exponential backoff
-    const retryConnectivity = async (attempt = 1, maxAttempts = 3) => {
-      try {
-        await checkConnectivity();
-      } catch (error) {
-        if (attempt < maxAttempts) {
-          setTimeout(() => retryConnectivity(attempt + 1, maxAttempts), attempt * 2000);
-        } else {
-          console.warn('All connection attempts failed, starting in offline mode');
-          setIsConnecting(false);
-          setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created');
-        }
-      }
-    };
-
-    retryConnectivity();
-  }, []);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      
-      {/* Jira API Connectivity Status Banner - Outside Form */}
-      {isConnecting && (
-        <Alert severity="info" className="form-connectivity-banner">
-          {ALERT_MESSAGES.CONNECTING}
-        </Alert>
-      )}
-
-      {!isConnecting && connectivityStatus && (
-        <Alert 
-          severity={
-            connectivityStatus.includes('✅') ? 'success' : 
-            connectivityStatus.includes('⚠️') ? 'warning' : 'error'
-          } 
-          className="form-connectivity-banner"
-        >
-          {connectivityStatus}
-        </Alert>
-      )}
-
-      <Container maxWidth="xl" className="form-container-main">
-        <JiraTicketForm isOffline={!connectivityStatus?.includes('✅')} />
-      </Container>
-      
-      {/* Info and Settings Buttons - Fixed position */}
-      <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
-        <InfoButton />
-        {isWebEnvironment && <WebSettingsButton />}
-      </Box>
-    </ThemeProvider>
-  );
-}
+// Export the appropriate App component based on environment
+const App = isLocalDevelopment() ? LocalApp : WebApp;
 
 export default App;
