@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm';
 import InfoButton from './components/InfoButton';
-import SettingsButton from './components/SettingsButton';
+import WebSettingsButton from './components/SettingsButton.web.js';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData';
 import './styles/formStyles.css';
@@ -29,6 +29,11 @@ const theme = createTheme({
 function App() {
   const [connectivityStatus, setConnectivityStatus] = useState(null);
   const [isConnecting, setIsConnecting] = useState(true);
+  
+  // Check if we're in web environment
+  const isWebEnvironment = window.location.hostname !== 'localhost' && 
+                          window.location.hostname !== '127.0.0.1' &&
+                          window.location.port !== '3000';
 
   // Check connectivity on app start with defensive logic
   useEffect(() => {
@@ -119,7 +124,7 @@ function App() {
       {/* Info and Settings Buttons - Fixed position */}
       <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
         <InfoButton />
-        <SettingsButton />
+        {isWebEnvironment && <WebSettingsButton />}
       </Box>
     </ThemeProvider>
   );
