@@ -4,7 +4,7 @@ import JiraTicketForm from './components/JiraTicketForm.web.js';
 import InfoButton from './components/InfoButton.web.js';
 import SettingsButton from './components/SettingsButton.web.js';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
-import { ALERT_MESSAGES } from './data/formData.web.js';
+import { ALERT_MESSAGES } from './data/formData.js';
 import './styles/formStyles.css';
 import './styles/infoButtonStyles.css';
 
