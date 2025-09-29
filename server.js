@@ -3,6 +3,7 @@ const cors = require('cors');
 const axios = require('axios');
 const multer = require('multer');
 const FormData = require('form-data');
+const { chromium } = require('playwright');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -212,9 +213,146 @@ app.post('/upload-attachment/:issueKey', upload.single('file'), async (req, res)
   }
 });
 
+// JAM Content Fetching Endpoints
 
+/**
+ * Fetch JAM content using static HTML parsing
+ */
+app.get('/jam/fetch-content', async (req, res) => {
+  try {
+    const jamUrl = req.query.url;
+    
+    if (!jamUrl) {
+      return res.status(400).json({
+        success: false,
+        error: 'JAM URL is required'
+      });
+    }
+
+    console.log('🔍 PROXY: Fetching JAM content from:', jamUrl);
+
+    // Fetch the JAM page
+    const response = await axios.get(jamUrl, {
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'User-Agent': 'Mozilla/5.0 (compatible; JTGenApp/1.0)'
+      },
+      timeout: 10000
+    });
+
+    const htmlContent = response.data;
+    const titleMatch = htmlContent.match(/<title[^>]*>([^<]+)<\/title>/i);
+    const title = titleMatch ? titleMatch[1].trim() : '';
+
+    console.log('🔍 PROXY: Extracted title:', title);
+
+    res.json({
+      success: true,
+      data: {
+        title: title,
+        htmlContent: htmlContent
+      }
+    });
+
+  } catch (error) {
+    console.error('🔍 PROXY: Error fetching JAM content:', error.message);
+    res.status(500).json({
+      success: false,
+      error: `Failed to fetch JAM content: ${error.message}`
+    });
+  }
+});
+
+/**
+ * Fetch JAM content using Playwright for dynamic content
+ */
+app.get('/jam/fetch-content-rendered', async (req, res) => {
+  let browser = null;
+  
+  try {
+    const jamUrl = req.query.url;
+    
+    if (!jamUrl) {
+      return res.status(400).json({
+        success: false,
+        error: 'JAM URL is required'
+      });
+    }
+
+    console.log('🔍 PROXY: Fetching rendered JAM content from:', jamUrl);
+
+    // Launch browser
+    browser = await chromium.launch({ 
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    
+    const context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (compatible; JTGenApp/1.0)'
+    });
+    
+    const page = await context.newPage();
+    
+    // Set timeout
+    page.setDefaultTimeout(15000);
+    
+    // Navigate to the JAM page
+    await page.goto(jamUrl, { waitUntil: 'networkidle' });
+    
+    // Wait a bit for dynamic content to load
+    await page.waitForTimeout(2000);
+    
+    // Extract the title
+    const title = await page.title();
+    
+    // Try to get additional content that might be dynamically loaded
+    const additionalContent = await page.evaluate(() => {
+      // Look for common content selectors
+      const selectors = [
+        'h1',
+        '[data-testid="title"]',
+        '.title',
+        '.jam-title',
+        'main h1',
+        'article h1'
+      ];
+      
+      for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        if (element && element.textContent.trim()) {
+          return element.textContent.trim();
+        }
+      }
+      
+      return '';
+    });
+
+    console.log('🔍 PROXY: Extracted title:', title);
+    console.log('🔍 PROXY: Additional content:', additionalContent);
+
+    res.json({
+      success: true,
+      data: {
+        title: title,
+        additionalContent: additionalContent
+      }
+    });
+
+  } catch (error) {
+    console.error('🔍 PROXY: Error fetching rendered JAM content:', error.message);
+    res.status(500).json({
+      success: false,
+      error: `Failed to fetch rendered JAM content: ${error.message}`
+    });
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Proxy server running on http://localhost:${PORT}`);
   console.log(`Proxying requests to: ${JIRA_CONFIG.BASE_URL}/rest/api/3`);
+  console.log(`JAM endpoints available at: /jam/fetch-content and /jam/fetch-content-rendered`);
 });
