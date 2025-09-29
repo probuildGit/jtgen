@@ -33,7 +33,7 @@ function App() {
   // Check connectivity on app start with defensive logic
   useEffect(() => {
     // FORCE LOCAL ENVIRONMENT - VERSION 3.0
-    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (VERSION 3.0 - FRESH COMPILATION)');
+    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (VERSION 3.1 - FORCED RECOMPILATION)');
     console.log('🏠 FORCE LOCAL APP: Environment details:', {
       hostname: window.location.hostname,
       port: window.location.port,
