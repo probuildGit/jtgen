@@ -39,7 +39,8 @@ export const getFieldValidationClass = (fieldName, value, isMandatory = false) =
 // Clear corrupted history and reset
 export const clearCorruptedHistory = () => {
   try {
-    localStorage.removeItem(HISTORY_CONFIG.STORAGE_KEYS.TICKET_HISTORY);
+    // Clear the ticket history from localStorage
+    localStorage.removeItem('jiraTicketHistory');
   } catch (error) {
     console.error('Error clearing history:', error);
   }

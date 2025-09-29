@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test History - Local Environment</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #e8f5e8; border-color: #4caf50; }
+        .error { background-color: #ffebee; border-color: #f44336; }
+        .info { background-color: #e3f2fd; border-color: #2196f3; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        pre { background-color: #f5f5f5; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test History - Local Environment</h1>
+    
+    <div id="results"></div>
+    
+    <div class="test-section">
+        <h3>Test Actions</h3>
+        <button onclick="addSampleTicket()">Add Sample Ticket</button>
+        <button onclick="viewHistory()">View History</button>
+        <button onclick="clearHistory()">Clear History</button>
+        <button onclick="testLocalStorage()">Test LocalStorage</button>
+    </div>
+    
+    <script>
+        const HISTORY_STORAGE_KEY = 'jiraTicketHistory';
+        
+        function addSampleTicket() {
+            try {
+                // Get existing history
+                const existingHistory = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || '[]');
+                
+                // Create sample ticket
+                const sampleTicket = {
+                    key: 'PB-TEST-' + Date.now(),
+                    summary: 'Test Ticket - ' + new Date().toLocaleString(),
+                    created: new Date().toISOString(),
+                    status: 'To Do',
+                    assignee: 'Test User',
+                    priority: 'Medium'
+                };
+                
+                // Add to history
+                existingHistory.unshift(sampleTicket);
+                
+                // Save to localStorage
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(existingHistory.slice(0, 50)));
+                
+                showResult('success', `✅ Sample ticket added: ${sampleTicket.key}`);
+                console.log('🏠 LOCAL: Sample ticket added to history:', sampleTicket);
+            } catch (error) {
+                showResult('error', `❌ Error adding sample ticket: ${error.message}`);
+                console.error('🏠 LOCAL: Error adding sample ticket:', error);
+            }
+        }
+        
+        function viewHistory() {
+            try {
+                const history = JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY) || '[]');
+                showResult('info', `📋 History contains ${history.length} tickets`);
+                console.log('🏠 LOCAL: Current history:', history);
+                
+                if (history.length > 0) {
+                    const historyHtml = history.map(ticket => 
+                        `<div style="margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 3px;">
+                            <strong>${ticket.key}</strong> - ${ticket.summary}<br>
+                            <small>Created: ${new Date(ticket.created).toLocaleString()}</small>
+                        </div>`
+                    ).join('');
+                    
+                    document.getElementById('results').innerHTML += `
+                        <div class="test-section">
+                            <h4>Current History:</h4>
+                            ${historyHtml}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                showResult('error', `❌ Error viewing history: ${error.message}`);
+                console.error('🏠 LOCAL: Error viewing history:', error);
+            }
+        }
+        
+        function clearHistory() {
+            try {
+                localStorage.removeItem(HISTORY_STORAGE_KEY);
+                showResult('success', '✅ History cleared');
+                console.log('🏠 LOCAL: History cleared');
+            } catch (error) {
+                showResult('error', `❌ Error clearing history: ${error.message}`);
+                console.error('🏠 LOCAL: Error clearing history:', error);
+            }
+        }
+        
+        function testLocalStorage() {
+            try {
+                const testKey = 'testKey';
+                const testValue = 'testValue';
+                
+                localStorage.setItem(testKey, testValue);
+                const retrieved = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                if (retrieved === testValue) {
+                    showResult('success', '✅ LocalStorage is working correctly');
+                } else {
+                    showResult('error', '❌ LocalStorage test failed');
+                }
+            } catch (error) {
+                showResult('error', `❌ LocalStorage error: ${error.message}`);
+                console.error('🏠 LOCAL: LocalStorage error:', error);
+            }
+        }
+        
+        function showResult(type, message) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-section ${type}`;
+            resultDiv.innerHTML = `<strong>${message}</strong>`;
+            results.appendChild(resultDiv);
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            showResult('info', '🧪 History test page loaded. Use the buttons above to test history functionality.');
+            testLocalStorage();
+            viewHistory();
+        };
+    </script>
+</body>
+</html>
