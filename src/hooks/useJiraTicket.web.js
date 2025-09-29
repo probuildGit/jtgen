@@ -2,7 +2,8 @@ import { useState, useCallback } from 'react';
 import { createJiraTicket } from '../services/jiraApiService.web.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
-import { extractAndFetchJamContent, isJamUrl, extractJamUrl } from '../utils/jamParser.js';
+import { isJamUrl, extractJamUrl } from '../utils/jamParser.js';
+import { extractAndFetchJamContent } from '../services/jamService.js';
 
 export const useJiraTicket = () => {
   const [ticketData, setTicketData] = useState({
