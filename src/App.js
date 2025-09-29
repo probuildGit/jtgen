@@ -33,13 +33,14 @@ function App() {
   // Check connectivity on app start with defensive logic
   useEffect(() => {
     // FORCE LOCAL ENVIRONMENT
-    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (FORCED INLINE)');
+    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (FORCED INLINE) - VERSION 2.0');
     console.log('🏠 FORCE LOCAL APP: Environment details:', {
       hostname: window.location.hostname,
       port: window.location.port,
       href: window.location.href,
       protocol: window.location.protocol,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      version: '2.0 - FORCED LOCAL'
     });
 
     const checkConnectivity = async () => {
