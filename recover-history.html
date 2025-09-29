@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover History - Find Lost Tickets</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .recover-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #e8f5e8; border-color: #4caf50; }
+        .error { background-color: #ffebee; border-color: #f44336; }
+        .info { background-color: #e3f2fd; border-color: #2196f3; }
+        .warning { background-color: #fff3e0; border-color: #ff9800; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .ticket-item { margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 3px; border-left: 4px solid #2196f3; }
+        .ticket-key { font-weight: bold; color: #1976d2; }
+        .ticket-summary { margin: 5px 0; }
+        .ticket-date { font-size: 0.9em; color: #666; }
+        .recovered-tickets { max-height: 400px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔄 Recover History - Find Lost Tickets</h1>
+    
+    <div id="results"></div>
+    
+    <div class="recover-section">
+        <h3>Recovery Actions</h3>
+        <button onclick="scanForTickets()">Scan for Lost Tickets</button>
+        <button onclick="recoverFromBrowserHistory()">Check Browser History</button>
+        <button onclick="createSampleHistory()">Create Sample History</button>
+        <button onclick="restoreFromBackup()">Restore from Backup</button>
+    </div>
+    
+    <div id="recovered-tickets" class="recovered-tickets"></div>
+    
+    <script>
+        function scanForTickets() {
+            showResult('info', '🔍 Scanning localStorage for ticket data...');
+            
+            const allKeys = Object.keys(localStorage);
+            const recoveredTickets = [];
+            
+            allKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    try {
+                        const parsed = JSON.parse(value);
+                        
+                        // Check if it's an array of tickets
+                        if (Array.isArray(parsed)) {
+                            parsed.forEach(item => {
+                                if (item.key && item.key.startsWith('PB-')) {
+                                    recoveredTickets.push(item);
+                                }
+                            });
+                        }
+                        // Check if it's a single ticket
+                        else if (parsed.key && parsed.key.startsWith('PB-')) {
+                            recoveredTickets.push(parsed);
+                        }
+                        // Check if it's a nested object with tickets
+                        else if (typeof parsed === 'object') {
+                            Object.values(parsed).forEach(item => {
+                                if (Array.isArray(item)) {
+                                    item.forEach(ticket => {
+                                        if (ticket.key && ticket.key.startsWith('PB-')) {
+                                            recoveredTickets.push(ticket);
+                                        }
+                                    });
+                                } else if (item && item.key && item.key.startsWith('PB-')) {
+                                    recoveredTickets.push(item);
+                                }
+                            });
+                        }
+                    } catch (e) {
+                        // Not JSON, skip
+                    }
+                }
+            });
+            
+            if (recoveredTickets.length > 0) {
+                showResult('success', `✅ Found ${recoveredTickets.length} tickets in localStorage!`);
+                displayRecoveredTickets(recoveredTickets);
+                
+                // Offer to restore them
+                if (confirm(`Found ${recoveredTickets.length} tickets! Would you like to restore them to the main history?`)) {
+                    restoreTickets(recoveredTickets);
+                }
+            } else {
+                showResult('warning', '⚠️ No tickets found in localStorage');
+            }
+        }
+        
+        function recoverFromBrowserHistory() {
+            showResult('info', '🔍 Checking browser history for Jira tickets...');
+            
+            // This is a simplified approach - in reality, we can't access browser history directly
+            // But we can check if there are any Jira URLs in localStorage
+            const allKeys = Object.keys(localStorage);
+            const jiraUrls = [];
+            
+            allKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value && value.includes('probuild.atlassian.net')) {
+                    jiraUrls.push({ key, value: value.substring(0, 200) + '...' });
+                }
+            });
+            
+            if (jiraUrls.length > 0) {
+                showResult('success', `✅ Found ${jiraUrls.length} Jira URLs in localStorage`);
+                jiraUrls.forEach(url => {
+                    showResult('info', `📋 ${url.key}: ${url.value}`);
+                });
+            } else {
+                showResult('warning', '⚠️ No Jira URLs found in localStorage');
+            }
+        }
+        
+        function createSampleHistory() {
+            showResult('info', '📝 Creating sample history based on common patterns...');
+            
+            const sampleTickets = [
+                {
+                    key: 'PB-100',
+                    summary: 'WEB - UI - Login button not clickable',
+                    created: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+                    status: 'Done',
+                    assignee: 'Test User',
+                    priority: 'High'
+                },
+                {
+                    key: 'PB-101',
+                    summary: 'MOBILE - Data - Incorrect data displayed on dashboard',
+                    created: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
+                    status: 'In Progress',
+                    assignee: 'Test User',
+                    priority: 'Medium'
+                },
+                {
+                    key: 'PB-102',
+                    summary: 'WEB - Backend - API endpoint returning 500 error',
+                    created: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
+                    status: 'To Do',
+                    assignee: 'Test User',
+                    priority: 'High'
+                },
+                {
+                    key: 'PB-103',
+                    summary: 'MOBILE - UI - Settings page layout broken',
+                    created: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+                    status: 'In Review',
+                    assignee: 'Test User',
+                    priority: 'Medium'
+                },
+                {
+                    key: 'PB-104',
+                    summary: 'WEB - Feature - Add new user registration flow',
+                    created: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+                    status: 'Done',
+                    assignee: 'Test User',
+                    priority: 'Low'
+                }
+            ];
+            
+            if (confirm(`Create ${sampleTickets.length} sample tickets? This will help you test the history functionality.`)) {
+                localStorage.setItem('jiraTicketHistory', JSON.stringify(sampleTickets));
+                showResult('success', `✅ Created ${sampleTickets.length} sample tickets!`);
+                displayRecoveredTickets(sampleTickets);
+            }
+        }
+        
+        function restoreFromBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const backupData = JSON.parse(e.target.result);
+                            let tickets = [];
+                            
+                            if (backupData.data) {
+                                // Check if it's our export format
+                                Object.values(backupData.data).forEach(value => {
+                                    try {
+                                        const parsed = JSON.parse(value);
+                                        if (Array.isArray(parsed)) {
+                                            tickets = tickets.concat(parsed);
+                                        }
+                                    } catch (e) {
+                                        // Skip non-JSON values
+                                    }
+                                });
+                            } else if (Array.isArray(backupData)) {
+                                tickets = backupData;
+                            }
+                            
+                            if (tickets.length > 0) {
+                                showResult('success', `✅ Found ${tickets.length} tickets in backup!`);
+                                displayRecoveredTickets(tickets);
+                                
+                                if (confirm(`Restore ${tickets.length} tickets from backup?`)) {
+                                    restoreTickets(tickets);
+                                }
+                            } else {
+                                showResult('error', '❌ No tickets found in backup file');
+                            }
+                        } catch (error) {
+                            showResult('error', `❌ Error reading backup: ${error.message}`);
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        
+        function displayRecoveredTickets(tickets) {
+            const container = document.getElementById('recovered-tickets');
+            container.innerHTML = '<h3>📋 Recovered Tickets</h3>';
+            
+            tickets.forEach(ticket => {
+                const ticketDiv = document.createElement('div');
+                ticketDiv.className = 'ticket-item';
+                ticketDiv.innerHTML = `
+                    <div class="ticket-key">${ticket.key}</div>
+                    <div class="ticket-summary">${ticket.summary || 'No summary'}</div>
+                    <div class="ticket-date">Created: ${new Date(ticket.created || Date.now()).toLocaleString()}</div>
+                    <div class="ticket-date">Status: ${ticket.status || 'Unknown'}</div>
+                `;
+                container.appendChild(ticketDiv);
+            });
+        }
+        
+        function restoreTickets(tickets) {
+            try {
+                // Get existing history
+                const existingHistory = JSON.parse(localStorage.getItem('jiraTicketHistory') || '[]');
+                
+                // Merge with recovered tickets (avoid duplicates)
+                const existingKeys = new Set(existingHistory.map(t => t.key));
+                const newTickets = tickets.filter(t => !existingKeys.has(t.key));
+                
+                const mergedHistory = [...newTickets, ...existingHistory];
+                
+                // Save to localStorage
+                localStorage.setItem('jiraTicketHistory', JSON.stringify(mergedHistory));
+                
+                showResult('success', `✅ Restored ${newTickets.length} new tickets to history!`);
+                
+                if (newTickets.length < tickets.length) {
+                    showResult('info', `ℹ️ ${tickets.length - newTickets.length} tickets were already in history (duplicates skipped)`);
+                }
+            } catch (error) {
+                showResult('error', `❌ Error restoring tickets: ${error.message}`);
+            }
+        }
+        
+        function showResult(type, message) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `recover-section ${type}`;
+            resultDiv.innerHTML = `<strong>${message}</strong>`;
+            results.appendChild(resultDiv);
+        }
+        
+        // Auto-run scan on page load
+        window.onload = function() {
+            showResult('info', '🔄 History recovery page loaded. Click "Scan for Lost Tickets" to find your existing tickets.');
+        };
+    </script>
+</body>
+</html>

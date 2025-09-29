@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { createJiraTicket } from '../services/jiraApiService.web.js';
+import { createJiraTicket } from '../services/jiraApiService.local.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
 import { extractAndFetchJamContent, isJamUrl, extractJamUrl } from '../utils/jamParser.js';
@@ -35,11 +35,11 @@ export const useJiraTicket = () => {
     if (value && typeof value === 'string') {
       const jamUrl = extractJamUrl(value);
       if (jamUrl && isJamUrl(jamUrl)) {
-        console.log('🌐 WEB: JAM URL detected:', jamUrl);
+        console.log('🏠 LOCAL: JAM URL detected:', jamUrl);
         try {
           const jamContent = await extractAndFetchJamContent(value);
           if (jamContent.isValid) {
-            console.log('🌐 WEB: JAM content extracted:', jamContent);
+            console.log('🏠 LOCAL: JAM content extracted:', jamContent);
             setTicketData(prev => ({
               ...prev,
               [field]: value,
@@ -47,10 +47,10 @@ export const useJiraTicket = () => {
               summary: jamContent.summary || prev.summary
             }));
           } else {
-            console.warn('🌐 WEB: JAM parsing failed:', jamContent.error);
+            console.warn('🏠 LOCAL: JAM parsing failed:', jamContent.error);
           }
         } catch (error) {
-          console.error('🌐 WEB: Error parsing JAM content:', error);
+          console.error('🏠 LOCAL: Error parsing JAM content:', error);
         }
       }
     }

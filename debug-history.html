@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug History - Check Existing Tickets</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #e8f5e8; border-color: #4caf50; }
+        .error { background-color: #ffebee; border-color: #f44336; }
+        .info { background-color: #e3f2fd; border-color: #2196f3; }
+        .warning { background-color: #fff3e0; border-color: #ff9800; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        pre { background-color: #f5f5f5; padding: 10px; border-radius: 3px; overflow-x: auto; max-height: 300px; }
+        .ticket-item { margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 3px; border-left: 4px solid #2196f3; }
+        .ticket-key { font-weight: bold; color: #1976d2; }
+        .ticket-summary { margin: 5px 0; }
+        .ticket-date { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug History - Check Existing Tickets</h1>
+    
+    <div id="results"></div>
+    
+    <div class="debug-section">
+        <h3>Debug Actions</h3>
+        <button onclick="checkAllLocalStorage()">Check All LocalStorage</button>
+        <button onclick="checkHistoryKeys()">Check History Keys</button>
+        <button onclick="checkJiraKeys()">Check Jira-Related Keys</button>
+        <button onclick="exportHistory()">Export History</button>
+        <button onclick="importHistory()">Import History</button>
+        <button onclick="clearAllHistory()">Clear All History</button>
+    </div>
+    
+    <script>
+        function checkAllLocalStorage() {
+            showResult('info', '🔍 Checking all localStorage keys...');
+            
+            const allKeys = Object.keys(localStorage);
+            const jiraKeys = allKeys.filter(key => 
+                key.toLowerCase().includes('jira') || 
+                key.toLowerCase().includes('ticket') || 
+                key.toLowerCase().includes('history') ||
+                key.toLowerCase().includes('pb-')
+            );
+            
+            showResult('info', `📊 Found ${allKeys.length} total keys, ${jiraKeys.length} Jira-related keys`);
+            
+            if (jiraKeys.length > 0) {
+                showResult('success', `✅ Found Jira-related keys: ${jiraKeys.join(', ')}`);
+                
+                jiraKeys.forEach(key => {
+                    try {
+                        const value = localStorage.getItem(key);
+                        const parsed = JSON.parse(value);
+                        showResult('info', `📋 Key: ${key} (${parsed.length || 'N/A'} items)`);
+                    } catch (e) {
+                        showResult('warning', `⚠️ Key: ${key} (not JSON)`);
+                    }
+                });
+            } else {
+                showResult('warning', '⚠️ No Jira-related keys found in localStorage');
+            }
+        }
+        
+        function checkHistoryKeys() {
+            showResult('info', '🔍 Checking specific history keys...');
+            
+            const historyKeys = [
+                'jiraTicketHistory',
+                'ticketHistory', 
+                'jiraHistory',
+                'history',
+                'tickets',
+                'jiraTickets'
+            ];
+            
+            historyKeys.forEach(key => {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    try {
+                        const parsed = JSON.parse(value);
+                        showResult('success', `✅ Found ${key}: ${parsed.length} tickets`);
+                        
+                        if (parsed.length > 0) {
+                            showResult('info', `📋 Sample ticket: ${parsed[0].key || parsed[0].id || 'Unknown'}`);
+                        }
+                    } catch (e) {
+                        showResult('warning', `⚠️ ${key}: Invalid JSON`);
+                    }
+                } else {
+                    showResult('info', `❌ ${key}: Not found`);
+                }
+            });
+        }
+        
+        function checkJiraKeys() {
+            showResult('info', '🔍 Checking for Jira ticket keys (PB-*)...');
+            
+            const allKeys = Object.keys(localStorage);
+            const pbKeys = allKeys.filter(key => key.startsWith('PB-'));
+            
+            if (pbKeys.length > 0) {
+                showResult('success', `✅ Found ${pbKeys.length} PB-* keys: ${pbKeys.join(', ')}`);
+                
+                pbKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    showResult('info', `📋 ${key}: ${value ? value.substring(0, 100) + '...' : 'Empty'}`);
+                });
+            } else {
+                showResult('warning', '⚠️ No PB-* keys found');
+            }
+        }
+        
+        function exportHistory() {
+            showResult('info', '📤 Exporting all Jira-related data...');
+            
+            const allKeys = Object.keys(localStorage);
+            const jiraData = {};
+            
+            allKeys.forEach(key => {
+                if (key.toLowerCase().includes('jira') || 
+                    key.toLowerCase().includes('ticket') || 
+                    key.toLowerCase().includes('history') ||
+                    key.startsWith('PB-')) {
+                    jiraData[key] = localStorage.getItem(key);
+                }
+            });
+            
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                data: jiraData
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `jira-history-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showResult('success', '✅ History exported successfully!');
+        }
+        
+        function importHistory() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const importData = JSON.parse(e.target.result);
+                            if (importData.data) {
+                                Object.keys(importData.data).forEach(key => {
+                                    localStorage.setItem(key, importData.data[key]);
+                                });
+                                showResult('success', `✅ Imported ${Object.keys(importData.data).length} keys successfully!`);
+                            } else {
+                                showResult('error', '❌ Invalid import file format');
+                            }
+                        } catch (error) {
+                            showResult('error', `❌ Error importing: ${error.message}`);
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        
+        function clearAllHistory() {
+            if (confirm('Are you sure you want to clear ALL Jira-related data from localStorage?')) {
+                const allKeys = Object.keys(localStorage);
+                let cleared = 0;
+                
+                allKeys.forEach(key => {
+                    if (key.toLowerCase().includes('jira') || 
+                        key.toLowerCase().includes('ticket') || 
+                        key.toLowerCase().includes('history') ||
+                        key.startsWith('PB-')) {
+                        localStorage.removeItem(key);
+                        cleared++;
+                    }
+                });
+                
+                showResult('success', `✅ Cleared ${cleared} Jira-related keys`);
+            }
+        }
+        
+        function showResult(type, message) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `debug-section ${type}`;
+            resultDiv.innerHTML = `<strong>${message}</strong>`;
+            results.appendChild(resultDiv);
+        }
+        
+        // Auto-run checks on page load
+        window.onload = function() {
+            showResult('info', '🧪 History debug page loaded. Use the buttons above to investigate your localStorage.');
+            checkAllLocalStorage();
+            checkHistoryKeys();
+        };
+    </script>
+</body>
+</html>
