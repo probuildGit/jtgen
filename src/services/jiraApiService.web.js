@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { CONFIG, WEB_API_ENDPOINTS } from '../config/config.web.js';
 import { TEAM_MEMBERS } from '../data/formData';
-import { HISTORY_CONFIG } from '../data/historyData';
+import { HISTORY_CONFIG } from '../data/historyData.web.js';
 import { buildDescriptionContent, createEmbeddedImageNode } from '../utils/adfBuilder';
 import { extractErrorMessage, handleSpecificErrors, logError } from '../utils/errorHandler';
 

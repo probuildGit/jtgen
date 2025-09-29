@@ -1,5 +1,4 @@
 // Import validation functions from centralized validation rules
-import { HISTORY_CONFIG } from '../data/historyData';
 
 export { 
   validateRequired, 

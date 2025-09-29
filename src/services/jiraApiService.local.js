@@ -3,7 +3,7 @@ import axios from 'axios';
 import { CONFIG } from '../config/config.local.js';
 import { LOCAL_ROUTES } from '../config/routes.local.js';
 import { TEAM_MEMBERS } from '../data/formData';
-import { HISTORY_CONFIG } from '../data/historyData';
+import { HISTORY_CONFIG } from '../data/historyData.local.js';
 import { buildDescriptionContent, createEmbeddedImageNode } from '../utils/adfBuilder';
 import { extractErrorMessage, handleSpecificErrors, logError } from '../utils/errorHandler';
 
