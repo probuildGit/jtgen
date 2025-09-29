@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Detection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .local { background-color: #e8f5e8; border: 1px solid #4caf50; }
+        .web { background-color: #ffebee; border: 1px solid #f44336; }
+        .info { background-color: #e3f2fd; border: 1px solid #2196f3; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Environment Detection Test</h1>
+    
+    <div id="results"></div>
+    
+    <script type="module">
+        // Simulate the environment detection logic
+        function isLocalDevelopment() {
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            const href = window.location.href;
+            const protocol = window.location.protocol;
+
+            return (
+                // Local hostnames
+                hostname === 'localhost' || 
+                hostname === '127.0.0.1' ||
+                hostname === '0.0.0.0' ||
+                hostname === '::1' ||
+                // Local ports (React dev server)
+                port === '3000' ||
+                port === '3001' ||
+                // Local URLs
+                href.includes('localhost:3000') ||
+                href.includes('127.0.0.1:3000') ||
+                href.includes('localhost:3001') ||
+                href.includes('127.0.0.1:3001') ||
+                // HTTP protocol (usually local development)
+                protocol === 'http:'
+            );
+        }
+
+        function showResult(type, message) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = `<strong>${message}</strong>`;
+            results.appendChild(resultDiv);
+        }
+
+        // Test environment detection
+        const isLocal = isLocalDevelopment();
+        const environment = isLocal ? 'LOCAL' : 'WEB';
+        
+        showResult('info', `Current URL: ${window.location.href}`);
+        showResult('info', `Hostname: ${window.location.hostname}`);
+        showResult('info', `Port: ${window.location.port}`);
+        showResult('info', `Protocol: ${window.location.protocol}`);
+        
+        showResult(isLocal ? 'local' : 'web', 
+            `Environment Detection: ${environment}<br>
+            Should use: ${isLocal ? 'LOCAL APP' : 'WEB APP'}<br>
+            Expected: LOCAL APP (since you're on localhost:3000)`);
+        
+        if (!isLocal) {
+            showResult('web', '❌ PROBLEM: Environment detection is failing!<br>You should be detected as LOCAL but you\'re detected as WEB');
+        } else {
+            showResult('local', '✅ Environment detection is working correctly');
+        }
+    </script>
+</body>
+</html>

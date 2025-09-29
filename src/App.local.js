@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '
 import JiraTicketForm from './components/JiraTicketForm.local.js';
 import InfoButton from './components/InfoButton.local.js';
 import { testJiraConnectivity } from './services/jiraApiService.local.js';
-import { ALERT_MESSAGES } from './data/formData.js';
+import { ALERT_MESSAGES } from './data/formData.local.js';
 import './styles/formStyles.css';
 import './styles/infoButtonStyles.css';
 

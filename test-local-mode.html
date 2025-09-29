@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Local Mode</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #e8f5e8; border-color: #4caf50; }
+        .error { background-color: #ffebee; border-color: #f44336; }
+        .info { background-color: #e3f2fd; border-color: #2196f3; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Local Mode</h1>
+    
+    <div id="results"></div>
+    
+    <div class="test-section">
+        <h3>Environment Tests</h3>
+        <button onclick="testEnvironment()">Test Environment Detection</button>
+        <button onclick="testJAMService()">Test JAM Service</button>
+        <button onclick="testProxyServer()">Test Proxy Server</button>
+    </div>
+    
+    <script>
+        function testEnvironment() {
+            showResult('info', '🔍 Testing environment detection...');
+            
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            const href = window.location.href;
+            const protocol = window.location.protocol;
+            
+            const isLocal = (
+                hostname === 'localhost' || 
+                hostname === '127.0.0.1' ||
+                port === '3000' ||
+                href.includes('localhost:3000') ||
+                protocol === 'http:'
+            );
+            
+            showResult(isLocal ? 'success' : 'error', 
+                `Environment: ${isLocal ? 'LOCAL' : 'WEB'}<br>
+                Hostname: ${hostname}<br>
+                Port: ${port}<br>
+                URL: ${href}<br>
+                Protocol: ${protocol}`);
+        }
+        
+        function testJAMService() {
+            showResult('info', '🔍 Testing JAM service...');
+            
+            // Test if we can import the JAM service
+            import('/src/services/jamService.js').then(module => {
+                showResult('success', '✅ JAM service loaded successfully');
+                console.log('JAM service module:', module);
+            }).catch(error => {
+                showResult('error', `❌ JAM service failed to load: ${error.message}`);
+                console.error('JAM service error:', error);
+            });
+        }
+        
+        function testProxyServer() {
+            showResult('info', '🔍 Testing proxy server...');
+            
+            fetch('http://localhost:3001/health')
+                .then(response => {
+                    if (response.ok) {
+                        showResult('success', '✅ Proxy server is running and responding');
+                    } else {
+                        showResult('error', `❌ Proxy server responded with status: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    showResult('error', `❌ Proxy server connection failed: ${error.message}`);
+                });
+        }
+        
+        function showResult(type, message) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-section ${type}`;
+            resultDiv.innerHTML = `<strong>${message}</strong>`;
+            results.appendChild(resultDiv);
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            showResult('info', '🧪 Local mode test page loaded. Use the buttons above to test your environment.');
+            testEnvironment();
+        };
+    </script>
+</body>
+</html>
