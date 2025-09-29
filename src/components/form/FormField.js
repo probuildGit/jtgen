@@ -37,8 +37,8 @@ const FormField = ({
           onChange={handleChange}
           label={label}
         >
-          {options.map(option => (
-            <MenuItem key={option.value || option.id || option.key} value={option.value || option.id || option.key}>
+          {options.map((option, index) => (
+            <MenuItem key={option.value || option.id || option.key || index} value={option.value || option.id || option.key}>
               {option.label || option.name || `${option.key} - ${option.name}`}
             </MenuItem>
           ))}
