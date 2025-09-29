@@ -22,7 +22,8 @@ export const isLocalDevelopment = () => {
   const href = window.location.href;
   const protocol = window.location.protocol;
 
-  return (
+  // More aggressive local detection
+  const isLocal = (
     // Local hostnames
     hostname === 'localhost' || 
     hostname === '127.0.0.1' ||
@@ -39,6 +40,19 @@ export const isLocalDevelopment = () => {
     // HTTP protocol (usually local development)
     protocol === 'http:'
   );
+
+  // Enhanced logging for debugging
+  console.log('🔍 ENVIRONMENT DETECTION DEBUG:', {
+    hostname,
+    port,
+    href,
+    protocol,
+    testMode,
+    isLocal,
+    'window.location': window.location
+  });
+
+  return isLocal;
 };
 
 /**

@@ -16,7 +16,7 @@ import {
   FORM_LABELS,
   FORM_PLACEHOLDERS,
   SECTION_TITLES
-} from '../data/formData';
+} from '../data/formData.web.js';
 import {
   FormField,
   FormSection,

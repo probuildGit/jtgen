@@ -1,21 +1,17 @@
-// Environment-specific App loader
-import { isLocalDevelopment } from './utils/environmentDetection.js';
-import LocalApp from './App.local.js';
-import WebApp from './App.web.js';
+// FORCE LOCAL APP - Temporary override for debugging
+import ForceLocalApp from './App.force-local.js';
 
-// Log environment detection
-const environment = isLocalDevelopment() ? 'LOCAL' : 'WEB';
-console.log('🔍 APP ENVIRONMENT SELECTION:', {
-  environment,
-  app: isLocalDevelopment() ? 'LOCAL APP' : 'WEB APP',
-  timestamp: new Date().toISOString(),
+// Log forced local environment
+console.log('🏠 FORCE LOCAL APP: Loading FORCED LOCAL environment');
+console.log('🏠 FORCE LOCAL APP: Environment details:', {
   hostname: window.location.hostname,
   port: window.location.port,
   href: window.location.href,
-  protocol: window.location.protocol
+  protocol: window.location.protocol,
+  timestamp: new Date().toISOString()
 });
 
-// Export the appropriate App component based on environment
-const App = isLocalDevelopment() ? LocalApp : WebApp;
+// Export the forced local App component
+const App = ForceLocalApp;
 
 export default App;
