@@ -34,9 +34,10 @@ import {
 import {
   HISTORY_CONFIG,
   HISTORY_MESSAGES,
-  HISTORY_ACTIONS
-} from '../data/historyData';
-import { fetchTicketStatus } from '../services/jiraStatusService';
+  HISTORY_ACTIONS,
+  WEB_HISTORY_DATA
+} from '../data/historyData.web.js';
+import { fetchTicketStatus } from '../services/jiraStatusService.web.js';
 import { getStatusDisplayName, getStatusColor } from '../config/statusConfig.web.js';
 import '../styles/historyStyles.css';
 

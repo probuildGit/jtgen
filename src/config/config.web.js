@@ -13,9 +13,9 @@ export const CONFIG = {
     BASE_URL: 'https://probuild.atlassian.net',
     PROJECT_KEY: 'PB',
     PROJECT_NAME: 'ProBuild',
-    AUTH_TOKEN: 'DEMO_MODE', // Demo mode - no real API calls
-    EMAIL: 'demo@example.com', // Demo mode - no real API calls
-    DEMO_MODE: true // Enable demo mode for web deployment
+    AUTH_TOKEN: '', // Will be set by user via Settings button
+    EMAIL: '', // Will be set by user via Settings button
+    DEMO_MODE: false // Demo mode disabled - use Settings button for credentials
   },
   
   // Server Configuration

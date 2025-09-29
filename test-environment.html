@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Detection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .local { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
+        .web { background-color: #f3e5f5; border-left: 4px solid #9c27b0; }
+        .info { background-color: #fff3e0; border-left: 4px solid #ff9800; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Environment Detection Test</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        // Copy the environment detection logic
+        function isLocalDevelopment() {
+            const testMode = new URLSearchParams(window.location.search).get('testMode');
+            if (testMode === 'web') {
+                console.log('🧪 TEST MODE: Forcing web environment');
+                return false;
+            }
+            if (testMode === 'local') {
+                console.log('🧪 TEST MODE: Forcing local environment');
+                return true;
+            }
+
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            const href = window.location.href;
+            const protocol = window.location.protocol;
+
+            return (
+                hostname === 'localhost' || 
+                hostname === '127.0.0.1' ||
+                hostname === '0.0.0.0' ||
+                hostname === '::1' ||
+                port === '3000' ||
+                port === '3001' ||
+                href.includes('localhost:3000') ||
+                href.includes('127.0.0.1:3000') ||
+                href.includes('localhost:3001') ||
+                href.includes('127.0.0.1:3001') ||
+                protocol === 'http:'
+            );
+        }
+
+        function isWebDeployment() {
+            const hostname = window.location.hostname;
+            const protocol = window.location.protocol;
+
+            return (
+                hostname === 'probuildgit.github.io' ||
+                hostname.includes('github.io') ||
+                hostname.includes('netlify.app') ||
+                hostname.includes('vercel.app') ||
+                hostname.includes('herokuapp.com') ||
+                hostname.includes('firebase.app') ||
+                protocol === 'https:'
+            );
+        }
+
+        // Test the environment detection
+        const isLocal = isLocalDevelopment();
+        const isWeb = isWebDeployment();
+        const environment = isLocal ? 'LOCAL' : 'WEB';
+        
+        const results = document.getElementById('results');
+        
+        results.innerHTML = `
+            <div class="info">
+                <h3>📍 Current Location</h3>
+                <p><strong>Hostname:</strong> ${window.location.hostname}</p>
+                <p><strong>Port:</strong> ${window.location.port || 'default'}</p>
+                <p><strong>Protocol:</strong> ${window.location.protocol}</p>
+                <p><strong>Full URL:</strong> ${window.location.href}</p>
+            </div>
+            
+            <div class="${isLocal ? 'local' : 'web'}">
+                <h3>🎯 Detected Environment</h3>
+                <p><strong>Environment:</strong> ${environment}</p>
+                <p><strong>isLocalDevelopment():</strong> ${isLocal}</p>
+                <p><strong>isWebDeployment():</strong> ${isWeb}</p>
+            </div>
+            
+            <div class="info">
+                <h3>🔧 Expected Behavior</h3>
+                <p><strong>Settings Button:</strong> ${isLocal ? '❌ Should NOT be visible' : '✅ Should be visible'}</p>
+                <p><strong>App Component:</strong> ${isLocal ? 'App.local.js' : 'App.web.js'}</p>
+            </div>
+            
+            <div class="info">
+                <h3>🧪 Test URLs</h3>
+                <p><a href="?testMode=local">Force Local Environment</a></p>
+                <p><a href="?testMode=web">Force Web Environment</a></p>
+                <p><a href="?">Reset Test Mode</a></p>
+            </div>
+        `;
+        
+        console.log('🔍 Environment Detection Test Results:', {
+            hostname: window.location.hostname,
+            port: window.location.port,
+            protocol: window.location.protocol,
+            href: window.location.href,
+            isLocal,
+            isWeb,
+            environment
+        });
+    </script>
+</body>
+</html>

@@ -1,33 +1,24 @@
-// Web Jira Status Service - For web deployment only
-// This file is used for web deployment and uses CORS proxy
-
+// Environment-specific Jira Status Service loader
+import { isLocalDevelopment } from '../utils/environmentDetection.js';
+import localStatusService from './jiraStatusService.local.js';
 import webStatusService from './jiraStatusService.web.js';
-import { logEnvironmentInfo } from '../utils/environmentDetection.js';
 
-// Log environment detection information
-logEnvironmentInfo();
+// Log environment detection
+const environment = isLocalDevelopment() ? 'LOCAL' : 'WEB';
+const statusService = isLocalDevelopment() ? localStatusService : webStatusService;
 
-// Always use web status service for web deployment
-const statusService = webStatusService;
-
-console.log('🎯 SELECTED STATUS SERVICE: WEB STATUS SERVICE');
-console.log('⏰ Status service loaded at:', new Date().toISOString());
+console.log('🔍 JIRA STATUS SERVICE SELECTION:', {
+  environment,
+  service: isLocalDevelopment() ? 'LOCAL STATUS SERVICE' : 'WEB STATUS SERVICE',
+  timestamp: new Date().toISOString(),
+  hostname: window.location.hostname,
+  port: window.location.port,
+  href: window.location.href,
+  protocol: window.location.protocol
+});
 
 // Export functions that delegate to the appropriate service
-export const fetchTicketStatus = async (ticketKey) => {
-  console.log('🔍 Fetching ticket status with: WEB STATUS SERVICE');
-  return await statusService.fetchTicketStatus(ticketKey);
-};
+export const fetchTicketStatus = statusService.fetchTicketStatus;
+export const fetchMultipleTicketStatuses = statusService.fetchMultipleTicketStatuses;
 
-export const fetchMultipleTicketStatuses = async (ticketKeys) => {
-  console.log('🔍 Fetching multiple ticket statuses with: WEB STATUS SERVICE');
-  return await statusService.fetchMultipleTicketStatuses(ticketKeys);
-};
-
-// Export default for backward compatibility
-const statusServiceDefault = {
-  fetchTicketStatus,
-  fetchMultipleTicketStatuses
-};
-
-export default statusServiceDefault;
+export default statusService;

@@ -318,10 +318,32 @@ const addEmbeddedImagesToDescriptionWeb = async (issueKey, uploadedAttachments) 
   }
 };
 
+// Fetch Jira ticket history for web environment
+export const fetchJiraTicketHistory = async () => {
+  try {
+    console.log('🌐 WEB SERVICE: fetchJiraTicketHistory called');
+    
+    // Get history from localStorage
+    const historyData = localStorage.getItem('jiraTicketHistory');
+    if (historyData) {
+      const parsedHistory = JSON.parse(historyData);
+      console.log('🌐 WEB SERVICE: Found ticket history:', parsedHistory);
+      return parsedHistory;
+    } else {
+      console.log('🌐 WEB SERVICE: No ticket history found in localStorage');
+      return [];
+    }
+  } catch (error) {
+    console.error('🌐 WEB SERVICE: Error fetching Jira ticket history:', error);
+    throw new Error('Failed to fetch Jira ticket history.');
+  }
+};
+
 const webServiceDefault = {
   testJiraConnectivity,
   createJiraTicket,
-  uploadAttachment
+  uploadAttachment,
+  fetchJiraTicketHistory
 };
 
 export default webServiceDefault;

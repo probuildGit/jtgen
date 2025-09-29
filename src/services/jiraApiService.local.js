@@ -247,10 +247,32 @@ export const uploadAttachment = async (issueKey, file) => {
   }
 };
 
+// Fetch Jira ticket history for local environment
+export const fetchJiraTicketHistory = async () => {
+  try {
+    console.log('🏠 LOCAL SERVICE: fetchJiraTicketHistory called');
+    
+    // Get history from localStorage
+    const historyData = localStorage.getItem(HISTORY_CONFIG.STORAGE_KEYS.TICKET_HISTORY);
+    if (historyData) {
+      const parsedHistory = JSON.parse(historyData);
+      console.log('🏠 LOCAL SERVICE: Found ticket history:', parsedHistory);
+      return parsedHistory;
+    } else {
+      console.log('🏠 LOCAL SERVICE: No ticket history found in localStorage');
+      return [];
+    }
+  } catch (error) {
+    console.error('🏠 LOCAL SERVICE: Error fetching Jira ticket history:', error);
+    throw new Error('Failed to fetch Jira ticket history.');
+  }
+};
+
 const localService = {
   testJiraConnectivity,
   createJiraTicket,
-  uploadAttachment
+  uploadAttachment,
+  fetchJiraTicketHistory
 };
 
 export default localService;
