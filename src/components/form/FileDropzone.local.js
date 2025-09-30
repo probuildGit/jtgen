@@ -1,7 +1,7 @@
 // FileDropzone component for local environment
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Box, Typography, Paper } from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 
 const FileDropzone = ({ onFilesAdded, maxFiles = 5, maxSize = 10 * 1024 * 1024 }) => {
