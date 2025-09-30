@@ -1,23 +1,125 @@
-// MINIMAL TEST APP - VERSION 4.0
-import React from 'react';
+// FORCE LOCAL APP - VERSION 5.0 - COMPLETE SEPARATION
+import React, { useState, useEffect } from 'react';
+import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
+import JiraTicketForm from './components/JiraTicketForm.local.js';
+import InfoButton from './components/InfoButton.local.js';
+import { testJiraConnectivity } from './services/jiraApiService.local.js';
+import { ALERT_MESSAGES } from './data/formData.local.js';
+import './styles/formStyles.css';
+import './styles/infoButtonStyles.css';
+
+// Create a minimal theme
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+    background: {
+      default: '#f5f5f5',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  },
+});
 
 function App() {
-  console.log('🏠 MINIMAL TEST APP: VERSION 4.1 - FORCED RECOMPILATION');
-  
+  const [connectivityStatus, setConnectivityStatus] = useState(null);
+  const [isConnecting, setIsConnecting] = useState(true);
+
+  // Check connectivity on app start with defensive logic
+  useEffect(() => {
+    // FORCE LOCAL ENVIRONMENT - VERSION 5.0
+    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (VERSION 5.0 - COMPLETE SEPARATION)');
+    console.log('🏠 FORCE LOCAL APP: Environment details:', {
+      hostname: window.location.hostname,
+      port: window.location.port,
+      href: window.location.href,
+      protocol: window.location.protocol,
+      timestamp: new Date().toISOString(),
+      version: '5.0 - COMPLETE LOCAL SEPARATION'
+    });
+
+    const checkConnectivity = async () => {
+      setIsConnecting(true);
+      
+      // Set a timeout to prevent hanging
+      const timeoutId = setTimeout(() => {
+        setIsConnecting(false);
+        setConnectivityStatus('⚠️ Connection timeout - App will work in offline mode');
+      }, 10000);
+
+      try {
+        const result = await testJiraConnectivity();
+        clearTimeout(timeoutId);
+        
+        if (result.success) {
+          setConnectivityStatus('✅ Connected to Jira API (LOCAL V5.0)');
+        } else {
+          setConnectivityStatus('⚠️ Limited connectivity - Some features may not work (LOCAL V5.0)');
+        }
+      } catch (error) {
+        clearTimeout(timeoutId);
+        console.warn('Jira API connection failed (LOCAL V5.0):', error);
+        setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V5.0)');
+      } finally {
+        setIsConnecting(false);
+      }
+    };
+
+    const retryConnectivity = async (attempt = 1, maxAttempts = 3) => {
+      try {
+        await checkConnectivity();
+      } catch (error) {
+        if (attempt < maxAttempts) {
+          console.log(`Connection attempt ${attempt} failed, retrying in ${2 * attempt} seconds...`);
+          setTimeout(() => retryConnectivity(attempt + 1, maxAttempts), 2000 * attempt);
+        } else {
+          console.warn('All connection attempts failed, starting in offline mode');
+          setIsConnecting(false);
+          setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V5.0)');
+        }
+      }
+    };
+
+    retryConnectivity();
+  }, []);
+
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>🏠 LOCAL APP VERSION 4.0</h1>
-      <p>This is a minimal test to verify the React server is recompiling.</p>
-      <p>If you see this, the new code is being served!</p>
-      <div style={{ 
-        background: '#e3f2fd', 
-        padding: '10px', 
-        borderRadius: '5px',
-        marginTop: '20px'
-      }}>
-        <strong>Console should show:</strong> 🏠 MINIMAL TEST APP: VERSION 4.0 - NO IMPORTS
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      
+      {/* Jira API Connectivity Status Banner - Outside Form */}
+      {isConnecting && (
+        <Alert severity="info" className="form-connectivity-banner">
+          {ALERT_MESSAGES.CONNECTING} (LOCAL V5.0)
+        </Alert>
+      )}
+
+      {!isConnecting && connectivityStatus && (
+        <Alert 
+          severity={
+            connectivityStatus.includes('✅') ? 'success' : 
+            connectivityStatus.includes('⚠️') ? 'warning' : 'error'
+          } 
+          className="form-connectivity-banner"
+        >
+          {connectivityStatus}
+        </Alert>
+      )}
+
+      <Container maxWidth="xl" className="form-container-main">
+        <JiraTicketForm isOffline={!connectivityStatus?.includes('✅')} />
+      </Container>
+      
+      {/* Info Button Only - Fixed position (Local environment) */}
+      <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
+        <InfoButton />
+      </Box>
+    </ThemeProvider>
   );
 }
 
