@@ -25,9 +25,9 @@ import {
   AttachmentList,
   FileDropzone
 } from './form';
-import TicketPreview from './TicketPreview';
-import TicketHistory from './TicketHistory';
-import SuccessPopup from './SuccessPopup';
+import TicketPreview from './TicketPreview.local.js';
+import TicketHistory from './TicketHistory.local.js';
+import SuccessPopup from './SuccessPopup.local.js';
 import LoadingOverlay from './LoadingOverlay';
 import '../styles/formStyles.css';
 
