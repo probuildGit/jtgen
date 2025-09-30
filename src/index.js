@@ -1,8 +1,12 @@
+// CACHE BUST: 2025-09-30T07:30:00Z - Using App.local.js directly
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.local.js';
 import reportWebVitals from './reportWebVitals';
+
+// Force cache bust
+console.log('🏠 LOCAL APP: Loading App.local.js directly - Cache bust timestamp:', new Date().toISOString());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

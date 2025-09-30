@@ -3,8 +3,8 @@ import { Box, Typography, Chip } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { formatFileSize } from '../../utils/formHelpers';
 
-const AttachmentList = ({ attachments, onRemoveAttachment }) => {
-  if (attachments.length === 0) {
+const AttachmentList = ({ attachments = [], onRemoveAttachment }) => {
+  if (!attachments || attachments.length === 0) {
     return null;
   }
 
