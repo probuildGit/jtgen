@@ -5,4 +5,8 @@ import { isLocalDevelopment } from '../utils/environmentDetection.js';
 export { default as useFileUpload } from './useFileUpload';
 
 // Environment-specific hooks
-export { default as useJiraTicket } from isLocalDevelopment() ? './useJiraTicket.local.js' : './useJiraTicket.web.js';
+const useJiraTicket = isLocalDevelopment() 
+  ? require('./useJiraTicket.local.js').default 
+  : require('./useJiraTicket.web.js').default;
+
+export { useJiraTicket };

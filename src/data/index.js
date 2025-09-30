@@ -2,5 +2,12 @@
 import { isLocalDevelopment } from '../utils/environmentDetection.js';
 
 // Environment-specific data
-export { default as formData } from isLocalDevelopment() ? './formData.local.js' : './formData.web.js';
-export { default as historyData } from isLocalDevelopment() ? './historyData.local.js' : './historyData.web.js';
+const formData = isLocalDevelopment() 
+  ? require('./formData.local.js').default 
+  : require('./formData.web.js').default;
+
+const historyData = isLocalDevelopment() 
+  ? require('./historyData.local.js').default 
+  : require('./historyData.web.js').default;
+
+export { formData, historyData };

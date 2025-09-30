@@ -5,10 +5,40 @@ import { isLocalDevelopment } from '../utils/environmentDetection.js';
 export { default as LoadingOverlay } from './LoadingOverlay';
 
 // Environment-specific components
-export { default as JiraTicketForm } from isLocalDevelopment() ? './JiraTicketForm.local.js' : './JiraTicketForm.web.js';
-export { default as InfoButton } from isLocalDevelopment() ? './InfoButton.local.js' : './InfoButton.web.js';
-export { default as SuccessPopup } from isLocalDevelopment() ? './SuccessPopup.local.js' : './SuccessPopup.web.js';
-export { default as TicketHistory } from isLocalDevelopment() ? './TicketHistory.local.js' : './TicketHistory.web.js';
-export { default as TicketPreview } from isLocalDevelopment() ? './TicketPreview.local.js' : './TicketPreview.web.js';
-export { default as SettingsButton } from isLocalDevelopment() ? './SettingsButton.local.js' : './SettingsButton.web.js';
-export { default as ApiConfigPopup } from isLocalDevelopment() ? './ApiConfigPopup.local.js' : './ApiConfigPopup.web.js';
+const JiraTicketForm = isLocalDevelopment() 
+  ? require('./JiraTicketForm.local.js').default 
+  : require('./JiraTicketForm.web.js').default;
+
+const InfoButton = isLocalDevelopment() 
+  ? require('./InfoButton.local.js').default 
+  : require('./InfoButton.web.js').default;
+
+const SuccessPopup = isLocalDevelopment() 
+  ? require('./SuccessPopup.local.js').default 
+  : require('./SuccessPopup.web.js').default;
+
+const TicketHistory = isLocalDevelopment() 
+  ? require('./TicketHistory.local.js').default 
+  : require('./TicketHistory.web.js').default;
+
+const TicketPreview = isLocalDevelopment() 
+  ? require('./TicketPreview.local.js').default 
+  : require('./TicketPreview.web.js').default;
+
+const SettingsButton = isLocalDevelopment() 
+  ? require('./SettingsButton.local.js').default 
+  : require('./SettingsButton.web.js').default;
+
+const ApiConfigPopup = isLocalDevelopment() 
+  ? require('./ApiConfigPopup.local.js').default 
+  : require('./ApiConfigPopup.web.js').default;
+
+export { 
+  JiraTicketForm, 
+  InfoButton, 
+  SuccessPopup, 
+  TicketHistory, 
+  TicketPreview, 
+  SettingsButton, 
+  ApiConfigPopup 
+};

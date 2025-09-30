@@ -7,6 +7,16 @@ export { default as FormSection } from './FormSection';
 export { default as AttachmentList } from './AttachmentList';
 
 // Environment-specific components
-export { default as ModuleField } from isLocalDevelopment() ? './ModuleField.local.js' : './ModuleField.web.js';
-export { default as ActionButtons } from isLocalDevelopment() ? './ActionButtons.local.js' : './ActionButtons.web.js';
-export { default as FileDropzone } from isLocalDevelopment() ? './FileDropzone.local.js' : './FileDropzone.web.js';
+const ModuleField = isLocalDevelopment() 
+  ? require('./ModuleField.local.js').default 
+  : require('./ModuleField.web.js').default;
+
+const ActionButtons = isLocalDevelopment() 
+  ? require('./ActionButtons.local.js').default 
+  : require('./ActionButtons.web.js').default;
+
+const FileDropzone = isLocalDevelopment() 
+  ? require('./FileDropzone.local.js').default 
+  : require('./FileDropzone.web.js').default;
+
+export { ModuleField, ActionButtons, FileDropzone };

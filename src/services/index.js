@@ -5,5 +5,12 @@ import { isLocalDevelopment } from '../utils/environmentDetection.js';
 export { default as jamService } from './jamService';
 
 // Environment-specific services
-export { default as jiraApiService } from isLocalDevelopment() ? './jiraApiService.local.js' : './jiraApiService.web.js';
-export { default as jiraStatusService } from isLocalDevelopment() ? './jiraStatusService.local.js' : './jiraStatusService.web.js';
+const jiraApiService = isLocalDevelopment() 
+  ? require('./jiraApiService.local.js').default 
+  : require('./jiraApiService.web.js').default;
+
+const jiraStatusService = isLocalDevelopment() 
+  ? require('./jiraStatusService.local.js').default 
+  : require('./jiraStatusService.web.js').default;
+
+export { jiraApiService, jiraStatusService };
