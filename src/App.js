@@ -1,4 +1,4 @@
-// Environment-specific App loader
+// Environment-specific App loader - VERSION 1.0
 import { isLocalDevelopment } from './utils/environmentDetection.js';
 import LocalApp from './App.local.js';
 import WebApp from './App.web.js';
