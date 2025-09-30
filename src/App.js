@@ -2,7 +2,7 @@
 import React from 'react';
 
 function App() {
-  console.log('🏠 MINIMAL TEST APP: VERSION 4.0 - NO IMPORTS');
+  console.log('🏠 MINIMAL TEST APP: VERSION 4.1 - FORCED RECOMPILATION');
   
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
