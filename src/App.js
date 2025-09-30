@@ -1,4 +1,4 @@
-// FORCE LOCAL APP - VERSION 5.0 - COMPLETE SEPARATION
+// FORCE LOCAL APP - VERSION 6.0 - COMPLETE SEPARATION
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm.local.js';
@@ -32,15 +32,15 @@ function App() {
 
   // Check connectivity on app start with defensive logic
   useEffect(() => {
-    // FORCE LOCAL ENVIRONMENT - VERSION 5.0
-    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (VERSION 5.1 - FORCED RECOMPILATION)');
+    // FORCE LOCAL ENVIRONMENT - VERSION 6.0
+    console.log('🏠 FORCE LOCAL APP: Loading LOCAL environment (VERSION 6.0 - COMPLETE SEPARATION)');
     console.log('🏠 FORCE LOCAL APP: Environment details:', {
       hostname: window.location.hostname,
       port: window.location.port,
       href: window.location.href,
       protocol: window.location.protocol,
       timestamp: new Date().toISOString(),
-      version: '5.0 - COMPLETE LOCAL SEPARATION'
+      version: '6.0 - COMPLETE LOCAL SEPARATION'
     });
 
     const checkConnectivity = async () => {
@@ -57,14 +57,14 @@ function App() {
         clearTimeout(timeoutId);
         
         if (result.success) {
-          setConnectivityStatus('✅ Connected to Jira API (LOCAL V5.0)');
+          setConnectivityStatus('✅ Connected to Jira API (LOCAL V6.0)');
         } else {
-          setConnectivityStatus('⚠️ Limited connectivity - Some features may not work (LOCAL V5.0)');
+          setConnectivityStatus('⚠️ Limited connectivity - Some features may not work (LOCAL V6.0)');
         }
       } catch (error) {
         clearTimeout(timeoutId);
-        console.warn('Jira API connection failed (LOCAL V5.0):', error);
-        setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V5.0)');
+        console.warn('Jira API connection failed (LOCAL V6.0):', error);
+        setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V6.0)');
       } finally {
         setIsConnecting(false);
       }
@@ -80,7 +80,7 @@ function App() {
         } else {
           console.warn('All connection attempts failed, starting in offline mode');
           setIsConnecting(false);
-          setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V5.0)');
+          setConnectivityStatus('⚠️ Offline mode - Form will work but tickets cannot be created (LOCAL V6.0)');
         }
       }
     };
@@ -95,7 +95,7 @@ function App() {
       {/* Jira API Connectivity Status Banner - Outside Form */}
       {isConnecting && (
         <Alert severity="info" className="form-connectivity-banner">
-          {ALERT_MESSAGES.CONNECTING} (LOCAL V5.0)
+          {ALERT_MESSAGES.CONNECTING} (LOCAL V6.0)
         </Alert>
       )}
 
