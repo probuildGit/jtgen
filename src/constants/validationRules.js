@@ -1,5 +1,5 @@
-// Import EPICS from the original formData.js (shared data)
-import { EPICS } from '../data/formData.js';
+// Import EPICS from environment-specific formData
+import { EPICS } from '../data/index.js';
 
 // Validation Rules and Configuration
 // Centralized validation logic for the Jira Ticket Generator App

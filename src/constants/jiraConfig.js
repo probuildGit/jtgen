@@ -7,10 +7,10 @@ export const JIRA_CONFIG = {
   EMAIL: 'dana@codelovers.com'
 };
 
-// Import data lists from the original formData.js (shared data)
+// Import data lists from environment-specific formData
 export {
   PLATFORM_OPTIONS,
   PRIORITY_OPTIONS,
   COMPONENTS,
   EPICS
-} from '../data/formData.js';
+} from '../data/index.js';
