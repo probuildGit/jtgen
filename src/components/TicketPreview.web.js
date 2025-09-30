@@ -8,6 +8,7 @@ import {
   Typography,
   Box,
   Paper,
+  Divider,
   Chip
 } from '@mui/material';
 import { formatFileSize } from '../utils/formHelpers';
