@@ -6,7 +6,7 @@ import {
   Grid,
   Alert
 } from '@mui/material';
-import { useJiraTicket } from '../hooks/useJiraTicket';
+import { useJiraTicket } from '../hooks/useJiraTicket.web.js';
 import { useFileUpload } from '../hooks/useFileUpload';
 import {
   PLATFORM_OPTIONS,

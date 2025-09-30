@@ -3,7 +3,7 @@ import { createJiraTicket } from '../services/jiraApiService.web.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
 import { isJamUrl, extractJamUrl } from '../utils/jamParser.js';
-import { extractAndFetchJamContent } from '../services/jamService.js';
+import { extractAndFetchJamContent } from '../services/jamService.web.js';
 
 export const useJiraTicket = () => {
   const [ticketData, setTicketData] = useState({

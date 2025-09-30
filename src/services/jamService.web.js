@@ -1,8 +1,8 @@
 // JAM Service for Web Environment
 // Handles JAM content extraction through CORS proxy
 
-import { getFetchJamContentUrl, getFetchJamContentRenderedUrl } from '../config/jamRoutes.web.js';
-import { extractJamContent, parseJamTitle, isJamUrl, extractJamUrl } from '../utils/jamParser.js';
+import { getFetchJamContentUrl } from '../config/jamRoutes.web.js';
+import { extractJamContent, isJamUrl, extractJamUrl } from '../utils/jamParser.js';
 
 console.log('🔍 WEB JAM SERVICE: Loading web JAM service for web environment');
 
