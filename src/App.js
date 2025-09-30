@@ -1,4 +1,3 @@
-import React from 'react';
 import { isLocalDevelopment } from './utils/environmentDetection';
 
 // Environment-specific app imports

@@ -9,10 +9,6 @@ import {
   Box,
   Typography,
   Alert,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Switch,
   FormControlLabel,
   Divider

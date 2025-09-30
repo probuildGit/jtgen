@@ -498,3 +498,23 @@ export const EPICS = [
   { key: 'PB-2592', name: 'WEB Quality Control' },
   { key: 'PB-3135', name: 'Mobile - Offline Mode' }
 ];
+
+// Default export for compatibility
+const WEB_FORM_DATA = {
+  MODULE_OPTIONS,
+  PLATFORM_OPTIONS,
+  PRIORITY_OPTIONS,
+  COMPONENTS,
+  EPICS,
+  TEAM_MEMBERS,
+  FORM_LABELS,
+  FORM_PLACEHOLDERS,
+  SECTION_TITLES,
+  BUTTON_LABELS,
+  DIALOG_TITLES,
+  DROPZONE_CONFIG,
+  JIRA_URLS,
+  ALERT_MESSAGES
+};
+
+export default WEB_FORM_DATA;

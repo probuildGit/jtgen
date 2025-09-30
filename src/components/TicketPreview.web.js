@@ -8,18 +8,17 @@ import {
   Typography,
   Box,
   Paper,
-  Divider,
   Chip
 } from '@mui/material';
 import { formatFileSize } from '../utils/formHelpers';
 import { containsJamLink } from '../constants/validationRules';
-import { PRIORITY_OPTIONS, COMPONENTS, EPICS } from '../data/formData';
+import { PRIORITY_OPTIONS, COMPONENTS, EPICS } from '../data/formData.web.js';
 import {
   TEAM_MEMBERS,
   DIALOG_TITLES,
   SECTION_TITLES,
   BUTTON_LABELS
-} from '../data/formData';
+} from '../data/formData.web.js';
 import '../styles/previewStyles.css';
 
 const TicketPreview = ({ open, onClose, ticketData, onConfirm }) => {

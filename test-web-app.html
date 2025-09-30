@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App Test</title>
+</head>
+<body>
+    <h1>Web App Test</h1>
+    <p>Testing web app functionality...</p>
+    
+    <script>
+        // Test if the web app is accessible
+        fetch('http://localhost:3000')
+            .then(response => {
+                console.log('Web app response status:', response.status);
+                return response.text();
+            })
+            .then(html => {
+                console.log('Web app HTML length:', html.length);
+                if (html.includes('JTGen')) {
+                    console.log('✅ Web app is serving JTGen content');
+                } else {
+                    console.log('❌ Web app content not found');
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error accessing web app:', error);
+            });
+    </script>
+</body>
+</html>

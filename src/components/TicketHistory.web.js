@@ -27,15 +27,12 @@ import {
 import { clearCorruptedHistory } from '../utils/formHelpers';
 import {
   DIALOG_TITLES,
-  BUTTON_LABELS,
-  ALERT_MESSAGES,
   JIRA_URLS
-} from '../data/formData';
+} from '../data/formData.web.js';
 import {
   HISTORY_CONFIG,
   HISTORY_MESSAGES,
-  HISTORY_ACTIONS,
-  WEB_HISTORY_DATA
+  HISTORY_ACTIONS
 } from '../data/historyData.web.js';
 import { fetchTicketStatus } from '../services/jiraStatusService.web.js';
 import { getStatusDisplayName, getStatusColor } from '../config/statusConfig.web.js';
