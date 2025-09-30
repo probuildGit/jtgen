@@ -1,8 +1,9 @@
 // ModuleField component for local environment
 import React from 'react';
-import { TextField, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { getFieldValidationClass } from '../../utils/formHelpers';
 
-const ModuleField = ({ value, onChange, error, helperText }) => {
+const ModuleField = ({ field, value, onChange, required = false, fullWidth = true, size = 'small' }) => {
   const modules = [
     { value: 'Authentication', label: 'Authentication' },
     { value: 'User Management', label: 'User Management' },
@@ -18,24 +19,32 @@ const ModuleField = ({ value, onChange, error, helperText }) => {
     { value: 'Other', label: 'Other' }
   ];
 
+  const handleChange = (e) => {
+    if (typeof onChange === 'function') {
+      onChange(field, e.target.value);
+    }
+  };
+
   return (
-    <TextField
-      select
-      fullWidth
-      label="Module"
-      value={value}
-      onChange={onChange}
-      error={error}
-      helperText={helperText}
-      variant="outlined"
-      margin="normal"
+    <FormControl 
+      fullWidth={fullWidth} 
+      required={required} 
+      size={size} 
+      className={`form-control ${getFieldValidationClass(field, value, required)}`}
     >
-      {modules.map((module) => (
-        <MenuItem key={module.value} value={module.value}>
-          {module.label}
-        </MenuItem>
-      ))}
-    </TextField>
+      <InputLabel>Module/Page</InputLabel>
+      <Select
+        value={value}
+        onChange={handleChange}
+        label="Module/Page"
+      >
+        {modules.map((module) => (
+          <MenuItem key={module.value} value={module.value}>
+            {module.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 
