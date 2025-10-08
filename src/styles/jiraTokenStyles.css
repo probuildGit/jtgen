@@ -1,0 +1,182 @@
+/* JIRA Token Button and Popup Styles */
+
+/* JIRA Token Button Styles */
+.jira-token-button {
+  position: fixed !important;
+  top: 80px !important;
+  right: 20px !important;
+  z-index: 1000 !important;
+  width: 56px !important;
+  height: 56px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.jira-token-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* JIRA Token Dialog Styles */
+.jira-token-dialog {
+  z-index: 1300 !important;
+}
+
+.jira-token-dialog-paper {
+  border-radius: 12px !important;
+  max-width: 500px !important;
+}
+
+.jira-token-dialog-title {
+  background: linear-gradient(135deg, #1976d2, #42a5f5) !important;
+  color: white !important;
+  padding: 20px 24px !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.jira-token-dialog-content {
+  padding: 24px !important;
+}
+
+.jira-token-dialog-actions {
+  padding: 16px 24px !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
+}
+
+.jira-token-saved-alert {
+  margin-top: 16px !important;
+  border-radius: 8px !important;
+}
+
+.jira-token-test-alert {
+  margin-top: 16px !important;
+  border-radius: 8px !important;
+}
+
+/* Token Input Field Styles */
+.jira-token-input {
+  margin-bottom: 16px !important;
+}
+
+.jira-token-input .MuiOutlinedInput-root {
+  border-radius: 8px !important;
+}
+
+.jira-token-input .MuiInputLabel-root {
+  color: #666 !important;
+}
+
+/* Token Status Indicators */
+.jira-token-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.jira-token-status-text {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Token Button States */
+.jira-token-button.has-token {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.jira-token-button.has-token:hover {
+  background-color: #45a049 !important;
+}
+
+.jira-token-button.no-token {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.jira-token-button.no-token:hover {
+  background-color: #f57c00 !important;
+}
+
+/* Token Badge Styles */
+.jira-token-badge {
+  position: relative;
+}
+
+.jira-token-badge .MuiBadge-badge {
+  background-color: #4caf50;
+  color: white;
+  font-size: 0.75rem;
+}
+
+/* Token Instructions Styles */
+.jira-token-instructions {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.jira-token-instructions ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.jira-token-instructions li {
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Token Test Results */
+.jira-token-test-success {
+  background-color: #e8f5e8 !important;
+  border-color: #4caf50 !important;
+  color: #2e7d32 !important;
+}
+
+.jira-token-test-error {
+  background-color: #ffebee !important;
+  border-color: #f44336 !important;
+  color: #c62828 !important;
+}
+
+/* Token Actions */
+.jira-token-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.jira-token-actions .MuiButton-root {
+  text-transform: none;
+  font-weight: 500;
+}
+
+.jira-token-actions .MuiButton-contained {
+  background-color: #1976d2;
+  color: white;
+}
+
+.jira-token-actions .MuiButton-contained:hover {
+  background-color: #1565c0;
+}
+
+.jira-token-actions .MuiButton-outlined {
+  border-color: #1976d2;
+  color: #1976d2;
+}
+
+.jira-token-actions .MuiButton-outlined:hover {
+  background-color: rgba(25, 118, 210, 0.04);
+}
+
+.jira-token-actions .MuiButton-text {
+  color: #f44336;
+}
+
+.jira-token-actions .MuiButton-text:hover {
+  background-color: rgba(244, 67, 54, 0.04);
+}

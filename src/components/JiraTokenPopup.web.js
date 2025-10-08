@@ -23,7 +23,7 @@ import {
   Error as ErrorIcon
 } from '@mui/icons-material';
 import { testJiraConnectivity } from '../services/jiraApiService.web.js';
-import '../styles/infoButtonStyles.css';
+import '../styles/jiraTokenStyles.css';
 
 const JiraTokenPopup = ({ open, onClose }) => {
   const [token, setToken] = useState('');

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IconButton, Tooltip, Badge } from '@mui/material';
 import { Security as SecurityIcon } from '@mui/icons-material';
 import JiraTokenPopup from './JiraTokenPopup.web.js';
-import '../styles/infoButtonStyles.css';
+import '../styles/jiraTokenStyles.css';
 
 const JiraTokenButton = () => {
   const [popupOpen, setPopupOpen] = useState(false);

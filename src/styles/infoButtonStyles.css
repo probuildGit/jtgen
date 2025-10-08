@@ -1,59 +1,5 @@
 /* Info Button Styles */
 
-/* JIRA Token Button Styles */
-.jira-token-button {
-  position: fixed !important;
-  top: 80px !important;
-  right: 20px !important;
-  z-index: 1000 !important;
-  width: 56px !important;
-  height: 56px !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-}
-
-.jira-token-button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* JIRA Token Dialog Styles */
-.jira-token-dialog {
-  z-index: 1300 !important;
-}
-
-.jira-token-dialog-paper {
-  border-radius: 12px !important;
-  max-width: 500px !important;
-}
-
-.jira-token-dialog-title {
-  background: linear-gradient(135deg, #1976d2, #42a5f5) !important;
-  color: white !important;
-  padding: 20px 24px !important;
-  border-radius: 12px 12px 0 0 !important;
-}
-
-.jira-token-dialog-content {
-  padding: 24px !important;
-}
-
-.jira-token-dialog-actions {
-  padding: 16px 24px !important;
-  gap: 8px !important;
-  justify-content: flex-end !important;
-}
-
-.jira-token-saved-alert {
-  margin-top: 16px !important;
-  border-radius: 8px !important;
-}
-
-.jira-token-test-alert {
-  margin-top: 16px !important;
-  border-radius: 8px !important;
-}
-
 /* Info Button */
 .info-button {
   position: fixed !important;

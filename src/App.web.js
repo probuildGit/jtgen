@@ -8,6 +8,7 @@ import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData.web.js';
 import './styles/formStyles.css';
 import './styles/infoButtonStyles.css';
+import './styles/jiraTokenStyles.css';
 import './styles/historyStyles.css';
 import './styles/previewStyles.css';
 import './styles/successStyles.css';
