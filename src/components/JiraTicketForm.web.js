@@ -18,14 +18,12 @@ import {
   FORM_PLACEHOLDERS,
   SECTION_TITLES
 } from '../data/formData.web.js';
-import {
-  FormField,
-  FormSection,
-  ModuleField,
-  ActionButtons,
-  AttachmentList,
-  FileDropzone
-} from './form';
+import FormField from './form/FormField.js';
+import FormSection from './form/FormSection.js';
+import ModuleField from './form/ModuleField.web.js';
+import ActionButtons from './form/ActionButtons.web.js';
+import AttachmentList from './form/AttachmentList.js';
+import FileDropzone from './form/FileDropzone.web.js';
 import SpellCheckTextField from './form/SpellCheckTextField.web.js';
 import TicketPreview from './TicketPreview.web.js';
 import TicketHistory from './TicketHistory.web.js';

@@ -17,14 +17,12 @@ import {
   FORM_PLACEHOLDERS,
   SECTION_TITLES
 } from '../data/formData.local.js';
-import {
-  FormField,
-  FormSection,
-  ModuleField,
-  ActionButtons,
-  AttachmentList,
-  FileDropzone
-} from './form';
+import FormField from './form/FormField.js';
+import FormSection from './form/FormSection.js';
+import ModuleField from './form/ModuleField.local.js';
+import ActionButtons from './form/ActionButtons.local.js';
+import AttachmentList from './form/AttachmentList.js';
+import FileDropzone from './form/FileDropzone.local.js';
 import TicketPreview from './TicketPreview.local.js';
 import TicketHistory from './TicketHistory.local.js';
 import SuccessPopup from './SuccessPopup.local.js';
