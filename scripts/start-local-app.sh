@@ -7,6 +7,10 @@ echo "📁 This will ALWAYS use the local-environment-working-backup branch"
 echo "📁 Switching to local-environment-working-backup branch..."
 git checkout local-environment-working-backup
 
+# Copy local package.json
+echo "📦 Using local package.json configuration..."
+cp package.local.json package.json
+
 # Start the proxy server in the background
 echo "🔗 Starting proxy server on port 3001..."
 node server.js &

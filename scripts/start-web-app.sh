@@ -7,6 +7,10 @@ echo "📁 This will ALWAYS use the web-development branch"
 echo "📁 Switching to web-development branch..."
 git checkout web-development
 
+# Copy web package.json
+echo "📦 Using web package.json configuration..."
+cp package.web.json package.json
+
 # Start the React app on port 3000
 echo "⚛️  Starting React app on port 3000..."
 PORT=3000 npm start &
