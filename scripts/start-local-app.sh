@@ -1,71 +1,36 @@
 #!/bin/bash
 
-# Start Local App Script
-# Ensures both React dev server and proxy server are running
+echo "🚀 Starting Local App on port 3002..."
+echo "📁 This will ALWAYS use the local-environment-working-backup branch"
 
-echo "🚀 Starting Local JTGen App..."
+# Ensure we are on the local branch
+echo "📁 Switching to local-environment-working-backup branch..."
+git checkout local-environment-working-backup
 
-# Check if we're in the right directory
-if [ ! -f "package.json" ]; then
-    echo "❌ Error: Please run this script from the JTGenApp root directory"
-    exit 1
-fi
+# Start the proxy server in the background
+echo "🔗 Starting proxy server on port 3001..."
+node server.js &
+PROXY_PID=$!
 
-# Function to check if a port is in use
-check_port() {
-    local port=$1
-    if lsof -Pi :$port -sTCP:LISTEN -t >/dev/null 2>&1; then
-        return 0  # Port is in use
-    else
-        return 1  # Port is free
-    fi
+# Start the React app on port 3002
+echo "⚛️  Starting React app on port 3002..."
+PORT=3002 npm start &
+REACT_PID=$!
+
+echo "✅ Local app is now running!"
+echo "🌐 Local App: http://localhost:3002"
+echo "🔗 Proxy Server: http://localhost:3001"
+echo "Press Ctrl+C to stop both servers"
+
+# Function to kill background processes on exit
+cleanup() {
+    echo "Stopping servers..."
+    kill $PROXY_PID
+    kill $REACT_PID
+    echo "Servers stopped."
 }
 
-# Function to start proxy server
-start_proxy() {
-    echo "🔧 Starting proxy server on port 3001..."
-    if check_port 3001; then
-        echo "✅ Proxy server already running on port 3001"
-    else
-        echo "🚀 Starting proxy server..."
-        nohup node server.js > proxy.log 2>&1 &
-        PROXY_PID=$!
-        echo $PROXY_PID > proxy.pid
-        echo "✅ Proxy server started with PID: $PROXY_PID"
-        
-        # Wait a moment for server to start
-        sleep 2
-        
-        # Test if proxy server is responding
-        if curl -s http://localhost:3001/health > /dev/null 2>&1; then
-            echo "✅ Proxy server is responding"
-        else
-            echo "⚠️  Proxy server started but may not be fully ready yet"
-        fi
-    fi
-}
+# Trap Ctrl+C and call cleanup function
+trap cleanup SIGINT
 
-# Function to start React dev server
-start_react() {
-    echo "⚛️  Starting React development server..."
-    if check_port 3000; then
-        echo "✅ React dev server already running on port 3000"
-    else
-        echo "🚀 Starting React dev server..."
-        npm start
-    fi
-}
-
-# Start proxy server first
-start_proxy
-
-# Start React dev server
-start_react
-
-echo ""
-echo "🎉 Local JTGen App is starting up!"
-echo "📱 React App: http://localhost:3000"
-echo "🔧 Proxy Server: http://localhost:3001"
-echo ""
-echo "💡 To stop the app, run: ./scripts/stop-local-app.sh"
-echo "📋 To check status, run: ./scripts/check-local-app.sh"
+wait $REACT_PID
