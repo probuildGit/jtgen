@@ -2,12 +2,10 @@ import { useState, useCallback } from 'react';
 import { createJiraTicket } from '../services/jiraApiService.web.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
-import { isJamUrl, extractJamUrl } from '../utils/jamParser.js';
-import { extractAndFetchJamContent } from '../services/jamService.web.js';
 
 export const useJiraTicket = () => {
   const [ticketData, setTicketData] = useState({
-    platform: 'WEB', // Default to 'WEB'
+    platform: 'WEB',
     module: '',
     summary: '',
     priority: '',
@@ -17,6 +15,7 @@ export const useJiraTicket = () => {
     expectedBehavior: '',
     actualBehavior: '',
     note: '',
+    applicationUrl: '', // For JAM-extracted application URLs
     attachments: []
   });
 
@@ -24,37 +23,13 @@ export const useJiraTicket = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // Update ticket data with JAM parsing
-  const updateTicketData = useCallback(async (field, value) => {
+  // Update ticket data
+  const updateTicketData = useCallback((field, value) => {
     setTicketData(prev => ({
       ...prev,
       [field]: value
     }));
     setError(null);
-
-    // Check for JAM links in the value
-    if (value && typeof value === 'string') {
-      const jamUrl = extractJamUrl(value);
-      if (jamUrl && isJamUrl(jamUrl)) {
-        console.log('🌐 WEB: JAM URL detected:', jamUrl);
-        try {
-          const jamContent = await extractAndFetchJamContent(value);
-          if (jamContent.isValid) {
-            console.log('🌐 WEB: JAM content extracted:', jamContent);
-            setTicketData(prev => ({
-              ...prev,
-              [field]: value,
-              module: jamContent.module || prev.module,
-              summary: jamContent.summary || prev.summary
-            }));
-          } else {
-            console.warn('🌐 WEB: JAM parsing failed:', jamContent.error);
-          }
-        } catch (error) {
-          console.error('🌐 WEB: Error parsing JAM content:', error);
-        }
-      }
-    }
   }, []);
 
   // Add attachment
@@ -76,7 +51,7 @@ export const useJiraTicket = () => {
   // Clear form
   const clearForm = useCallback(() => {
     setTicketData({
-      platform: 'WEB', // Reset to 'WEB'
+      platform: 'WEB',
       module: '',
       summary: '',
       priority: '',
@@ -86,6 +61,7 @@ export const useJiraTicket = () => {
       expectedBehavior: '',
       actualBehavior: '',
       note: '',
+      applicationUrl: '',
       attachments: []
     });
     setError(null);
@@ -116,13 +92,13 @@ export const useJiraTicket = () => {
       
       setSuccess({
         message: successMessage,
-        ticketKey: createdTicket.key,
-        ticketUrl: `https://probuild.atlassian.net/browse/${createdTicket.key}`
+        ticketKey: createdTicket.data.key,
+        ticketUrl: `https://probuild.atlassian.net/browse/${createdTicket.data.key}`
       });
 
       // Clear form data but keep success message
       setTicketData({
-        platform: 'WEB', // Reset to 'WEB' after submission
+        platform: 'WEB',
         module: '',
         summary: '',
         priority: '',
@@ -163,5 +139,3 @@ export const useJiraTicket = () => {
     submitTicket
   };
 };
-
-export default useJiraTicket;

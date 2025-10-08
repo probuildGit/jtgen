@@ -2,8 +2,6 @@ import { useState, useCallback } from 'react';
 import { createJiraTicket } from '../services/jiraApiService.local.js';
 import { validateTicketData } from '../constants/validationRules';
 import { extractErrorMessage } from '../utils/errorHandler';
-import { isJamUrl, extractJamUrl } from '../utils/jamParser.js';
-import { extractAndFetchJamContent } from '../services/jamService.js';
 
 export const useJiraTicket = () => {
   const [ticketData, setTicketData] = useState({
@@ -12,11 +10,12 @@ export const useJiraTicket = () => {
     summary: '',
     priority: '',
     component: '',
-    epicLink: '',
+    epicLink: '', // Keep as empty string for optional field
     stepsToReproduce: '',
     expectedBehavior: '',
     actualBehavior: '',
     note: '',
+    applicationUrl: '', // For JAM-extracted application URLs
     attachments: []
   });
 
@@ -24,37 +23,13 @@ export const useJiraTicket = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // Update ticket data with JAM parsing
-  const updateTicketData = useCallback(async (field, value) => {
+  // Update ticket data
+  const updateTicketData = useCallback((field, value) => {
     setTicketData(prev => ({
       ...prev,
       [field]: value
     }));
     setError(null);
-
-    // Check for JAM links in the value
-    if (value && typeof value === 'string') {
-      const jamUrl = extractJamUrl(value);
-      if (jamUrl && isJamUrl(jamUrl)) {
-        console.log('🏠 LOCAL: JAM URL detected:', jamUrl);
-        try {
-          const jamContent = await extractAndFetchJamContent(value);
-          if (jamContent.isValid) {
-            console.log('🏠 LOCAL: JAM content extracted:', jamContent);
-            setTicketData(prev => ({
-              ...prev,
-              [field]: value,
-              module: jamContent.module || prev.module,
-              summary: jamContent.summary || prev.summary
-            }));
-          } else {
-            console.warn('🏠 LOCAL: JAM parsing failed:', jamContent.error);
-          }
-        } catch (error) {
-          console.error('🏠 LOCAL: Error parsing JAM content:', error);
-        }
-      }
-    }
   }, []);
 
   // Add attachment
@@ -86,9 +61,15 @@ export const useJiraTicket = () => {
       expectedBehavior: '',
       actualBehavior: '',
       note: '',
+      applicationUrl: '',
       attachments: []
     });
     setError(null);
+    setSuccess(null);
+  }, []);
+
+  // Clear success message
+  const clearSuccess = useCallback(() => {
     setSuccess(null);
   }, []);
 
@@ -116,8 +97,8 @@ export const useJiraTicket = () => {
       
       setSuccess({
         message: successMessage,
-        ticketKey: createdTicket.key,
-        ticketUrl: `https://probuild.atlassian.net/browse/${createdTicket.key}`
+        ticketKey: createdTicket.data.key,
+        ticketUrl: `https://probuild.atlassian.net/browse/${createdTicket.data.key}`
       });
 
       // Clear form data but keep success message
@@ -160,6 +141,7 @@ export const useJiraTicket = () => {
     addAttachment,
     removeAttachment,
     clearForm,
+    clearSuccess,
     submitTicket
   };
 };

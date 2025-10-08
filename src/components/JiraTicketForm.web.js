@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { useJiraTicket } from '../hooks/useJiraTicket.web.js';
 import { useFileUpload } from '../hooks/useFileUpload';
-import { useJamExtraction } from '../hooks/useJamExtraction.web.js';
+import { useJamExtraction } from '../hooks/useJamExtraction.js';
 import {
   PLATFORM_OPTIONS,
   PRIORITY_OPTIONS,
