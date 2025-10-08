@@ -13,10 +13,15 @@ console.log('🌐 WEB CONFIG:', CONFIG.WEB.ENVIRONMENT);
 const getAuthHeader = () => {
   // Check for user-provided credentials first
   const userConfig = localStorage.getItem('jiraApiConfig');
+  const manualToken = localStorage.getItem('jiraToken');
   let email = CONFIG.JIRA.EMAIL;
   let token = CONFIG.JIRA.AUTH_TOKEN;
   
-  if (userConfig) {
+  // Priority: Manual token > User config > Default config
+  if (manualToken) {
+    token = manualToken;
+    console.log('🌐 WEB SERVICE: Using manual JIRA token');
+  } else if (userConfig) {
     try {
       const parsed = JSON.parse(userConfig);
       if (parsed.useCustomCredentials && parsed.email && parsed.jiraToken) {

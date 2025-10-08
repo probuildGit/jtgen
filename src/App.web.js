@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '
 import JiraTicketForm from './components/JiraTicketForm.web.js';
 import InfoButton from './components/InfoButton.web.js';
 import SettingsButton from './components/SettingsButton.web.js';
+import JiraTokenButton from './components/JiraTokenButton.web.js';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData.web.js';
 import './styles/formStyles.css';
@@ -119,9 +120,10 @@ function App() {
         <JiraTicketForm isOffline={!connectivityStatus?.includes('✅')} />
       </Container>
       
-      {/* Info and Settings Buttons - Fixed position (Web environment) */}
+      {/* Info, Token, and Settings Buttons - Fixed position (Web environment) */}
       <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
         <InfoButton />
+        <JiraTokenButton />
         <SettingsButton />
       </Box>
     </ThemeProvider>
