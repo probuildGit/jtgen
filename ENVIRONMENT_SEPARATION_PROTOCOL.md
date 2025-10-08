@@ -1,192 +1,225 @@
-# 🔒 ENVIRONMENT SEPARATION PROTOCOL
+# Environment Separation Protocol
 
-## **MANDATORY RULES FOR ALL DEVELOPMENT**
+## 🚨 CRITICAL RULES FOR MAINTAINING ENVIRONMENT SEPARATION
 
-### **1. Branch Verification (CRITICAL)**
-- **ALWAYS** check current branch before making ANY changes
-- **NEVER** commit to wrong environment branch
-- **CONFIRM** branch name matches intended environment
-- **VERIFY** branch context before proceeding
+### **1. File Naming Convention**
+- **Local App**: All files must end with `.local.js`
+- **Web App**: All files must end with `.web.js`
+- **Shared Files**: No environment suffix (used by both)
 
-### **2. Dual Environment Updates (MANDATORY)**
-For EVERY feature/change, implement in BOTH environments:
+### **2. Branch Management**
+- **Local App**: `local-environment-working-backup` branch
+- **Web App**: `web-development` branch
+- **NEVER** make changes to local app files when on web branch
+- **NEVER** make changes to web app files when on local branch
 
-#### **Local Environment (.local.js files)**
-- ✅ Create/update `.local.js` versions
-- ✅ Use local imports (`../data/formData.local.js`)
-- ✅ Use local services (`jiraApiService.local.js`)
-- ✅ Use local routes (`localhost:3001`)
-- ✅ Test local functionality
-
-#### **Web Environment (.web.js files)**
-- ✅ Create/update `.web.js` versions
-- ✅ Use web imports (`../data/formData.web.js`)
-- ✅ Use web services (`jiraApiService.web.js`)
-- ✅ Use web routes (`corsproxy.io`)
-- ✅ Test web functionality
-
-### **3. File Structure Rules**
-- **NEVER** mix local and web code in same file
-- **ALWAYS** create environment-specific versions
-- **ALWAYS** use correct import paths with environment suffixes
-- **ALWAYS** verify environment detection is working
-- **ALWAYS** maintain separate configuration files
-
-### **4. Change Workflow (MANDATORY)**
+### **3. Component Separation**
 ```
-1. Check current branch
-2. Implement change in current environment
-3. Create/update corresponding file in other environment
-4. Update all imports and routes
-5. Test both environments independently
-6. Commit to correct branch
-7. Verify separation maintained
-8. Document changes
+src/components/
+├── ComponentName.local.js    # Local app only
+├── ComponentName.web.js      # Web app only
+└── ComponentName.js          # Shared (if needed)
 ```
 
-### **5. Quality Gates (NON-NEGOTIABLE)**
-- ✅ No web services called in local app
-- ✅ No local services called in web app
-- ✅ All imports use correct environment suffixes
-- ✅ All routes point to correct endpoints
-- ✅ Environment detection working properly
-- ✅ No cross-environment dependencies
-
-### **6. Import Path Standards**
-```javascript
-// ✅ CORRECT - Local Environment
-import { FORM_LABELS } from '../data/formData.local.js';
-import { createJiraTicket } from '../services/jiraApiService.local.js';
-
-// ✅ CORRECT - Web Environment  
-import { FORM_LABELS } from '../data/formData.web.js';
-import { createJiraTicket } from '../services/jiraApiService.web.js';
-
-// ❌ WRONG - Mixed Environment
-import { FORM_LABELS } from '../data/formData.js';
-import { createJiraTicket } from '../services/jiraApiService.js';
+### **4. Hook Separation**
+```
+src/hooks/
+├── useHookName.local.js      # Local app only
+├── useHookName.web.js        # Web app only
+└── useHookName.js            # Shared (if needed)
 ```
 
-### **7. Service Separation**
-```javascript
-// ✅ CORRECT - Local Service
-const LOCAL_CONFIG = {
-  JIRA: {
-    BASE_URL: 'http://localhost:3001',
-    // ... local config
-  }
-};
-
-// ✅ CORRECT - Web Service
-const WEB_CONFIG = {
-  JIRA: {
-    BASE_URL: 'https://corsproxy.io/?https%3A%2F%2Fprobuild.atlassian.net',
-    // ... web config
-  }
-};
+### **5. Service Separation**
+```
+src/services/
+├── serviceName.local.js      # Local app only
+├── serviceName.web.js        # Web app only
+└── serviceName.js            # Shared (if needed)
 ```
 
-### **8. Component Separation**
-```javascript
-// ✅ CORRECT - Local Component
-export default function JiraTicketForm() {
-  // Local-specific logic
-  return <div>Local Form</div>;
-}
-
-// ✅ CORRECT - Web Component
-export default function JiraTicketForm() {
-  // Web-specific logic
-  return <div>Web Form</div>;
-}
+### **6. Style Separation**
+```
+src/styles/
+├── componentNameStyles.css   # Component-specific styles
+├── formStyles.css           # Form components
+├── infoButtonStyles.css     # Info button only
+├── jiraTokenStyles.css      # JIRA token components (web only)
+├── historyStyles.css        # History components
+├── previewStyles.css        # Preview components
+└── successStyles.css        # Success components
 ```
 
-### **9. Testing Protocol**
-- **Local Testing**: Test at `http://localhost:3000`
-- **Web Testing**: Test at deployed web URL
-- **Environment Detection**: Verify correct service loading
-- **Service Calls**: Confirm no cross-environment calls
-- **Import Verification**: Check all imports use correct suffixes
-
-### **10. Documentation Requirements**
-For each change, document:
-- Which environment was modified
-- What files were created/updated
-- How separation was maintained
-- Which branch received the commit
-- Testing results for both environments
-
-### **11. Common Pitfalls to Avoid**
-- ❌ Using generic imports without environment suffixes
-- ❌ Mixing local and web services in same file
-- ❌ Committing to wrong branch
-- ❌ Forgetting to update both environments
-- ❌ Using wrong base URLs for services
-- ❌ Not testing both environments
-
-### **12. Emergency Recovery**
-If environment separation is broken:
-1. **STOP** all development
-2. **IDENTIFY** the source of mixing
-3. **RESTORE** from clean backup
-4. **RE-IMPLEMENT** changes with proper separation
-5. **TEST** both environments thoroughly
-6. **DOCUMENT** the issue and solution
-
-### **13. Code Review Checklist**
-Before any commit:
-- [ ] Branch matches intended environment
-- [ ] All imports use correct environment suffixes
-- [ ] No cross-environment service calls
-- [ ] Both environments updated
-- [ ] Environment detection working
-- [ ] Tests pass in both environments
-- [ ] Documentation updated
-
-### **14. Branch Management**
-- **Local Development**: `local-environment-working-backup`
-- **Web Development**: `web-development`
-- **Main Branch**: `main` (production-ready only)
-- **Feature Branches**: Environment-specific naming
-
-### **15. File Naming Conventions**
+### **7. Data Separation**
 ```
-src/
-├── components/
-│   ├── JiraTicketForm.local.js
-│   ├── JiraTicketForm.web.js
-│   ├── SuccessPopup.local.js
-│   └── SuccessPopup.web.js
-├── services/
-│   ├── jiraApiService.local.js
-│   └── jiraApiService.web.js
-├── data/
-│   ├── formData.local.js
-│   └── formData.web.js
-└── config/
-    ├── config.local.js
-    └── config.web.js
+src/data/
+├── formData.local.js         # Local app data
+├── formData.web.js           # Web app data
+└── formData.js               # Shared data (if needed)
 ```
 
-## **ENFORCEMENT**
+### **8. Configuration Separation**
+```
+src/config/
+├── config.local.js           # Local app config
+├── config.web.js             # Web app config
+└── config.js                 # Shared config (if needed)
+```
 
-This protocol is **MANDATORY** and **NON-NEGOTIABLE**. Any violation of these rules will result in:
-1. Immediate rollback of changes
-2. Re-implementation with proper separation
-3. Additional testing requirements
-4. Documentation of the violation
+## 🔒 **ENVIRONMENT ISOLATION RULES**
 
-## **SUCCESS METRICS**
+### **Rule 1: Never Cross-Contaminate**
+- ❌ **NEVER** modify `.local.js` files when on `web-development` branch
+- ❌ **NEVER** modify `.web.js` files when on `local-environment-working-backup` branch
+- ❌ **NEVER** add web-specific features to local app
+- ❌ **NEVER** add local-specific features to web app
 
-- ✅ Zero cross-environment service calls
-- ✅ 100% environment-specific file usage
-- ✅ All imports use correct suffixes
-- ✅ Both environments fully functional
-- ✅ Clean separation maintained
-- ✅ No mixing of local/web code
+### **Rule 2: Always Check Branch**
+```bash
+# Before making ANY changes, check current branch:
+git branch --show-current
+
+# If on web-development: Only modify .web.js files
+# If on local-environment-working-backup: Only modify .local.js files
+```
+
+### **Rule 3: Test Both Environments**
+```bash
+# After changes, test both:
+git checkout local-environment-working-backup
+# Test local app functionality
+
+git checkout web-development  
+# Test web app functionality
+```
+
+### **Rule 4: Style File Separation**
+- ✅ **Each component type gets its own CSS file**
+- ✅ **No mixing of component styles in same file**
+- ✅ **Web-specific styles only in web branch**
+- ✅ **Local-specific styles only in local branch**
+
+## 🛡️ **PROTECTION MECHANISMS**
+
+### **1. Pre-commit Hooks**
+- Check if modifying wrong environment files
+- Prevent cross-contamination
+- Ensure proper file naming
+
+### **2. Environment Detection**
+- Components detect their environment
+- Services use environment-specific endpoints
+- Hooks use environment-specific logic
+
+### **3. Import Validation**
+- Local components only import `.local.js` files
+- Web components only import `.web.js` files
+- Shared components import non-suffixed files
+
+## 📋 **CHECKLIST BEFORE MAKING CHANGES**
+
+### **Before Starting Work:**
+- [ ] Check current branch: `git branch --show-current`
+- [ ] Verify you're on the correct branch for your changes
+- [ ] Identify which files need modification
+- [ ] Ensure files have correct environment suffix
+
+### **During Development:**
+- [ ] Only modify files with correct environment suffix
+- [ ] Test changes in current environment
+- [ ] Don't modify files from other environment
+- [ ] Keep styles separated by component type
+
+### **After Changes:**
+- [ ] Test current environment thoroughly
+- [ ] Switch to other environment and test
+- [ ] Ensure no cross-contamination
+- [ ] Commit changes with clear environment message
+
+## 🚨 **EMERGENCY RECOVERY**
+
+### **If Local App Breaks:**
+```bash
+git checkout local-environment-working-backup
+# Check for missing .local.js files
+# Restore missing hooks/components
+# Test local app functionality
+```
+
+### **If Web App Breaks:**
+```bash
+git checkout web-development
+# Check for missing .web.js files
+# Restore missing hooks/components
+# Test web app functionality
+```
+
+### **If Both Apps Break:**
+```bash
+# Check for cross-contamination
+# Restore from last working commit
+# Rebuild missing components
+# Test both environments
+```
+
+## 📝 **COMMIT MESSAGE FORMAT**
+
+### **Local App Changes:**
+```
+Fix local app [component/feature]
+
+✅ LOCAL APP FIXES:
+- Description of changes
+- Files modified
+- Functionality restored
+
+🔧 COMPONENTS:
+- ComponentName.local.js: Description
+- HookName.local.js: Description
+
+🎯 STATUS: Local app working
+```
+
+### **Web App Changes:**
+```
+Add web app [component/feature]
+
+✅ WEB APP FEATURES:
+- Description of changes
+- Files modified
+- New functionality added
+
+🔧 COMPONENTS:
+- ComponentName.web.js: Description
+- HookName.web.js: Description
+
+🎯 STATUS: Web app enhanced
+```
+
+## 🎯 **SUCCESS CRITERIA**
+
+### **Local App Success:**
+- [ ] All `.local.js` files present
+- [ ] No `.web.js` files in local app
+- [ ] Local app loads without errors
+- [ ] All local functionality working
+- [ ] Local styling intact
+
+### **Web App Success:**
+- [ ] All `.web.js` files present
+- [ ] No `.local.js` files in web app
+- [ ] Web app loads without errors
+- [ ] All web functionality working
+- [ ] Web styling intact
+
+### **Environment Separation Success:**
+- [ ] No cross-contamination
+- [ ] Both apps independent
+- [ ] Changes don't affect other environment
+- [ ] Proper file naming maintained
+- [ ] Styles properly separated
 
 ---
 
-**Last Updated**: 2025-01-30
-**Status**: ACTIVE - MANDATORY PROTOCOL
-**Review Frequency**: Every major change
+## 🚨 **REMEMBER: ENVIRONMENT SEPARATION IS CRITICAL!**
+
+**NEVER** make changes that affect both environments simultaneously. Always work on one environment at a time and test both after changes.
