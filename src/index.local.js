@@ -1,10 +1,7 @@
-// Environment-specific entry point
-// This file will be replaced based on the current branch
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.web.css';
-import App from './App.web.js';
+import './index.local.css';
+import App from './App.local.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

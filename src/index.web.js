@@ -1,6 +1,3 @@
-// Environment-specific entry point
-// This file will be replaced based on the current branch
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.web.css';
