@@ -6,7 +6,7 @@ import SettingsButton from './components/SettingsButton.web.js';
 import JiraTokenButton from './components/JiraTokenButton.web.js';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData.web.js';
-import './styles/formStyles.css';
+import './styles/formStyles.web.css';
 import './styles/infoButtonStyles.css';
 import './styles/jiraTokenStyles.css';
 import './styles/historyStyles.css';

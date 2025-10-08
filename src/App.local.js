@@ -4,7 +4,7 @@ import JiraTicketForm from './components/JiraTicketForm.local.js';
 import InfoButton from './components/InfoButton.local.js';
 import { testJiraConnectivity } from './services/jiraApiService.local.js';
 import { ALERT_MESSAGES } from './data/formData.local.js';
-import './styles/formStyles.css';
+import './styles/formStyles.local.css';
 import './styles/infoButtonStyles.css';
 
 // Create a minimal theme

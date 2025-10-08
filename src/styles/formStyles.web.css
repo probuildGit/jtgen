@@ -1,0 +1,974 @@
+/* Jira Ticket Generator - Form Styles */
+
+/* Custom Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
+
+/* Main Container Styles */
+.form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Page Background */
+body {
+  background-color: #1976d2 !important; /* Same blue as app headings */
+  min-height: 100vh;
+}
+
+.form-container-main {
+  background-color: #1976d2 !important; /* Same blue as app headings */
+  min-height: 100vh;
+}
+
+.form-paper {
+  border-radius: 12px;
+  padding: 24px;
+  background-color: #eeeeee !important; /* Darker light grey background */
+}
+
+/* Typography Styles */
+.form-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+}
+
+.form-subtitle {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  text-align: center;
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.3px;
+}
+
+.section-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px;
+  color: #1976d2;
+  letter-spacing: 0.3px;
+}
+
+/* Form Control Styles */
+.form-control {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  background-color: white !important;
+}
+
+.form-control .MuiOutlinedInput-root {
+  background-color: white !important;
+}
+
+.form-control .MuiInputLabel-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-control .MuiSelect-select {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-control .MuiMenuItem-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-control .MuiInputBase-input {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+  background-color: white !important;
+}
+
+/* Selected Priority Capsules in Dropdown */
+.MuiSelect-select[data-value="1"] {
+  background-color: #ffebe6 !important;
+  color: #d73a49 !important;
+  border: 1px solid #f97583 !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-weight: 600 !important;
+}
+
+.MuiSelect-select[data-value="2"] {
+  background-color: #fff5b1 !important;
+  color: #f6a434 !important;
+  border: 1px solid #f9c513 !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-weight: 600 !important;
+}
+
+.MuiSelect-select[data-value="3"] {
+  background-color: #ddf4d8 !important;
+  color: #28a745 !important;
+  border: 1px solid #85e085 !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-weight: 600 !important;
+}
+
+.MuiSelect-select[data-value="4"] {
+  background-color: #e7f3ff !important;
+  color: #0366d6 !important;
+  border: 1px solid #79b8ff !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-weight: 600 !important;
+}
+
+/* Selected Component Capsules in Dropdown */
+.MuiSelect-select[data-value^="100"] {
+  background-color: #f1f8ff !important;
+  color: #24292e !important;
+  border: 1px solid #c8e1ff !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Jira-style Priority Capsules */
+.MuiMenuItem-root[data-value="1"] {
+  background-color: #ffebe6 !important;
+  color: #d73a49 !important;
+  border: 1px solid #f97583 !important;
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  font-weight: 600 !important;
+}
+
+.MuiMenuItem-root[data-value="2"] {
+  background-color: #fff5b1 !important;
+  color: #f6a434 !important;
+  border: 1px solid #f9c513 !important;
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  font-weight: 600 !important;
+}
+
+.MuiMenuItem-root[data-value="3"] {
+  background-color: #ddf4d8 !important;
+  color: #28a745 !important;
+  border: 1px solid #85e085 !important;
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  font-weight: 600 !important;
+}
+
+.MuiMenuItem-root[data-value="4"] {
+  background-color: #e7f3ff !important;
+  color: #0366d6 !important;
+  border: 1px solid #79b8ff !important;
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  font-weight: 600 !important;
+}
+
+/* Jira-style Component Capsules */
+.MuiMenuItem-root[data-value^="100"] {
+  background-color: #f1f8ff !important;
+  color: #24292e !important;
+  border: 1px solid #c8e1ff !important;
+  border-radius: 12px !important;
+  margin: 2px 4px !important;
+  font-weight: 500 !important;
+}
+
+/* Hover effects for capsules */
+.MuiMenuItem-root[data-value="1"]:hover,
+.MuiMenuItem-root[data-value="2"]:hover,
+.MuiMenuItem-root[data-value="3"]:hover,
+.MuiMenuItem-root[data-value="4"]:hover {
+  opacity: 0.8 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.MuiMenuItem-root[data-value^="100"]:hover {
+  background-color: #e1f5fe !important;
+  border-color: #81d4fa !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Ensure dropdown menu has proper spacing */
+.MuiPaper-root.MuiMenu-paper {
+  padding: 8px !important;
+}
+
+/* Override default Material-UI menu item styling */
+.MuiMenuItem-root {
+  border-radius: 12px !important;
+  margin: 2px 0 !important;
+  min-height: 36px !important;
+}
+
+/* Text Field Styles */
+.form-text-field {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  background-color: white !important;
+}
+
+.form-text-field .MuiOutlinedInput-root {
+  background-color: white !important;
+}
+
+.form-text-field .MuiInputLabel-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-text-field .MuiInputBase-input {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+  background-color: white !important;
+}
+
+/* Field Validation States */
+.form-field-mandatory-empty {
+  border-color: #f44336 !important;
+}
+
+.form-field-mandatory-empty .MuiOutlinedInput-notchedOutline {
+  border-color: #f44336 !important;
+  border-width: 2px !important;
+}
+
+.form-field-mandatory-filled {
+  border-color: #4caf50 !important;
+}
+
+.form-field-mandatory-filled .MuiOutlinedInput-notchedOutline {
+  border-color: #4caf50 !important;
+  border-width: 2px !important;
+}
+
+.form-field-optional-empty {
+  border-color: #2196f3 !important;
+}
+
+.form-field-optional-empty .MuiOutlinedInput-notchedOutline {
+  border-color: #2196f3 !important;
+  border-width: 2px !important;
+}
+
+.form-field-optional-filled {
+  border-color: #4caf50 !important;
+}
+
+.form-field-optional-filled .MuiOutlinedInput-notchedOutline {
+  border-color: #4caf50 !important;
+  border-width: 2px !important;
+}
+
+/* Focus states for validation fields */
+.form-field-mandatory-empty:focus-within .MuiOutlinedInput-notchedOutline,
+.form-field-mandatory-filled:focus-within .MuiOutlinedInput-notchedOutline,
+.form-field-optional-empty:focus-within .MuiOutlinedInput-notchedOutline,
+.form-field-optional-filled:focus-within .MuiOutlinedInput-notchedOutline {
+  border-width: 2px !important;
+}
+
+/* Grid Spacing and Margins */
+.form-grid {
+  gap: 8px; /* Reduced from 16px to match spacing={1} */
+}
+
+.form-grid-item {
+  margin-bottom: 8px;
+}
+
+/* Compact Grid Spacing for Form Sections */
+.form-grid-compact {
+  gap: 4px;
+}
+
+/* Section Margins */
+.form-section {
+  margin-bottom: 16px;
+}
+
+.form-section-title {
+  margin-bottom: 8px;
+}
+
+/* Field Spacing */
+.form-field-spacing {
+  margin-bottom: 8px;
+}
+
+/* Description Fields Grid */
+.form-description-grid {
+  gap: 8px;
+}
+
+/* Summary Fields Grid */
+.form-summary-grid {
+  gap: 8px;
+}
+
+/* Basic Fields Grid */
+.form-basic-fields-grid {
+  gap: 8px;
+}
+
+/* Button Styles */
+.form-button {
+  border-radius: 8px;
+  text-transform: none;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 8px 16px;
+  letter-spacing: 0.3px;
+}
+
+.form-button-primary {
+  background-color: #1976d2;
+  color: white;
+}
+
+.form-button-secondary {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #1976d2 !important;
+}
+
+.form-button-small {
+  padding: 6px 12px;
+  font-size: 0.8rem !important;
+}
+
+/* Alert Styles */
+.form-alert {
+  margin-bottom: 16px;
+  font-size: 0.875rem !important;
+}
+
+.form-alert .MuiAlert-message {
+  font-size: 0.875rem !important;
+}
+
+/* Success Alert with Ticket Link */
+.form-alert.MuiAlert-success {
+  border-left: 4px solid #4caf50 !important;
+}
+
+.form-alert.MuiAlert-success a {
+  color: #1976d2 !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  letter-spacing: 0.2px;
+}
+
+.form-alert.MuiAlert-success a:hover {
+  text-decoration: underline !important;
+  color: #1565c0 !important;
+}
+
+/* Connectivity Status Banner */
+.form-connectivity-banner {
+  margin: 4px auto 0px auto;
+  border-radius: 6px;
+  font-weight: 500;
+  border-left: 3px solid;
+  max-width: 1200px;
+  padding: 6px 16px;
+}
+
+.form-connectivity-banner .MuiAlert-message {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+}
+
+.form-connectivity-banner .MuiAlert-icon {
+  font-size: 1.1rem !important;
+}
+
+.form-connectivity-banner.MuiAlert-success {
+  border-left-color: #4caf50;
+  background-color: #f1f8e9;
+}
+
+.form-connectivity-banner.MuiAlert-error {
+  border-left-color: #f44336;
+  background-color: #ffebee;
+}
+
+.form-connectivity-banner.MuiAlert-info {
+  border-left-color: #2196f3;
+  background-color: #e3f2fd;
+}
+
+.form-connectivity-banner.MuiAlert-warning {
+  border-left-color: #ff9800;
+  background-color: #fff3e0;
+}
+
+/* Dropzone Styles */
+.form-dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.form-dropzone:hover {
+  border-color: #1976d2;
+  background-color: #f0f8ff;
+}
+
+.form-dropzone.active {
+  border-color: #1976d2;
+  background-color: #e3f2fd;
+}
+
+.form-dropzone-text {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.form-dropzone-caption {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.2px;
+}
+
+/* Chip Styles */
+.form-chip {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  margin: 2px;
+  letter-spacing: 0.2px;
+}
+
+.form-chip-small {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 400 !important;
+  height: 24px;
+  letter-spacing: 0.2px;
+}
+
+/* Divider Styles */
+.form-divider {
+  margin: 16px 0;
+}
+
+/* Dialog Styles */
+.form-dialog {
+  max-width: 800px;
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+.form-dialog-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #1976d2;
+  letter-spacing: 0.3px;
+}
+
+.form-dialog-content {
+  padding: 24px;
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+.form-dialog-actions {
+  padding: 16px 24px;
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+/* Preview Styles */
+.preview-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fafafa;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+}
+
+.preview-section {
+  margin-bottom: 16px;
+}
+
+.preview-section-title {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px;
+  color: #1976d2;
+  font-size: 0.875rem;
+  letter-spacing: 0.3px;
+}
+
+.preview-section-content {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  letter-spacing: 0.2px;
+}
+
+/* History Styles */
+.history-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item-title {
+  font-size: 0.875rem !important;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.history-item-details {
+  font-size: 0.75rem !important;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.history-item-actions {
+  margin-top: 8px;
+}
+
+/* Custom Module Input Styles */
+.custom-module-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.custom-module-input {
+  flex: 1;
+  font-size: 0.875rem !important;
+}
+
+.custom-module-button {
+  font-size: 0.8rem !important;
+  padding: 6px 12px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 8px;
+  }
+  
+  .form-paper {
+    padding: 16px;
+  }
+  
+  .form-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .form-grid {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 4px;
+  }
+  
+  .form-paper {
+    padding: 12px;
+  }
+  
+  .form-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .form-grid {
+    gap: 8px;
+  }
+}
+
+/* Loading States */
+.form-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.form-loading-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Error States */
+.form-error {
+  border-color: #d32f2f !important;
+}
+
+.form-error-text {
+  color: #d32f2f;
+  font-size: 0.75rem !important;
+  margin-top: 4px;
+}
+
+/* Success States */
+.form-success {
+  border-color: #2e7d32 !important;
+}
+
+.form-success-text {
+  color: #2e7d32;
+  font-size: 0.75rem !important;
+  margin-top: 4px;
+}
+
+/* Focus States */
+.form-control:focus-within {
+  border-color: #1976d2;
+}
+
+/* Hover States */
+.form-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation Classes */
+.form-fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Additional Component Styles */
+.form-container-main {
+  padding-top: 0;
+  padding-bottom: 32px;
+}
+
+.form-dialog-paper {
+  max-height: 90vh;
+}
+
+.form-dialog-title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-attachments-container {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-attachments-list {
+  margin-top: 16px;
+}
+
+.form-attachments-list .MuiTypography-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+.form-attachment-chip {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 400 !important;
+  margin: 2px;
+  letter-spacing: 0.2px;
+}
+
+.form-action-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+
+
+/* Dialog Typography Styles */
+.form-dialog .MuiTypography-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  letter-spacing: 0.2px;
+}
+
+.form-dialog .MuiTypography-h6 {
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+}
+
+.form-dialog .MuiTypography-body1 {
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+.form-dialog .MuiTypography-body2 {
+  font-weight: 400 !important;
+  letter-spacing: 0.2px;
+}
+
+
+
+/* Force centering for all Material-UI dialogs */
+.MuiDialog-root {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+.MuiDialog-paper {
+  position: relative !important;
+  margin: auto !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  background-color: #eeeeee !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Specific dialog styles */
+.form-dialog {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.form-dialog-paper {
+  margin: auto !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  background-color: #eeeeee !important;
+}
+
+.MuiDialog-root .MuiDialog-paper {
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+.MuiDialog-root .MuiDialogContent-root {
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+.MuiDialog-root .MuiDialogActions-root {
+  background-color: #eeeeee !important; /* Same light grey as main form */
+}
+
+/* Dialog Button Styles */
+.MuiDialog-root .MuiButton-outlined {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #1976d2 !important;
+}
+
+/* History styles moved to historyStyles.css */
+
+.form-custom-module-input {
+  flex: 1;
+  font-size: 0.875rem !important;
+}
+
+.form-custom-module-button {
+  font-size: 0.8rem !important;
+  padding: 6px 12px;
+}
+
+.form-dropzone-icon {
+  font-size: 40px !important;
+  color: #9e9e9e !important;
+  margin-bottom: 8px;
+}
+
+/* Material-UI Component Overrides */
+.MuiPaper-root {
+  border-radius: 12px !important;
+}
+
+.MuiButton-root {
+  border-radius: 8px !important;
+  text-transform: none !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2px;
+}
+
+/* Global Button Border Override */
+.MuiButton-outlined {
+  border-color: #1976d2 !important;
+}
+
+.MuiButton-outlined:hover {
+  border-color: #1565c0 !important;
+}
+
+.MuiFormControl-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+}
+
+.MuiInputLabel-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.2px;
+}
+
+.MuiSelect-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+}
+
+.MuiMenuItem-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.2px;
+}
+
+.MuiTextField-root {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+}
+
+.MuiInputBase-input {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.2px;
+  background-color: white !important;
+}
+
+.MuiTypography-body1 {
+  font-size: 0.875rem !important;
+}
+
+.MuiTypography-body2 {
+  font-size: 0.8rem !important;
+}
+
+.MuiTypography-subtitle1 {
+  font-size: 1rem !important;
+}
+
+.MuiTypography-subtitle2 {
+  font-size: 0.875rem !important;
+}
+
+/* Form Attachment Title */
+.form-attachment-title {
+  font-weight: bold;
+}
+
+/* Loading Overlay Styles */
+.form-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.form-loading-paper {
+  padding: 32px;
+  text-align: center;
+  background-color: white !important;
+  border-radius: 12px !important;
+  min-width: 300px;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+.form-loading-spinner {
+  margin-bottom: 16px;
+  color: #1976d2 !important;
+}
+
+.form-loading-text {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 600 !important;
+  color: #1976d2 !important;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.form-loading-subtext {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 400 !important;
+  color: #666 !important;
+  letter-spacing: 0.2px;
+}
