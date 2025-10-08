@@ -5,7 +5,7 @@ import {
   Typography,
   Paper
 } from '@mui/material';
-import '../styles/formStyles.css';
+import '../styles/formStyles.local.css';
 
 const LoadingOverlay = ({ open, message = "Creating ticket..." }) => {
   if (!open) return null;

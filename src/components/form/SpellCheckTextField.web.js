@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import { useSpellCheck } from '../../hooks/useSpellCheck.web.js';
 import { getFieldValidationClass } from '../../utils/formHelpers';
-import '../../styles/formStyles.css';
+import '../../styles/formStyles.web.css';
 
 const SpellCheckTextField = ({
   field,

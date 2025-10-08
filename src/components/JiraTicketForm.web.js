@@ -30,8 +30,8 @@ import SpellCheckTextField from './form/SpellCheckTextField.web.js';
 import TicketPreview from './TicketPreview.web.js';
 import TicketHistory from './TicketHistory.web.js';
 import SuccessPopup from './SuccessPopup.web.js';
-import LoadingOverlay from './LoadingOverlay';
-import '../styles/formStyles.css';
+import LoadingOverlay from './LoadingOverlay.web.js';
+import '../styles/formStyles.web.css';
 
 
 const JiraTicketForm = ({ isOffline = false }) => {

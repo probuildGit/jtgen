@@ -28,8 +28,8 @@ import {
 import TicketPreview from './TicketPreview.local.js';
 import TicketHistory from './TicketHistory.local.js';
 import SuccessPopup from './SuccessPopup.local.js';
-import LoadingOverlay from './LoadingOverlay';
-import '../styles/formStyles.css';
+import LoadingOverlay from './LoadingOverlay.local.js';
+import '../styles/formStyles.local.css';
 
 
 const JiraTicketForm = ({ isOffline = false }) => {
