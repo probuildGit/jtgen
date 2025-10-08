@@ -9,6 +9,7 @@ import {
 import { useJiraTicket } from '../hooks/useJiraTicket.web.js';
 import { useFileUpload } from '../hooks/useFileUpload';
 import { useJamExtraction } from '../hooks/useJamExtraction.web.js';
+import { isJamUrl } from '../utils/jamParser.js';
 import {
   PLATFORM_OPTIONS,
   PRIORITY_OPTIONS,
@@ -59,7 +60,6 @@ const JiraTicketForm = ({ isOffline = false }) => {
   // JAM extraction hook
   const { 
     extractJamData, 
-    hasJamUrl, 
     isExtracting, 
     extractionError
   } = useJamExtraction();
@@ -70,7 +70,7 @@ const JiraTicketForm = ({ isOffline = false }) => {
     updateTicketData(field, value);
     
     // Check if the text contains a JAM URL
-    if (hasJamUrl(value)) {
+    if (isJamUrl(value)) {
       console.log('🔍 JAM FORM (WEB): JAM URL detected in field:', field);
       
       try {
