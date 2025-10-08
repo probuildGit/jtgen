@@ -16,7 +16,7 @@ import {
   AutoFixHigh as AutoFixHighIcon,
   Search as SearchIcon
 } from '@mui/icons-material';
-import { useSpellCheck } from '../../hooks/useSpellCheck.local.js';
+import { useSpellCheck } from '../../hooks/useSpellCheck.web.js';
 import { getFieldValidationClass } from '../../utils/formHelpers';
 import '../../styles/formStyles.css';
 
