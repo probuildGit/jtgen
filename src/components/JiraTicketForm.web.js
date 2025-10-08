@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { useJiraTicket } from '../hooks/useJiraTicket.web.js';
 import { useFileUpload } from '../hooks/useFileUpload';
+import { useJamExtraction } from '../hooks/useJamExtraction.web.js';
 import {
   PLATFORM_OPTIONS,
   PRIORITY_OPTIONS,
@@ -25,6 +26,7 @@ import {
   AttachmentList,
   FileDropzone
 } from './form';
+import SpellCheckTextField from './form/SpellCheckTextField.web.js';
 import TicketPreview from './TicketPreview.web.js';
 import TicketHistory from './TicketHistory.web.js';
 import SuccessPopup from './SuccessPopup.web.js';
@@ -42,18 +44,79 @@ const JiraTicketForm = ({ isOffline = false }) => {
     addAttachment,
     removeAttachment,
     clearForm,
+    clearSuccess,
     submitTicket
   } = useJiraTicket();
 
   const [showPreview, setShowPreview] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [jamPopulatedFields, setJamPopulatedFields] = useState(new Set());
 
   // File upload hook
   const { getRootProps, getInputProps, isDragActive, handleRemoveFile } = useFileUpload(
     addAttachment,
     removeAttachment
   );
+
+  // JAM extraction hook
+  const { 
+    extractJamData, 
+    hasJamUrl, 
+    isExtracting, 
+    extractionError
+  } = useJamExtraction();
+
+  // Handle text changes with JAM URL detection
+  const handleTextChange = async (field, value) => {
+    // Update the field first
+    updateTicketData(field, value);
+    
+    // Check if the text contains a JAM URL
+    if (hasJamUrl(value)) {
+      console.log('🔍 JAM FORM (WEB): JAM URL detected in field:', field);
+      
+      try {
+        const jamData = await extractJamData(value);
+        
+        if (jamData.isValid) {
+          console.log('🔍 JAM FORM (WEB): Auto-populating fields with JAM data:', jamData);
+          
+          // Track which fields are populated by JAM
+          const populatedFields = new Set();
+          
+          // Always populate module and summary with JAM data
+          if (jamData.module) {
+            updateTicketData('module', jamData.module);
+            populatedFields.add('module');
+          }
+          
+          if (jamData.summary) {
+            updateTicketData('summary', jamData.summary);
+            populatedFields.add('summary');
+          }
+          
+          // Add application URL if available
+          if (jamData.applicationUrl) {
+            console.log('🔍 JAM FORM (WEB): Setting applicationUrl:', jamData.applicationUrl);
+            updateTicketData('applicationUrl', jamData.applicationUrl);
+            populatedFields.add('applicationUrl');
+          } else {
+            console.log('🔍 JAM FORM (WEB): No applicationUrl found in JAM data');
+          }
+          
+          // Update the JAM populated fields state
+          setJamPopulatedFields(populatedFields);
+          
+          // Clear the JAM populated indicator after 10 seconds
+          setTimeout(() => {
+            setJamPopulatedFields(new Set());
+          }, 10000);
+        }
+      } catch (error) {
+        console.error('🔍 JAM FORM (WEB): Error extracting JAM data:', error);
+      }
+    }
+  };
 
 
   const handlePreview = () => {
@@ -78,15 +141,8 @@ const JiraTicketForm = ({ isOffline = false }) => {
   };
 
   const handleSuccessClose = () => {
-    setShowSuccess(false);
+    clearSuccess();
   };
-
-  // Show success popup when success is set
-  useEffect(() => {
-    if (success) {
-      setShowSuccess(true);
-    }
-  }, [success]);
 
 
 
@@ -103,6 +159,18 @@ const JiraTicketForm = ({ isOffline = false }) => {
         {error && (
           <Alert severity="error" className="form-alert">
             {typeof error === 'object' ? Object.values(error).join(', ') : error}
+          </Alert>
+        )}
+
+        {extractionError && (
+          <Alert severity="warning" className="form-alert">
+            JAM Extraction Warning: {extractionError}
+          </Alert>
+        )}
+
+        {isExtracting && (
+          <Alert severity="info" className="form-alert">
+            Extracting JAM content...
           </Alert>
         )}
 
@@ -132,14 +200,17 @@ const JiraTicketForm = ({ isOffline = false }) => {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <FormField
-                  type="text"
+                <SpellCheckTextField
                   field="summary"
+                  label={FORM_LABELS.SUMMARY}
                   value={ticketData.summary}
                   onChange={updateTicketData}
-                  label={FORM_LABELS.SUMMARY}
                   placeholder={FORM_PLACEHOLDERS.SUMMARY}
-                  required={true}
+                  required
+                  spellCheckEnabled={true}
+                  autoCorrectEnabled={true}
+                  showSpellCheckIndicator={true}
+                  isJamPopulated={jamPopulatedFields.has('summary')}
                 />
               </Grid>
             </FormSection>
@@ -185,51 +256,66 @@ const JiraTicketForm = ({ isOffline = false }) => {
             {/* Description Fields */}
             <FormSection title={SECTION_TITLES.DESCRIPTION_DETAILS}>
               <Grid item xs={12} sm={6}>
-                <FormField
-                  type="text"
+                <SpellCheckTextField
                   field="stepsToReproduce"
                   value={ticketData.stepsToReproduce}
-                  onChange={updateTicketData}
+                  onChange={handleTextChange}
                   label={FORM_LABELS.STEPS_TO_REPRODUCE}
                   placeholder={FORM_PLACEHOLDERS.STEPS_TO_REPRODUCE}
                   multiline={true}
                   rows={3}
+                  required
+                  spellCheckEnabled={true}
+                  autoCorrectEnabled={true}
+                  showSpellCheckIndicator={true}
+                  isJamPopulated={jamPopulatedFields.has('stepsToReproduce')}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormField
-                  type="text"
+                <SpellCheckTextField
                   field="expectedBehavior"
                   value={ticketData.expectedBehavior}
-                  onChange={updateTicketData}
+                  onChange={handleTextChange}
                   label={FORM_LABELS.EXPECTED_BEHAVIOR}
                   placeholder={FORM_PLACEHOLDERS.EXPECTED_BEHAVIOR}
                   multiline={true}
                   rows={3}
+                  required
+                  spellCheckEnabled={true}
+                  autoCorrectEnabled={true}
+                  showSpellCheckIndicator={true}
+                  isJamPopulated={jamPopulatedFields.has('expectedBehavior')}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormField
-                  type="text"
+                <SpellCheckTextField
                   field="actualBehavior"
                   value={ticketData.actualBehavior}
-                  onChange={updateTicketData}
+                  onChange={handleTextChange}
                   label={FORM_LABELS.ACTUAL_BEHAVIOR}
                   placeholder={FORM_PLACEHOLDERS.ACTUAL_BEHAVIOR}
                   multiline={true}
                   rows={3}
+                  required
+                  spellCheckEnabled={true}
+                  autoCorrectEnabled={true}
+                  showSpellCheckIndicator={true}
+                  isJamPopulated={jamPopulatedFields.has('actualBehavior')}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormField
-                  type="text"
+                <SpellCheckTextField
                   field="note"
                   value={ticketData.note}
-                  onChange={updateTicketData}
+                  onChange={handleTextChange}
                   label={FORM_LABELS.NOTE}
                   placeholder={FORM_PLACEHOLDERS.NOTE}
                   multiline={true}
                   rows={3}
+                  spellCheckEnabled={true}
+                  autoCorrectEnabled={true}
+                  showSpellCheckIndicator={true}
+                  isJamPopulated={jamPopulatedFields.has('note')}
                 />
               </Grid>
             </FormSection>
@@ -277,11 +363,13 @@ const JiraTicketForm = ({ isOffline = false }) => {
           open={showHistory} 
           onClose={handleHistoryClose} 
         />
-        <SuccessPopup
-          open={showSuccess}
-          onClose={handleSuccessClose}
-          successData={success}
-        />
+        {success && success.ticketKey && (
+          <SuccessPopup
+            open={true}
+            onClose={handleSuccessClose}
+            successData={success}
+          />
+        )}
         
         {/* Loading Overlay */}
         <LoadingOverlay 
