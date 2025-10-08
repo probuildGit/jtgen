@@ -1,14 +1,15 @@
 // Data exports - Environment-specific loader
 import { isLocalDevelopment } from '../utils/environmentDetection.js';
 
-// Environment-specific data
-const formData = isLocalDevelopment() 
-  ? require('./formData.local.js') 
-  : require('./formData.web.js');
+// Import both local and web data
+import * as localFormData from './formData.local.js';
+import * as webFormData from './formData.web.js';
+import * as localHistoryData from './historyData.local.js';
+import * as webHistoryData from './historyData.web.js';
 
-const historyData = isLocalDevelopment() 
-  ? require('./historyData.local.js') 
-  : require('./historyData.web.js');
+// Environment-specific data selection
+const formData = isLocalDevelopment() ? localFormData : webFormData;
+const historyData = isLocalDevelopment() ? localHistoryData : webHistoryData;
 
 // Export individual constants from formData
 export const {
