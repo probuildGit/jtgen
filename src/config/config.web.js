@@ -20,10 +20,10 @@ export const CONFIG = {
   
   // Server Configuration
   SERVER: {
-    PORT: null, // Not applicable for web deployment
-    CORS_ORIGIN: 'https://probuildgit.github.io',
-    USE_PROXY: false, // Web deployment uses CORS proxy
-    CORS_PROXY: 'https://corsproxy.io/?'
+    PORT: 3001, // Local proxy server port
+    CORS_ORIGIN: 'http://localhost:3000',
+    USE_PROXY: true, // Web deployment uses local proxy server
+    BASE_URL: 'http://localhost:3001'
   },
   
   // CORS Configuration
@@ -39,13 +39,13 @@ export const CONFIG = {
   }
 };
 
-// Web API Endpoints for CORS proxy
+// Web API Endpoints for local proxy server
 export const WEB_API_ENDPOINTS = {
-  PROJECT: `${CONFIG.SERVER.CORS_PROXY}${encodeURIComponent(`${CONFIG.JIRA.BASE_URL}/rest/api/3/project/${CONFIG.JIRA.PROJECT_KEY}`)}`,
-  CREATE_TICKET: `${CONFIG.SERVER.CORS_PROXY}${encodeURIComponent(`${CONFIG.JIRA.BASE_URL}/rest/api/3/issue`)}`,
-  UPLOAD_ATTACHMENT: (issueKey) => `${CONFIG.SERVER.CORS_PROXY}${encodeURIComponent(`${CONFIG.JIRA.BASE_URL}/rest/api/3/issue/${issueKey}/attachments`)}`,
-  GET_ISSUE: (issueKey) => `${CONFIG.SERVER.CORS_PROXY}${encodeURIComponent(`${CONFIG.JIRA.BASE_URL}/rest/api/3/issue/${issueKey}`)}`,
-  UPDATE_ISSUE: (issueKey) => `${CONFIG.SERVER.CORS_PROXY}${encodeURIComponent(`${CONFIG.JIRA.BASE_URL}/rest/api/3/issue/${issueKey}`)}`
+  PROJECT: `${CONFIG.SERVER.BASE_URL}/project/${CONFIG.JIRA.PROJECT_KEY}`,
+  CREATE_TICKET: `${CONFIG.SERVER.BASE_URL}/issue`,
+  UPLOAD_ATTACHMENT: (issueKey) => `${CONFIG.SERVER.BASE_URL}/issue/${issueKey}/attachments`,
+  GET_ISSUE: (issueKey) => `${CONFIG.SERVER.BASE_URL}/issue/${issueKey}`,
+  UPDATE_ISSUE: (issueKey) => `${CONFIG.SERVER.BASE_URL}/issue/${issueKey}`
 };
 
 export default CONFIG;
