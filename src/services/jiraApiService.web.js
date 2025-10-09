@@ -38,9 +38,8 @@ const getAuthHeader = () => {
   return `Basic ${credentials}`;
 };
 
-// Create axios instance for web deployment with local proxy server
+// Create axios instance for web deployment with CORS proxy
 const jiraApi = axios.create({
-  baseURL: CONFIG.SERVER.BASE_URL,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
