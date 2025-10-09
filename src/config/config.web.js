@@ -23,7 +23,7 @@ export const CONFIG = {
     PORT: null, // Not applicable for web deployment
     CORS_ORIGIN: 'https://probuildgit.github.io',
     USE_PROXY: false, // Web deployment uses CORS proxy
-    CORS_PROXY: 'https://corsproxy.io/?'
+    CORS_PROXY: 'https://api.allorigins.win/raw?url='
   },
   
   // CORS Configuration
