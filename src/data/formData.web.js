@@ -424,7 +424,8 @@ export const COMPONENTS = [
 ];
 
 // Epics List with Actual Names from Jira (Updated from API)
-export const EPICS = [
+// Filter out epics containing 'server' (case insensitive)
+const ALL_EPICS = [
   { key: 'PB-3', name: 'Bring Up - infrastructures (תשתית)' },
   { key: 'PB-5', name: 'Users management -  Front (משתמשים והרשאות)' },
   { key: 'PB-6', name: 'Summaries (App) (סיכומים (אפליקציה))' },
@@ -498,6 +499,11 @@ export const EPICS = [
   { key: 'PB-2592', name: 'WEB Quality Control' },
   { key: 'PB-3135', name: 'Mobile - Offline Mode' }
 ];
+
+// Filter out epics containing 'server' (case insensitive)
+export const EPICS = ALL_EPICS.filter(epic => 
+  !epic.name.toLowerCase().includes('server')
+);
 
 // Default export for compatibility
 const WEB_FORM_DATA = {
