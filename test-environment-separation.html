@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Separation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Environment Separation Test</h1>
+    
+    <div class="test-section">
+        <h2>📋 Test Instructions</h2>
+        <p><strong>Expected Results:</strong></p>
+        <ul>
+            <li><strong>localhost:3003</strong> (Web App preview): Should have JIRA token button (🔑) — JTGen never uses port 3000</li>
+            <li><strong>localhost:3002</strong> (Local App): Should NOT have JIRA token button</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🧪 Manual Tests</h2>
+        <p>Please check both URLs and report what you see:</p>
+        
+        <button onclick="testLocalApp()">Test Local App (3002)</button>
+        <button onclick="testWebApp()">Test Web App (3003)</button>
+        <button onclick="clearCache()">Clear Browser Cache</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Troubleshooting</h2>
+        <p>If you still see the JIRA token button on localhost:3002:</p>
+        <ol>
+            <li>Hard refresh: <strong>Ctrl+Shift+R</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac)</li>
+            <li>Open in incognito/private mode</li>
+            <li>Clear browser cache completely</li>
+            <li>Check browser developer tools for any cached resources</li>
+        </ol>
+    </div>
+
+    <script>
+        function testLocalApp() {
+            const result = document.getElementById('results');
+            result.innerHTML = `
+                <div class="result warning">
+                    <h3>Testing Local App (localhost:3002)</h3>
+                    <p>Please check: <a href="http://localhost:3002" target="_blank">http://localhost:3002</a></p>
+                    <p><strong>Expected:</strong> NO JIRA token button (only Info button)</p>
+                    <p><strong>If you see JIRA token button:</strong> Browser caching issue - try hard refresh or incognito mode</p>
+                </div>
+            `;
+        }
+
+        function testWebApp() {
+            const result = document.getElementById('results');
+            result.innerHTML = `
+                <div class="result success">
+                    <h3>Testing Web App (localhost:3003)</h3>
+                    <p>Please check: <a href="http://localhost:3003" target="_blank">http://localhost:3003</a></p>
+                    <p><em>Start web preview with <code>./scripts/start-web-app-always.sh</code> (uses 3003, never 3000).</em></p>
+                    <p><strong>Expected:</strong> JIRA token button (🔑) + Info button + Settings button</p>
+                </div>
+            `;
+        }
+
+        function clearCache() {
+            const result = document.getElementById('results');
+            result.innerHTML = `
+                <div class="result warning">
+                    <h3>Cache Clearing Instructions</h3>
+                    <ol>
+                        <li>Press <strong>F12</strong> to open Developer Tools</li>
+                        <li>Right-click the refresh button</li>
+                        <li>Select "Empty Cache and Hard Reload"</li>
+                        <li>Or use <strong>Ctrl+Shift+R</strong> / <strong>Cmd+Shift+R</strong></li>
+                    </ol>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

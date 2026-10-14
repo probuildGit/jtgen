@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local App Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🏠 Local App Test (localhost:3002)</h1>
+    
+    <div class="test-section">
+        <h2>📋 Expected Results</h2>
+        <p><strong>✅ CORRECT:</strong> Only Info button (❓) in top-right corner</p>
+        <p><strong>❌ WRONG:</strong> JIRA token button (🔑) should NOT appear</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🧪 Test Instructions</h2>
+        <p>1. Open <a href="http://localhost:3002" target="_blank">http://localhost:3002</a></p>
+        <p>2. Look at the top-right corner</p>
+        <p>3. You should see ONLY the Info button (❓)</p>
+        <p>4. You should NOT see the JIRA token button (🔑)</p>
+    </div>
+
+    <div class="test-section warning">
+        <h2>🔧 If you still see JIRA token button:</h2>
+        <ol>
+            <li><strong>Hard refresh:</strong> Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)</li>
+            <li><strong>Clear cache:</strong> Open Developer Tools → Right-click refresh → "Empty Cache and Hard Reload"</li>
+            <li><strong>Incognito mode:</strong> Open in private/incognito window</li>
+            <li><strong>Check console:</strong> Look for any error messages</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 Debug Information</h2>
+        <p><strong>Current branch:</strong> local-environment-working-backup</p>
+        <p><strong>App component:</strong> App.local.js</p>
+        <p><strong>Expected buttons:</strong> InfoButton only</p>
+        <p><strong>Missing buttons:</strong> JiraTokenButton, SettingsButton</p>
+    </div>
+
+    <script>
+        console.log('🏠 Local App Test Page Loaded');
+        console.log('Expected: Only Info button (❓)');
+        console.log('Not expected: JIRA token button (🔑)');
+    </script>
+</body>
+</html>

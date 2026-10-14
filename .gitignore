@@ -1,0 +1,22 @@
+# JTGenWeb — web environment
+node_modules/
+build/
+coverage/
+.playwright/
+playwright-report/
+test-results/
+*.log
+npm-debug.log*
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets — never commit real credentials
+.env
+.env.*
+!.env.development
+!.env.example
+src/config/config.web.actual.js
+*.pem
+*.key
