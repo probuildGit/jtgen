@@ -1,30 +1,16 @@
-// Web Jira Status Service - Uses CORS proxy for web deployment
-import { CONFIG, WEB_API_ENDPOINTS } from '../config/config.web.js';
+// Web Jira Status Service - Uses the JTGenWeb proxy on port 3004.
+import { WEB_ROUTES } from '../config/routes.web.js';
 
-console.log('🌐 WEB STATUS SERVICE LOADED - Using CORS proxy');
+console.log('🌐 WEB STATUS SERVICE LOADED - Using proxy at localhost:3004');
 
-// Helper function to get auth header
-const getAuthHeader = () => {
-  const credentials = btoa(`${CONFIG.JIRA.EMAIL}:${CONFIG.JIRA.AUTH_TOKEN}`);
-  return `Basic ${credentials}`;
-};
-
-// Fetch status for a specific ticket using CORS proxy
 export const fetchTicketStatus = async (ticketKey) => {
   try {
-    console.log('🌐 WEB STATUS SERVICE: Fetching status for ticket:', ticketKey);
-    
-    const response = await fetch(WEB_API_ENDPOINTS.GET_ISSUE(ticketKey), {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': getAuthHeader()
-      }
-    });
-    
+    const response = await fetch(WEB_ROUTES.getIssueUrl(ticketKey));
+
     if (response.ok) {
-      const data = await response.json();
-      
+      const responseData = await response.json();
+      const data = responseData.data;
+
       if (data && data.fields && data.fields.status) {
         return {
           key: ticketKey,
@@ -35,8 +21,7 @@ export const fetchTicketStatus = async (ticketKey) => {
         };
       }
     }
-    
-    console.warn('🌐 WEB STATUS SERVICE: No status data found for ticket:', ticketKey);
+
     return null;
   } catch (error) {
     console.error('🌐 WEB STATUS SERVICE: Error fetching status for', ticketKey, ':', error);
@@ -44,22 +29,13 @@ export const fetchTicketStatus = async (ticketKey) => {
   }
 };
 
-// Fetch statuses for multiple tickets
 export const fetchMultipleTicketStatuses = async (ticketKeys) => {
-  console.log('🌐 WEB STATUS SERVICE: Fetching statuses for', ticketKeys.length, 'tickets');
-  
-  const statusPromises = ticketKeys.map(key => fetchTicketStatus(key));
-  const results = await Promise.allSettled(statusPromises);
-  
-  const statuses = results
+  const results = await Promise.allSettled(ticketKeys.map(key => fetchTicketStatus(key)));
+  return results
     .filter(result => result.status === 'fulfilled' && result.value)
     .map(result => result.value);
-  
-  console.log('🌐 WEB STATUS SERVICE: Successfully fetched', statuses.length, 'statuses');
-  return statuses;
 };
 
-// Default export
 const webStatusService = {
   fetchTicketStatus,
   fetchMultipleTicketStatuses
