@@ -1,17 +1,18 @@
 # JTGenWeb (web)
 
-Web JTGen app for creating ProBuild Jira bug tickets (CORS proxy, no local Node proxy).
+Web JTGen app for creating ProBuild Jira bug tickets. The browser talks to a local proxy on port 3004, which calls Jira. That proxy is separate from the JTGenApp proxy on port 3001.
 
-**Local preview port:** `http://localhost:3003`. Do not use port 3000.
+**Local preview:** `http://localhost:3003`. Do not use port 3000.
 
 ## Start
 
 ```bash
 npm install
+cp .env.example .env   # then set JIRA_EMAIL and JIRA_API_TOKEN
 npm start
 ```
 
-Open **http://localhost:3003**. Use the in-app Settings button to store Jira email and API token in the browser. Do not commit real tokens.
+`npm start` runs the React app on **http://localhost:3003** and the proxy on **http://localhost:3004**. Put Jira credentials in `.env` only. Do not commit real tokens.
 
 ## Deploy
 

@@ -187,10 +187,7 @@ const ApiConfigPopup = ({ open, onClose }) => {
             }
           />
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {config.useCustomCredentials 
-              ? 'Enter your Jira API credentials to create real tickets'
-              : 'Using demo mode - no real API calls will be made'
-            }
+            Ticket creation uses the JTGenWeb proxy on port 3004. Jira email and API token are read from the `.env` file next to `server.js`.
           </Typography>
         </Box>
 
