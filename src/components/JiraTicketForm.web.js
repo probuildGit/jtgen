@@ -149,10 +149,10 @@ const JiraTicketForm = ({ isOffline = false }) => {
     <Box className="form-container">
       <Paper elevation={3} className="form-paper">
         <Typography variant="h5" gutterBottom align="center" color="primary" className="form-title">
-          JTGen - Jira Ticket Generator
+          JTGen Web
         </Typography>
         <Typography variant="body2" gutterBottom align="center" color="text.secondary" className="form-subtitle">
-          Create Bug Tickets for ProBuild Project
+          Web app on port 3003. Create Bug Tickets for ProBuild.
         </Typography>
 
         {error && (
@@ -247,7 +247,7 @@ const JiraTicketForm = ({ isOffline = false }) => {
                   onChange={updateTicketData}
                   label={FORM_LABELS.EPIC_LINK}
                   required={true}
-                  options={[{ value: '', label: 'None' }, ...EPICS.map(epic => ({ value: epic.key, label: epic.name }))]}
+                  options={[{ value: '', label: 'None' }, ...EPICS.map(epic => ({ value: epic.value, label: epic.label }))]}
                 />
               </Grid>
             </FormSection>

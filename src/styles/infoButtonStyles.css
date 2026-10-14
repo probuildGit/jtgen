@@ -5,7 +5,7 @@
   position: fixed !important;
   top: 20px !important;
   right: 20px !important;
-  z-index: 1000 !important;
+  z-index: 1200 !important;
   background-color: #1976d2 !important;
   color: white !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
@@ -27,6 +27,38 @@
 }
 
 .info-button .MuiSvgIcon-root {
+  font-size: 28px !important;
+}
+
+.auth-button {
+  position: fixed !important;
+  top: 20px !important;
+  right: 92px !important;
+  z-index: 1200 !important;
+  width: 56px !important;
+  height: 56px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.auth-button--missing {
+  background-color: #8b0000 !important;
+}
+
+.auth-button--missing:hover {
+  background-color: #6d0000 !important;
+}
+
+.auth-button--valid {
+  background-color: #a5d6a7 !important;
+  color: #1b5e20 !important;
+}
+
+.auth-button--valid:hover {
+  background-color: #81c784 !important;
+}
+
+.auth-button .MuiSvgIcon-root {
   font-size: 28px !important;
 }
 

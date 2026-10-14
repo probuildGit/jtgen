@@ -93,7 +93,7 @@ export const validateTicketData = (ticketData) => {
   // Validate Epic Link if provided
   if (ticketData.epicLink && ticketData.epicLink.trim() !== '') {
     // EPICS uses key structure
-    const validEpicKeys = EPICS.map(epic => epic.key);
+    const validEpicKeys = EPICS.map(epic => epic.value);
     if (!validEpicKeys.includes(ticketData.epicLink)) {
       errors.epicLink = `Invalid Epic Link. Please select a valid Epic from the dropdown.`;
     }

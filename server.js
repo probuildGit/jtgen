@@ -36,32 +36,34 @@ app.use(express.json());
 // Configure multer for file uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Credentials come from JTGenWeb/.env so they are not stored in source.
+// Jira email and API token come from the browser Auth button on each request.
+// They are not stored in this repository.
 const JIRA_CONFIG = {
   BASE_URL: process.env.JIRA_BASE_URL || 'https://probuild.atlassian.net',
   PROJECT_KEY: process.env.JIRA_PROJECT_KEY || 'PB',
-  PROJECT_NAME: 'ProBuild',
-  AUTH_TOKEN: process.env.JIRA_API_TOKEN || '',
-  EMAIL: process.env.JIRA_EMAIL || ''
+  PROJECT_NAME: 'ProBuild'
 };
 
-if (!JIRA_CONFIG.EMAIL || !JIRA_CONFIG.AUTH_TOKEN) {
-  console.error('JTGenWeb proxy is missing JIRA_EMAIL or JIRA_API_TOKEN. Add them to JTGenWeb/.env');
-  process.exit(1);
-}
-
-// Create axios instance for Jira API
-const jiraApi = axios.create({
-  baseURL: `${JIRA_CONFIG.BASE_URL}/rest/api/3`,
-  auth: {
-    username: JIRA_CONFIG.EMAIL,
-    password: JIRA_CONFIG.AUTH_TOKEN
-  },
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+function createJiraClient(req) {
+  const email = String(req.get('x-jira-email') || '').trim();
+  const token = String(req.get('x-jira-token') || '').trim();
+  if (!email || !token) {
+    const error = new Error('Enter your Jira email and API token with the Auth button.');
+    error.statusCode = 401;
+    throw error;
   }
-});
+  return axios.create({
+    baseURL: `${JIRA_CONFIG.BASE_URL}/rest/api/3`,
+    auth: {
+      username: email,
+      password: token
+    },
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+}
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -71,16 +73,25 @@ app.get('/health', (req, res) => {
 // Test connectivity endpoint
 app.get('/test-connectivity', async (req, res) => {
   try {
-    const response = await jiraApi.get('/project/PB');
+    const jiraApi = createJiraClient(req);
+    const response = await jiraApi.get(`/project/${JIRA_CONFIG.PROJECT_KEY}`);
     res.json({ success: true, data: response.data });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    const status = error.statusCode || error.response?.status || 500;
+    const rejected = !error.statusCode && (status === 401 || status === 403 || status === 404);
+    res.status(status).json({
+      success: false,
+      error: rejected
+        ? 'Jira rejected this email or API token. Check the Auth button values.'
+        : error.message
+    });
   }
 });
 
 // Create ticket endpoint
 app.post('/create-ticket', async (req, res) => {
   try {
+    const jiraApi = createJiraClient(req);
     const response = await jiraApi.post('/issue', req.body);
     
     res.json({
@@ -100,7 +111,7 @@ app.post('/create-ticket', async (req, res) => {
         details: error.response.data
       });
     } else {
-      res.status(500).json({
+      res.status(error.statusCode || 500).json({
         success: false,
         error: error.message
       });
@@ -111,6 +122,7 @@ app.post('/create-ticket', async (req, res) => {
 // Get issue endpoint
 app.get('/issue/:issueKey', async (req, res) => {
   try {
+    const jiraApi = createJiraClient(req);
     const response = await jiraApi.get(`/issue/${req.params.issueKey}`);
     
     res.json({
@@ -128,7 +140,7 @@ app.get('/issue/:issueKey', async (req, res) => {
         details: error.response.data
       });
     } else {
-      res.status(500).json({
+      res.status(error.statusCode || 500).json({
         success: false,
         error: error.message
       });
@@ -139,6 +151,7 @@ app.get('/issue/:issueKey', async (req, res) => {
 // Update issue endpoint
 app.put('/issue/:issueKey', async (req, res) => {
   try {
+    const jiraApi = createJiraClient(req);
     const response = await jiraApi.put(`/issue/${req.params.issueKey}`, req.body);
     
     res.json({
@@ -156,7 +169,7 @@ app.put('/issue/:issueKey', async (req, res) => {
         details: error.response.data
       });
     } else {
-      res.status(500).json({
+      res.status(error.statusCode || 500).json({
         success: false,
         error: error.message
       });
@@ -167,6 +180,7 @@ app.put('/issue/:issueKey', async (req, res) => {
 // Search issues endpoint
 app.get('/search', async (req, res) => {
   try {
+    const jiraApi = createJiraClient(req);
     const response = await jiraApi.get(`/search?jql=${req.query.jql}&fields=${req.query.fields || 'status,summary'}`);
     
     res.json({
@@ -184,7 +198,7 @@ app.get('/search', async (req, res) => {
         details: error.response.data
       });
     } else {
-      res.status(500).json({
+      res.status(error.statusCode || 500).json({
         success: false,
         error: error.message
       });
@@ -209,14 +223,14 @@ app.post('/upload-attachment/:issueKey', upload.single('file'), async (req, res)
       contentType: req.file.mimetype
     });
     
-    // Upload to Jira
+    const jiraAuth = createJiraClient(req);
     const response = await axios.post(
-      `https://probuild.atlassian.net/rest/api/3/issue/${req.params.issueKey}/attachments`,
+      `${JIRA_CONFIG.BASE_URL}/rest/api/3/issue/${req.params.issueKey}/attachments`,
       formData,
       {
         auth: {
-          username: JIRA_CONFIG.EMAIL,
-          password: JIRA_CONFIG.AUTH_TOKEN
+          username: jiraAuth.defaults.auth.username,
+          password: jiraAuth.defaults.auth.password
         },
         headers: {
           ...formData.getHeaders(),
@@ -232,7 +246,7 @@ app.post('/upload-attachment/:issueKey', upload.single('file'), async (req, res)
     
   } catch (error) {
     console.error('Upload error:', error.message);
-    res.status(500).json({
+    res.status(error.statusCode || 500).json({
       success: false,
       error: error.message
     });

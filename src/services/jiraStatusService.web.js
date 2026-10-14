@@ -1,11 +1,14 @@
 // Web Jira Status Service - Uses the JTGenWeb proxy on port 3004.
 import { WEB_ROUTES } from '../config/routes.web.js';
+import { jiraAuthHeaders } from './jiraAuth.web.js';
 
 console.log('🌐 WEB STATUS SERVICE LOADED - Using proxy at localhost:3004');
 
 export const fetchTicketStatus = async (ticketKey) => {
   try {
-    const response = await fetch(WEB_ROUTES.getIssueUrl(ticketKey));
+    const response = await fetch(WEB_ROUTES.getIssueUrl(ticketKey), {
+      headers: jiraAuthHeaders()
+    });
 
     if (response.ok) {
       const responseData = await response.json();

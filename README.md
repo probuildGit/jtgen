@@ -8,20 +8,19 @@ Web JTGen app for creating ProBuild Jira bug tickets. The browser talks to a loc
 
 ```bash
 npm install
-cp .env.example .env   # then set JIRA_EMAIL and JIRA_API_TOKEN
 npm start
 ```
 
-`npm start` runs the React app on **http://localhost:3003** and the proxy on **http://localhost:3004**. Put Jira credentials in `.env` only. Do not commit real tokens.
+`npm start` runs the React app on **http://localhost:3003** and the proxy on **http://localhost:3004**. Open the app, click **Auth**, and enter your Jira email and personal API token. The token stays in the browser and is not stored in Git.
 
 ## Deploy
 
+The public site is [https://probuildgit.github.io/jtgen/](https://probuildgit.github.io/jtgen/).
+
 ```bash
 npm run build
-npm run deploy
+npx gh-pages -d build -r https://github.com/probuildGit/jtgen.git
 ```
-
-(`deploy` uses `gh-pages` if GitHub Pages is enabled on this repo.)
 
 ## Layout
 

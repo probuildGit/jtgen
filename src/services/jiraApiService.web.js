@@ -12,6 +12,7 @@ import {
   isVideoAttachment
 } from '../utils/adfBuilder';
 import { extractErrorMessage, handleSpecificErrors, logError } from '../utils/errorHandler';
+import { getJiraAuth, jiraAuthHeaders } from './jiraAuth.web.js';
 
 console.log('🌐 WEB SERVICE LOADED - Using JTGenWeb proxy at localhost:3004');
 
@@ -28,11 +29,25 @@ const jiraApi = axios.create({
   }
 });
 
+jiraApi.interceptors.request.use((config) => {
+  config.headers = {
+    ...config.headers,
+    ...jiraAuthHeaders()
+  };
+  return config;
+});
+
 // Test Jira API connectivity for local environment
 export const testJiraConnectivity = async () => {
+  if (!getJiraAuth()) {
+    return { success: false, needsAuth: true };
+  }
   try {
     const response = await jiraApi.get(WEB_ROUTES.ENDPOINTS.TEST_CONNECTIVITY);
-    return { success: true, data: response.data };
+    if (response.data?.success) {
+      return { success: true, data: response.data };
+    }
+    return { success: false, error: response.data?.error || 'Jira authentication failed' };
   } catch (error) {
     return { success: false, error: error.message };
   }
@@ -41,6 +56,10 @@ export const testJiraConnectivity = async () => {
 // Create Jira ticket with enhanced attachment handling
 export const createJiraTicket = async (ticketData) => {
   try {
+    if (!getJiraAuth()) {
+      throw new Error('Enter your Jira email and API token with the Auth button before creating a ticket.');
+    }
+
     // Validate required fields before building summary
     if (!ticketData.platform || !ticketData.module || !ticketData.summary) {
       const missingFields = [];
@@ -346,7 +365,8 @@ const uploadAttachmentFile = async (issueKey, file) => {
     {
       headers: {
         'Accept': 'application/json',
-        'X-Atlassian-Token': 'no-check'
+        'X-Atlassian-Token': 'no-check',
+        ...jiraAuthHeaders()
       }
     }
   );

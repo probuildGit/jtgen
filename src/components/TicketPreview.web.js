@@ -50,8 +50,8 @@ const TicketPreview = ({ open, onClose, ticketData, onConfirm }) => {
     if (typeof epicKey === 'object' && epicKey !== null) {
       return epicKey.name || epicKey.label || epicKey.key || 'Unknown';
     }
-    const epic = EPICS.find(e => e.key === epicKey);
-    return epic ? `${epic.key} - ${epic.name}` : (epicKey || 'None');
+    const epic = EPICS.find(e => e.value === epicKey);
+    return epic ? `${epic.value} - ${epic.label}` : (epicKey || 'None');
   };
 
   return (

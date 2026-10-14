@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Container, Alert, Box } from '@mui/material';
+import { ThemeProvider, createTheme, CssBaseline, Container, Alert } from '@mui/material';
 import JiraTicketForm from './components/JiraTicketForm.web.js';
 import InfoButton from './components/InfoButton.web.js';
-import SettingsButton from './components/SettingsButton.web.js';
+import AuthButton from './components/AuthButton.web.js';
 import { testJiraConnectivity } from './services/jiraApiService.web.js';
 import { ALERT_MESSAGES } from './data/formData.web.js';
 import './styles/formStyles.css';
@@ -32,6 +32,17 @@ const theme = createTheme({
 function App() {
   const [connectivityStatus, setConnectivityStatus] = useState(null);
   const [isConnecting, setIsConnecting] = useState(true);
+  const [authVersion, setAuthVersion] = useState(0);
+
+  useEffect(() => {
+    document.title = 'JTGen Web';
+  }, []);
+
+  useEffect(() => {
+    const onAuthChanged = () => setAuthVersion((version) => version + 1);
+    window.addEventListener('jtgen-auth-changed', onAuthChanged);
+    return () => window.removeEventListener('jtgen-auth-changed', onAuthChanged);
+  }, []);
 
   // Check connectivity on app start with defensive logic
   useEffect(() => {
@@ -61,10 +72,12 @@ function App() {
         const result = await testJiraConnectivity();
         clearTimeout(timeoutId);
         
-        if (result.success) {
+        if (result.needsAuth) {
+          setConnectivityStatus('Use the Auth button to enter your Jira email and API token.');
+        } else if (result.success) {
           setConnectivityStatus('✅ Connected to Jira API');
         } else {
-          setConnectivityStatus('⚠️ Limited connectivity - Some features may not work');
+          setConnectivityStatus(`⚠️ ${result.error || 'Limited connectivity - Some features may not work'}`);
         }
       } catch (error) {
         clearTimeout(timeoutId);
@@ -91,7 +104,7 @@ function App() {
     };
 
     retryConnectivity();
-  }, []);
+  }, [authVersion]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -121,10 +134,8 @@ function App() {
       </Container>
       
       {/* Info and Settings Buttons - Fixed position (Web environment) */}
-      <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1000 }}>
-        <InfoButton />
-        <SettingsButton />
-      </Box>
+      <AuthButton connected={Boolean(connectivityStatus?.includes('✅'))} />
+      <InfoButton />
     </ThemeProvider>
   );
 }
